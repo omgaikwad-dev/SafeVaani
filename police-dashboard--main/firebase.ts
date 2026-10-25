@@ -6,18 +6,19 @@ import { getDatabase } from "firebase/database";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyCxdoqiRqxi7GtiwlTPKmrVtSBCeGg0JAQ",
-    authDomain: "akatsuki-98705.firebaseapp.com",
-    databaseURL: "https://akatsuki-98705-default-rtdb.firebaseio.com",
-    projectId: "akatsuki-98705",
-    storageBucket: "akatsuki-98705.firebasestorage.app",
-    messagingSenderId: "65870867069",
-    appId: "1:65870867069:web:2d45bfa0e1ef2a986fdf14",
-    measurementId: "G-RCPWM8PT8X"
+    apiKey: "AIzaSyCb2dT7XqWl9D5CPxvvx4QDXX4OYQ3uAOg",
+    authDomain: "attention-b0e42.firebaseapp.com",
+    databaseURL: "https://attention-b0e42-default-rtdb.firebaseio.com",
+    projectId: "attention-b0e42",
+    storageBucket: "attention-b0e42.firebasestorage.app",
+    messagingSenderId: "25988634025",
+    appId: "1:25988634025:web:22fca4e4cacff857abe0b8",
+    measurementId: "G-0RQV6K6GXJ"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const analytics = typeof window !== "undefined" ? getAnalytics(app) : null;
 export const auth = getAuth(app);
 export const database = getDatabase(app);
+export default app;
