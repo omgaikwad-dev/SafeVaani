@@ -1,0 +1,416 @@
+/* ========================================================
+   SafeVaani NightShift Navigator — Leaflet Map Styles
+======================================================== */
+
+.night-map-wrapper {
+  background: #FFFFFF;
+  border: 1.5px solid var(--border, #E6DDC9);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(31, 34, 54, 0.06);
+  margin-top: 24px;
+}
+
+/* TOP CONTROL BAR */
+.map-control-bar {
+  background: #1F2236;
+  color: #F8F3E8;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  border-bottom: 2px solid #FDDB10;
+}
+
+.map-control-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.gps-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #FDDB10;
+}
+
+.gps-pulse {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.gps-pulse.green {
+  background: #10B981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: gpsPulseGreen 1.8s infinite;
+}
+.gps-pulse.yellow {
+  background: #FDDB10;
+  box-shadow: 0 0 0 0 rgba(253, 219, 16, 0.7);
+  animation: gpsPulseGreen 1.8s infinite;
+}
+.gps-pulse.red {
+  background: #EF4444;
+}
+
+@keyframes gpsPulseGreen {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.live-coords-text {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  color: rgba(248, 243, 232, 0.8);
+}
+
+.btn-gps-locate {
+  background: #CC4E08;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 3px 10px rgba(204, 78, 8, 0.35);
+}
+.btn-gps-locate:hover {
+  background: #B34306;
+  transform: translateY(-1px);
+}
+.btn-gps-locate.loading {
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+/* DESTINATION CHIPS BAR */
+.map-dest-bar {
+  background: #F8F3E8;
+  border-bottom: 1.5px solid #E6DDC9;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.dest-bar-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1F2236;
+}
+
+.dest-chips-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.dest-chip {
+  background: #fff;
+  border: 1.5px solid #E6DDC9;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1F2236;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.dest-chip:hover {
+  border-color: #1F2236;
+  background: #F0E7D4;
+}
+.dest-chip.active {
+  background: #1F2236;
+  color: #fff;
+  border-color: #1F2236;
+}
+
+/* MAP CONTAINER GRID */
+.map-interactive-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  min-height: 520px;
+}
+@media (max-width: 980px) {
+  .map-interactive-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+#nightshift-leaflet-map {
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  z-index: 1;
+}
+
+/* SIDE TELEMETRY PANEL */
+.map-telemetry-side {
+  background: #FDFBF7;
+  border-left: 1.5px solid #E6DDC9;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  max-height: 560px;
+}
+@media (max-width: 980px) {
+  .map-telemetry-side {
+    border-left: none;
+    border-top: 1.5px solid #E6DDC9;
+    max-height: none;
+  }
+}
+
+.hud-metric-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.hud-metric-card {
+  background: #FFFFFF;
+  border: 1.5px solid #E6DDC9;
+  border-radius: 12px;
+  padding: 12px;
+}
+.hud-metric-card.highlight {
+  background: #E8F6ED;
+  border-color: #A7F3D0;
+}
+
+.hud-m-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #565A70;
+  letter-spacing: 0.05em;
+}
+.hud-m-val {
+  font-family: var(--font-display, serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1F2236;
+  margin-top: 2px;
+}
+.hud-metric-card.highlight .hud-m-val {
+  color: #065F46;
+}
+
+.hud-m-sub {
+  font-size: 0.72rem;
+  color: #2F9E5B;
+  font-weight: 600;
+}
+
+/* MAP LEGEND */
+.map-legend-card {
+  background: #FFFFFF;
+  border: 1.5px solid #E6DDC9;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.legend-head {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #565A70;
+  margin-bottom: 8px;
+}
+.legend-items-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.leg-line-safe {
+  width: 24px;
+  height: 5px;
+  background: #10B981;
+  border-radius: 3px;
+  box-shadow: 0 0 6px #10B981;
+}
+.leg-line-risky {
+  width: 24px;
+  height: 0px;
+  border-top: 2.5px dashed #EF4444;
+}
+
+/* TURN BY TURN STEPS */
+.turn-steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.turn-steps-title {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #565A70;
+  letter-spacing: 0.05em;
+}
+
+.turn-step {
+  display: flex;
+  gap: 10px;
+  background: #FFFFFF;
+  border: 1px solid #E6DDC9;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #1F2236;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.turn-step.haven .step-num {
+  background: #3F7DDE;
+}
+.turn-step.finish .step-num {
+  background: #10B981;
+}
+.step-info {
+  flex: 1;
+}
+.step-txt {
+  font-size: 0.8rem;
+  color: #1F2236;
+  line-height: 1.35;
+}
+.step-tag {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.step-tag.green {
+  background: #E8F6ED;
+  color: #1F7A43;
+}
+.step-tag.blue {
+  background: #EFF6FF;
+  color: #1D4ED8;
+}
+
+/* CUSTOM LEAFLET MARKERS */
+.user-pulse-marker {
+  position: relative;
+}
+.user-pulse-core {
+  width: 14px;
+  height: 14px;
+  background: #3F7DDE;
+  border: 2.5px solid #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(63, 125, 222, 0.8);
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 2;
+}
+.user-pulse-wave {
+  width: 24px;
+  height: 24px;
+  background: rgba(63, 125, 222, 0.35);
+  border-radius: 50%;
+  animation: userPulseWave 2s infinite ease-out;
+}
+@keyframes userPulseWave {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.danger-badge {
+  background: #EF4444;
+  color: #FFFFFF;
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.5);
+  white-space: nowrap;
+  animation: dangerPulse 2s infinite ease-in-out;
+}
+@keyframes dangerPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.haven-badge {
+  background: #FFFFFF;
+  border: 1.5px solid #10B981;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-family: var(--font-sans, sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
+}
+
+.dest-badge {
+  background: #1F2236;
+  color: #FDDB10;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-family: var(--font-sans, sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 8px rgba(31, 34, 54, 0.25);
+  white-space: nowrap;
+}
+
+/* PERFECT DIRECTION GLOW EFFECT ON POLYLINE */
+.perfect-safe-direction-glow {
+  filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.7));
+}

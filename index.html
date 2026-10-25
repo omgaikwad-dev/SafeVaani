@@ -17,6 +17,10 @@
   <title>SafeVaani — Your Always-On Safety Companion | Night-Time Decision Engine</title>
   <meta name="description" content="SafeVaani is India's hands-free personal safety companion with on-device Voice SOS and an intelligent Night-Time Decision Engine for shift workers.">
   <link rel="stylesheet" href="/style.css">
+  <!-- Leaflet Map Styles -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <link rel="stylesheet" href="/_astro/leaflet.css">
+  <link rel="stylesheet" href="/nightshift-map.css">
 
   <style>
     /* SafeVaani Signature Color System (Strictly matching safevani.vercel.app) */
@@ -537,7 +541,7 @@
           <span class="hd-pulse-dot"></span>
           Dashboard
         </a>
-        <a href="/dashboard/nightshift/" class="hd-link" style="color:var(--o-orange-btn);font-weight:700;">🌙 Night Engine</a>
+        <a href="#night-engine" class="hd-link" style="color:var(--o-orange-btn);font-weight:700;">🌙 Night Navigator</a>
         <a href="/blog" class="hd-link">Blog</a>
         <a href="https://play.google.com/store/apps/details?id=in.safevaani.app" target="_blank" rel="noopener" class="hd-cta">Try now for free</a>
       </nav>
@@ -558,8 +562,8 @@
           <span>Try now for free</span>
           <span style="font-size:1.2rem;">&rarr;</span>
         </a>
-        <a href="/dashboard/nightshift/" class="btn-dark-ghost">
-          <span>Explore Night Engine</span>
+        <a href="#night-engine" class="btn-dark-ghost">
+          <span>Explore Night Navigator</span>
         </a>
       </div>
     </div>
@@ -581,120 +585,113 @@
         A city is designed around daytime workers, but millions of nurses, factory workers, security guards, and delivery riders live on a completely different schedule. At 2:30 AM, when buses vanish and feeds go silent, SafeVaani’s Night-Time Decision Engine provides live transit, 24/7 services, and safe route certainty.
       </p>
 
-      <!-- INTERACTIVE DEMO CARD -->
-      <div class="engine-box">
-        <div class="engine-header-row">
-          <div>
-            <div style="font-size:1.35rem;font-weight:700;color:var(--ink);">Night-Time Decision Engine Simulator</div>
-            <div style="font-size:0.88rem;color:var(--text-secondary);margin-top:2px;">Real-time multi-modal evaluation with explicit data uncertainty</div>
-          </div>
-          <div class="engine-badge">
-            <span class="hd-pulse-dot"></span>
-            LIVE CITY TELEMETRY
-          </div>
-        </div>
-
-        <!-- The Problem Statement Prompt -->
-        <div class="engine-prompt-quote">
-          &ldquo;I finish work at <strong>2:15 AM</strong> and need to get home safely, find an open pharmacy, and know which route is safe.&rdquo;
-        </div>
-
-        <!-- 4-Tier Uncertainty Matrix -->
-        <div class="matrix-grid">
-          <div class="matrix-card">
-            <span class="matrix-badge mb-known">KNOWN ✓</span>
-            <div class="matrix-h">Live Verified Data</div>
-            <div class="matrix-p">Confirmed in last 15 mins via active GPS dispatch or physical CCTV hub.</div>
-          </div>
-          <div class="matrix-card">
-            <span class="matrix-badge mb-probable">PROBABLE ~</span>
-            <div class="matrix-h">30-Day Inferred</div>
-            <div class="matrix-p">Statistically expected pattern (e.g. 88% night auto availability).</div>
-          </div>
-          <div class="matrix-card">
-            <span class="matrix-badge mb-outdated">OUTDATED ⏰</span>
-            <div class="matrix-h">Stale Telemetry</div>
-            <div class="matrix-p">Feed silent &gt;2 hours. Engine flags warning and provides contingency.</div>
-          </div>
-          <div class="matrix-card">
-            <span class="matrix-badge mb-unknown">UNKNOWN ?</span>
-            <div class="matrix-h">Missing Feed</div>
-            <div class="matrix-p">No live sensor. Engine explicitly states unknown rather than hallucinating.</div>
-          </div>
-        </div>
-
-        <!-- Calculated Plan Result -->
-        <div class="plan-demo-box">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-            <div style="font-size:0.9rem;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:0.04em;">
-              Generated Plan for ICU Staff Nurse (02:15 AM Handover)
-            </div>
-            <span style="font-family:var(--font-mono);font-size:0.8rem;background:#E8F6ED;color:#1F7A43;font-weight:700;padding:4px 10px;border-radius:999px;">
-              ETA: 02:42 AM (27m) • 92% CONFIDENCE
+      <!-- LIVE INTERACTIVE LEAFLET MAP WRAPPER -->
+      <div class="night-map-wrapper">
+        <!-- TOP CONTROL BAR -->
+        <div class="map-control-bar">
+          <div class="map-control-left">
+            <span class="gps-status-pill" id="gps-status-indicator">
+              <span class="gps-pulse green"></span>
+              Live GPS Ready • Ground Truth Verified
+            </span>
+            <span class="live-coords-text" id="live-coordinates-display">
+              18.46780° N, 73.86150° E (Bharati Vidyapeeth Corridor)
             </span>
           </div>
+          <button id="btn-locate-me" class="btn-gps-locate" onclick="window.NightShiftMapEngine.requestRealLocation(true)">
+            <span>📍 Locate My Real GPS</span>
+          </button>
+        </div>
 
-          <div class="plan-step-row">
-            <div class="step-icon-wrap">🚌</div>
-            <div class="step-main">
-              <div class="step-top">
-                <span class="step-name">Night Bus #212 (Katraj Express)</span>
-                <span class="matrix-badge mb-known">KNOWN ✓</span>
-              </div>
-              <p class="step-text">Departs Hospital Gate at 02:28 AM (13m wait). Real-time GPS stream active. Drops at Bibwewadi Junction.</p>
-            </div>
+        <!-- DESTINATION SELECTION BAR -->
+        <div class="map-dest-bar">
+          <div class="dest-bar-label">
+            <span>🎯 Select Destination or Click Anywhere on Map:</span>
           </div>
-
-          <div class="plan-step-row">
-            <div class="step-icon-wrap">🛺</div>
-            <div class="step-main">
-              <div class="step-top">
-                <span class="step-name">Contingency: 24/7 Prepaid Auto Stand</span>
-                <span class="matrix-badge mb-probable">PROBABLE ~</span>
-              </div>
-              <p class="step-text">Stand 180m from gate. 88% driver availability pattern between 02:00 AM and 03:00 AM.</p>
-            </div>
-          </div>
-
-          <div class="plan-step-row">
-            <div class="step-icon-wrap">💊</div>
-            <div class="step-main">
-              <div class="step-top">
-                <span class="step-name">Apollo 24/7 Pharmacy &amp; Safe Hub</span>
-                <span class="matrix-badge mb-known">KNOWN ✓</span>
-              </div>
-              <p class="step-text">Verified open right now along the Satara Road corridor. Security guard on duty, bright LED canopy.</p>
-            </div>
-          </div>
-
-          <div class="plan-step-row">
-            <div class="step-icon-wrap">💡</div>
-            <div class="step-main">
-              <div class="step-top">
-                <span class="step-name">Route Corridor &amp; Street Lighting</span>
-                <span class="matrix-badge mb-known">KNOWN ✓</span>
-              </div>
-              <p class="step-text">Main Satara Road arterial selected (100% smart lighting active). Automatically avoids unlit Dhankawadi alleyways.</p>
-            </div>
-          </div>
-
-          <div class="plan-step-row">
-            <div class="step-icon-wrap">⏱️</div>
-            <div class="step-main">
-              <div class="step-top">
-                <span class="step-name">Automated Check-In &amp; Escalation</span>
-                <span class="matrix-badge mb-known">KNOWN ✓</span>
-              </div>
-              <p class="step-text">Arrival deadline 02:45 AM. Missed check-in gives 2-min grace, then auto-sends SMS with coordinates to trusted circle.</p>
-            </div>
+          <div class="dest-chips-list">
+            <button class="dest-chip active" onclick="selectMapDest(this, 'home')">🏠 Home Haven (Satara Rd)</button>
+            <button class="dest-chip" onclick="selectMapDest(this, 'swargate')">🚏 Swargate Night Transit</button>
+            <button class="dest-chip" onclick="selectMapDest(this, 'katraj')">🛡️ Katraj Police Safety Post</button>
+            <button class="dest-chip" onclick="selectMapDest(this, 'pune_station')">🚂 Pune Railway Station</button>
           </div>
         </div>
 
-        <div style="margin-top:24px;text-align:center;">
-          <a href="/dashboard/nightshift/" class="btn-orange" style="padding:14px 28px;font-size:0.95rem;">
-            <span>Open NightShift Web Dashboard</span>
-            <span style="font-size:1.1rem;">&rarr;</span>
-          </a>
+        <!-- INTERACTIVE MAP GRID -->
+        <div class="map-interactive-grid">
+          <!-- Leaflet Map Container -->
+          <div id="nightshift-leaflet-map"></div>
+
+          <!-- Side Telemetry & Turn-by-Turn HUD -->
+          <div class="map-telemetry-side">
+            <!-- Metric Cards -->
+            <div class="hud-metric-row">
+              <div class="hud-metric-card highlight">
+                <div class="hud-m-label">Safe Corridor ETA</div>
+                <div class="hud-m-val" id="map-hud-eta">18 mins</div>
+                <div class="hud-m-sub" id="map-hud-confidence">96% LIVE VERIFIED</div>
+              </div>
+              <div class="hud-metric-card">
+                <div class="hud-m-label">Safe Distance</div>
+                <div class="hud-m-val" id="map-hud-dist">2.4 km</div>
+                <div class="hud-m-sub" id="map-hud-lighting">99.2% Lit</div>
+              </div>
+            </div>
+
+            <!-- Map Legend -->
+            <div class="map-legend-card">
+              <div class="legend-head">Corridor Route Legend</div>
+              <div class="legend-items-wrap">
+                <div class="legend-item">
+                  <span class="leg-line-safe"></span>
+                  <span>✨ <strong>The Perfect Direction</strong> (100% Lit Arterial)</span>
+                </div>
+                <div class="legend-item">
+                  <span class="leg-line-risky"></span>
+                  <span style="color:#DC2626;">❌ <strong>Risky Shortcut</strong> (0% Lit Alley • Danger Zone)</span>
+                </div>
+                <div class="legend-item">
+                  <span>⚠️</span>
+                  <span><strong>Danger Zones</strong> (Canal Underpass &amp; Freight Cut)</span>
+                </div>
+                <div class="legend-item">
+                  <span>🛡️</span>
+                  <span><strong>24/7 Havens</strong> (Apollo Pharmacy &amp; Police CAD)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Turn by Turn Safe Route Steps -->
+            <div class="turn-steps-container">
+              <div class="turn-steps-title">Turn-By-Turn Safe Guidance</div>
+              <div id="map-hud-steps-list">
+                <!-- Dynamically populated by nightshift-map.js -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4-Tier Uncertainty Matrix -->
+      <div class="matrix-grid" style="margin-top:24px;">
+        <div class="matrix-card">
+          <span class="matrix-badge mb-known">KNOWN ✓</span>
+          <div class="matrix-h">Live Verified Data</div>
+          <div class="matrix-p">Confirmed in last 15 mins via active GPS dispatch or physical CCTV hub.</div>
+        </div>
+        <div class="matrix-card">
+          <span class="matrix-badge mb-probable">PROBABLE ~</span>
+          <div class="matrix-h">30-Day Inferred</div>
+          <div class="matrix-p">Statistically expected pattern (e.g. 88% night auto availability).</div>
+        </div>
+        <div class="matrix-card">
+          <span class="matrix-badge mb-outdated">OUTDATED ⏰</span>
+          <div class="matrix-h">Stale Telemetry</div>
+          <div class="matrix-p">Feed silent &gt;2 hours. Engine flags warning and provides contingency.</div>
+        </div>
+        <div class="matrix-card">
+          <span class="matrix-badge mb-unknown">UNKNOWN ?</span>
+          <div class="matrix-h">Missing Feed</div>
+          <div class="matrix-p">No live sensor. Engine explicitly states unknown rather than hallucinating.</div>
         </div>
       </div>
 
@@ -791,6 +788,11 @@
     </div>
   </footer>
 
+  <!-- Leaflet Scripts & NightShift Map Engine -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="/_astro/leaflet.js"></script>
+  <script src="/nightshift-map.js"></script>
+
   <script>
     // Header scroll background toggle
     const header = document.getElementById('site-header');
@@ -801,6 +803,30 @@
         header.classList.remove('scrolled');
       }
     }, { passive: true });
+
+    // Initialize NightShift Leaflet Map on load
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.NightShiftMapEngine) {
+        window.NightShiftMapEngine.init('nightshift-leaflet-map');
+      }
+    });
+
+    // Destination Selector
+    function selectMapDest(btn, destKey) {
+      document.querySelectorAll('.dest-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (window.NightShiftMapEngine) {
+        const dests = {
+          "home": { name: "Home Safe Haven (Bibwewadi-Satara Rd)", lat: 18.46225, lng: 73.86497 },
+          "swargate": { name: "Swargate Night Transit Terminal", lat: 18.50180, lng: 73.86360 },
+          "katraj": { name: "Katraj Police Station & Transit Hub", lat: 18.45520, lng: 73.86750 },
+          "pune_station": { name: "Pune Railway Station 24/7 Haven", lat: 18.52890, lng: 73.87430 }
+        };
+        if (dests[destKey]) {
+          window.NightShiftMapEngine.setDestination(dests[destKey]);
+        }
+      }
+    }
   </script>
 </body>
 </html>

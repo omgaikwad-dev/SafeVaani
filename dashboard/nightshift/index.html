@@ -15,7 +15,10 @@
   <link rel="manifest" href="/site.webmanifest">
 
   <title>NightShift Decision Engine Dashboard | SafeVaani CitySafe</title>
-  <meta name="description" content="Real-time night-time decision engine for shift workers (nurses, guards, factory, delivery). Multi-modal night transit, 24/7 open services, and route safety.">
+  <!-- Leaflet Map Styles -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <link rel="stylesheet" href="/_astro/leaflet.css">
+  <link rel="stylesheet" href="/nightshift-map.css">
 
   <style>
     :root {
@@ -424,194 +427,91 @@
       </div>
     </section>
 
-    <!-- WORKSPACE: PLANNER + RADAR -->
-    <div class="engine-workspace" id="planner">
-
-      <!-- PLANNER PANEL -->
-      <div class="panel-card">
-        <div class="panel-header">
-          <div>
-            <h2 class="panel-title">Night Shift Route Evaluator</h2>
-            <p style="font-size:0.85rem;color:var(--text-muted);margin-top:2px;">
-              Input your shift parameters to generate a safety-optimized route plan.
-            </p>
-          </div>
-          <span class="panel-tag">LIVE ENGINE</span>
+    <!-- WORKSPACE: LIVE INTERACTIVE LEAFLET MAP (REPLACING OLD FORM) -->
+    <div class="night-map-wrapper" id="planner" style="margin-bottom: 36px;">
+      <!-- TOP CONTROL BAR -->
+      <div class="map-control-bar">
+        <div class="map-control-left">
+          <span class="gps-status-pill" id="gps-status-indicator">
+            <span class="gps-pulse green"></span>
+            Live GPS Active • Pune Corridor Calibrated
+          </span>
+          <span class="live-coords-text" id="live-coordinates-display">
+            18.46780° N, 73.86150° E (Bharati Vidyapeeth Corridor Ground Truth)
+          </span>
         </div>
-
-        <!-- FORM -->
-        <div class="input-group">
-          <label class="input-label">Shift End Time</label>
-          <input type="text" id="inputShiftTime" class="input-field" value="02:15 AM">
-          <div class="quick-chips">
-            <button class="chip-btn active" onclick="setShift('02:15 AM')">02:15 AM (ICU Nurse)</button>
-            <button class="chip-btn" onclick="setShift('03:30 AM')">03:30 AM (Factory Staff)</button>
-            <button class="chip-btn" onclick="setShift('05:00 AM')">05:00 AM (Security Guard)</button>
-          </div>
-        </div>
-
-        <div class="input-group">
-          <label class="input-label">I am a (Worker Role)</label>
-          <select id="selectRole" class="select-field">
-            <option value="Nurse / Hospital Staff" selected>Nurse / Healthcare Staff (Night Duty)</option>
-            <option value="Factory / Manufacturing Staff">Factory / Industrial Worker</option>
-            <option value="Security Guard">Security Guard / Facility Staff</option>
-            <option value="Delivery Partner">Quick-Commerce / Delivery Rider</option>
-            <option value="Sanitation Worker">Sanitation / Municipal Staff</option>
-          </select>
-        </div>
-
-        <div class="input-group">
-          <label class="input-label">Origin (Workplace)</label>
-          <input type="text" id="inputOrigin" class="input-field" value="Bharati Vidyapeeth Hospital, Dhankawadi">
-        </div>
-
-        <div class="input-group">
-          <label class="input-label">Destination (Home / Safe Haven)</label>
-          <input type="text" id="inputDest" class="input-field" value="Home Haven, Bibwewadi-Satara Road (18.46225° N, 73.864972° E)">
-        </div>
-
-        <button class="btn-calc" onclick="generateEnginePlan()">
-          <span>🧠 Generate Night-Time Plan</span>
-          <span style="font-size:1.2rem;">&rarr;</span>
+        <button id="btn-locate-me" class="btn-gps-locate" onclick="window.NightShiftMapEngine.requestRealLocation(true)">
+          <span>📍 Locate My Real GPS</span>
         </button>
-
-        <!-- CONFIDENCE LEGEND -->
-        <div class="confidence-legend">
-          <div class="legend-title">4-Tier Explicit Uncertainty Matrix</div>
-          <div class="legend-row">
-            <span class="badge-c badge-known">KNOWN ✓ Live Verified</span>
-            <span class="badge-c badge-probable">PROBABLE ~ 30d Pattern</span>
-            <span class="badge-c badge-outdated">OUTDATED ⏰ Stale Data</span>
-            <span class="badge-c badge-unknown">UNKNOWN ? Missing Feed</span>
-          </div>
-        </div>
-
-        <!-- GENERATED PLAN OUTPUT -->
-        <div class="plan-result-box" id="planOutput">
-          <div class="plan-header-strip">
-            <div>
-              <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;">Calculated ETA</div>
-              <div class="plan-eta" id="resEta">02:42 AM (27 mins)</div>
-            </div>
-            <div class="plan-score" id="resConfidence">92% CONFIDENCE</div>
-          </div>
-
-          <div id="planItemsList">
-            <!-- Step 1 -->
-            <div class="plan-step">
-              <div class="step-icon">🚌</div>
-              <div class="step-body">
-                <div class="step-head">
-                  <span class="step-title">Night Bus #212 (Katraj-Swargate Express)</span>
-                  <span class="badge-c badge-known">KNOWN ✓</span>
-                </div>
-                <p class="step-desc">
-                  Departs Hospital Gate at 02:28 AM (in 13 mins). Bus GPS live and verified. Drop-off at Bibwewadi Junction (02:38 AM).
-                </p>
-              </div>
-            </div>
-
-            <!-- Step 2 -->
-            <div class="plan-step">
-              <div class="step-icon">🛺</div>
-              <div class="step-body">
-                <div class="step-head">
-                  <span class="step-title">Contingency: 24/7 Prepaid Auto Stand</span>
-                  <span class="badge-c badge-probable">PROBABLE ~</span>
-                </div>
-                <p class="step-desc">
-                  Located 180m from hospital gate. 30-day historical pattern shows 88% driver availability between 02:00 AM and 03:00 AM.
-                </p>
-              </div>
-            </div>
-
-            <!-- Step 3 -->
-            <div class="plan-step">
-              <div class="step-icon">💊</div>
-              <div class="step-body">
-                <div class="step-head">
-                  <span class="step-title">Open Service: Apollo 24/7 Pharmacy</span>
-                  <span class="badge-c badge-known">KNOWN ✓</span>
-                </div>
-                <p class="step-desc">
-                  Bibwewadi Junction (along route). Verified open, well-lit, CCTV operational, security guard present on premise.
-                </p>
-              </div>
-            </div>
-
-            <!-- Step 4 -->
-            <div class="plan-step">
-              <div class="step-icon">💡</div>
-              <div class="step-body">
-                <div class="step-head">
-                  <span class="step-title">Safe Corridor: Satara Road Main Arterial</span>
-                  <span class="badge-c badge-known">KNOWN ✓</span>
-                </div>
-                <p class="step-desc">
-                  100% street lighting operational. Direct route avoids unlit secondary lanes and industrial underpass construction.
-                </p>
-              </div>
-            </div>
-
-            <!-- Step 5 -->
-            <div class="plan-step">
-              <div class="step-icon">⏱️</div>
-              <div class="step-body">
-                <div class="step-head">
-                  <span class="step-title">Automated Journey Check-In Schedule</span>
-                  <span class="badge-c badge-known">KNOWN ✓</span>
-                </div>
-                <p class="step-desc">
-                  Checkpoint at 02:38 AM (bus drop-off) & 02:45 AM (Home Arrival). If missed, triggers 2-min warning then silent SMS escalation.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
 
-      <!-- LIVE RADAR / MAP PANEL -->
-      <div class="panel-card radar-card">
-        <div class="panel-header">
-          <h2 class="panel-title">Night City Telemetry Radar</h2>
-          <span class="panel-tag" style="background:#D4EDDA;color:#155724;">TELEMETRY SYNC</span>
+      <!-- DESTINATION SELECTION BAR -->
+      <div class="map-dest-bar">
+        <div class="dest-bar-label">
+          <span>🎯 Select Destination or Click Anywhere on Map:</span>
         </div>
+        <div class="dest-chips-list">
+          <button class="dest-chip active" onclick="selectMapDest(this, 'home')">🏠 Home Haven (Satara Rd)</button>
+          <button class="dest-chip" onclick="selectMapDest(this, 'swargate')">🚏 Swargate Night Transit</button>
+          <button class="dest-chip" onclick="selectMapDest(this, 'katraj')">🛡️ Katraj Police Safety Post</button>
+          <button class="dest-chip" onclick="selectMapDest(this, 'pune_station')">🚂 Pune Railway Station</button>
+        </div>
+      </div>
 
-        <!-- RADAR VISUAL -->
-        <div class="radar-map">
-          <div class="radar-sweep"></div>
-          <div class="radar-sweep" style="animation-delay: 2s;"></div>
-          <div class="radar-hud">CORRIDOR: PUNE SOUTH [18.462°N, 73.864°E]</div>
-          <div class="radar-pin pin-worker" title="Worker Location"></div>
-          <div class="radar-pin pin-pharm" title="24/7 Apollo Pharmacy"></div>
-          <div class="radar-pin pin-bus" title="Night Bus 212"></div>
-        </div>
+      <!-- INTERACTIVE MAP GRID -->
+      <div class="map-interactive-grid">
+        <!-- Leaflet Map Container -->
+        <div id="nightshift-leaflet-map"></div>
 
-        <div style="font-size:0.85rem;font-weight:700;margin-bottom:10px;">Live Night Sensor Feeds:</div>
-        <div class="live-feed-list">
-          <div class="feed-item">
-            <span class="feed-text"><span>🟢</span> PMPML Night Bus Feed #212 active</span>
-            <span class="feed-time">1 min ago</span>
+        <!-- Side Telemetry & Turn-by-Turn HUD -->
+        <div class="map-telemetry-side">
+          <!-- Metric Cards -->
+          <div class="hud-metric-row">
+            <div class="hud-metric-card highlight">
+              <div class="hud-m-label">Safe Corridor ETA</div>
+              <div class="hud-m-val" id="map-hud-eta">18 mins</div>
+              <div class="hud-m-sub" id="map-hud-confidence">96% LIVE VERIFIED</div>
+            </div>
+            <div class="hud-metric-card">
+              <div class="hud-m-label">Safe Distance</div>
+              <div class="hud-m-val" id="map-hud-dist">2.4 km</div>
+              <div class="hud-m-sub" id="map-hud-lighting">99.2% Lit</div>
+            </div>
           </div>
-          <div class="feed-item">
-            <span class="feed-text"><span>🟢</span> Apollo Pharmacy 24/7 CCTV check passed</span>
-            <span class="feed-time">3 mins ago</span>
+
+          <!-- Map Legend -->
+          <div class="map-legend-card">
+            <div class="legend-head">Corridor Route Legend</div>
+            <div class="legend-items-wrap">
+              <div class="legend-item">
+                <span class="leg-line-safe"></span>
+                <span>✨ <strong>The Perfect Direction</strong> (100% Lit Arterial)</span>
+              </div>
+              <div class="legend-item">
+                <span class="leg-line-risky"></span>
+                <span style="color:#DC2626;">❌ <strong>Risky Shortcut</strong> (0% Lit Alley • Danger Zone)</span>
+              </div>
+              <div class="legend-item">
+                <span>⚠️</span>
+                <span><strong>Danger Zones</strong> (Canal Underpass &amp; Freight Cut)</span>
+              </div>
+              <div class="legend-item">
+                <span>🛡️</span>
+                <span><strong>24/7 Havens</strong> (Apollo Pharmacy &amp; Police CAD)</span>
+              </div>
+            </div>
           </div>
-          <div class="feed-item">
-            <span class="feed-text"><span>🟡</span> Katraj Underpass night resurfacing active</span>
-            <span class="feed-time">Rerouted</span>
-          </div>
-          <div class="feed-item">
-            <span class="feed-text"><span>🟢</span> Municipal Smart Streetlights 100% lit</span>
-            <span class="feed-time">Live</span>
-          </div>
-          <div class="feed-item">
-            <span class="feed-text"><span>🟣</span> Sector 4 Feeder Van telemetry unavailable</span>
-            <span class="feed-time">Flagged UNKNOWN</span>
+
+          <!-- Turn by Turn Safe Route Steps -->
+          <div class="turn-steps-container">
+            <div class="turn-steps-title">Turn-By-Turn Safe Guidance</div>
+            <div id="map-hud-steps-list">
+              <!-- Dynamically populated by nightshift-map.js -->
+            </div>
           </div>
         </div>
+      </div>
+    </div>
 
         <!-- GUARDIAN ALERT INTEGRATION -->
         <div style="margin-top:20px;padding:16px;background:var(--bg-tint);border-radius:12px;border:1px solid var(--border);">
@@ -1041,10 +941,33 @@
       });
     }
 
-    // Trigger initial search for default query on page load
-    window.addEventListener('DOMContentLoaded', () => {
-      runOfflineSearch();
+    // Leaflet Scripts & NightShift Map Engine
+  </script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="/_astro/leaflet.js"></script>
+  <script src="/nightshift-map.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.NightShiftMapEngine) {
+        window.NightShiftMapEngine.init('nightshift-leaflet-map');
+      }
     });
+
+    function selectMapDest(btn, destKey) {
+      document.querySelectorAll('.dest-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (window.NightShiftMapEngine) {
+        const dests = {
+          "home": { name: "Home Safe Haven (Bibwewadi-Satara Rd)", lat: 18.46225, lng: 73.86497 },
+          "swargate": { name: "Swargate Night Transit Terminal", lat: 18.50180, lng: 73.86360 },
+          "katraj": { name: "Katraj Police Station & Transit Hub", lat: 18.45520, lng: 73.86750 },
+          "pune_station": { name: "Pune Railway Station 24/7 Haven", lat: 18.52890, lng: 73.87430 }
+        };
+        if (dests[destKey]) {
+          window.NightShiftMapEngine.setDestination(dests[destKey]);
+        }
+      }
+    }
   </script>
 </body>
 </html>
