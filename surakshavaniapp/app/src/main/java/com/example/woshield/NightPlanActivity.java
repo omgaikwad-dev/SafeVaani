@@ -76,6 +76,8 @@ public class NightPlanActivity extends AppCompatActivity {
     // Data Repositories
     private NightOwlCsvRepository csvRepo;
     private DatabaseReference dangerZonesRef;
+    private final List<NightSafetyAiModel.LiveHazardPoint> activeHazards = new ArrayList<>();
+    private final List<NightSafetyAiModel.LiveSafeHavenPoint> activeHavens = new ArrayList<>();
 
     // UI Elements
     private WebView webViewLeafletMap;
@@ -108,7 +110,12 @@ public class NightPlanActivity extends AppCompatActivity {
         setupContinuousLocation();
         requestPermissions();
 
-        // Load live Firebase danger zones and sync to map
+        // Fetch live real-time Open-Meteo weather
+        NightSafetyAiModel.fetchLiveWeather(currentUserLat, currentUserLng, (temp, rain, wind, desc) -> {
+            onRealLocationReceived(currentUserLat, currentUserLng);
+        });
+
+        // Load live Firebase danger zones and sync to map & AI model
         loadLiveDangerZones();
     }
 
@@ -276,8 +283,41 @@ public class NightPlanActivity extends AppCompatActivity {
             viewEngineIndicator.setBackgroundResource(R.color.confidence_known);
         }
 
+        // Execute Real-Time AI Safety Inference Model
+        NightSafetyAiModel.SafetyInferenceResult aiResult =
+                NightSafetyAiModel.evaluateSafety(lat, lng, 0, activeHazards, activeHavens);
+
+        if (tvConfidencePct != null) {
+            tvConfidencePct.setText(aiResult.confidencePct + "%");
+        }
+        if (tvPlanStatus != null) {
+            tvPlanStatus.setText(aiResult.threatLevel.label);
+        }
+        if (tvPlanDescription != null) {
+            tvPlanDescription.setText(aiResult.aiRecommendation + "\n" + aiResult.aiExplanation);
+        }
+        if (tvAiProviderBadge != null) {
+            tvAiProviderBadge.setText("AI INFERENCE: " + String.format(Locale.US, "%.0f%% SAFE • %s", aiResult.safetyIndex, aiResult.weatherDesc));
+        }
+
+        // Stream AI Safety Result to Leaflet Map
+        if (webViewLeafletMap != null) {
+            String safeRec = aiResult.aiRecommendation.replace("'", "\\'");
+            String safeExp = aiResult.aiExplanation.replace("'", "\\'");
+            String js = String.format(Locale.US,
+                    "if (window.updateAiSafetyModel) { window.updateAiSafetyModel(%.1f, '%s', '%s', '%s', '%s'); }",
+                    aiResult.safetyIndex, aiResult.threatLevel.label, aiResult.threatLevel.hexColor, safeRec, safeExp);
+            webViewLeafletMap.evaluateJavascript(js, null);
+        }
+
         // Calculate real distance & ETA
-        double distKm = calculateDistanceKm(lat, lng, destLat, destLng) * 1.25;
+        double distKm = calculateDistanceKm(lat, lng, destLat, destLng);
+        if (distKm > 15.0) {
+            // Dynamically adapt destination to real neighborhood
+            destLat = lat + 0.012;
+            destLng = lng + 0.009;
+            distKm = calculateDistanceKm(lat, lng, destLat, destLng);
+        }
         if (distKm < 0.2) distKm = 0.5;
         int etaMinutes = (int) Math.max(5, Math.round(distKm * 6.5));
 
@@ -304,6 +344,7 @@ public class NightPlanActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) return;
                 try {
+                    activeHazards.clear();
                     JSONArray dzArray = new JSONArray();
                     for (DataSnapshot child : snapshot.getChildren()) {
                         Double lat = child.child("latitude").getValue(Double.class);
@@ -312,6 +353,11 @@ public class NightPlanActivity extends AppCompatActivity {
                         String desc = child.child("description").getValue(String.class);
 
                         if (lat != null && lng != null) {
+                            activeHazards.add(new NightSafetyAiModel.LiveHazardPoint(
+                                    title != null ? title : "Hazard Zone",
+                                    lat, lng, 4.0, 180.0, desc != null ? desc : "Reported night hazard pocket"
+                            ));
+
                             JSONObject obj = new JSONObject();
                             obj.put("name", "⚠️ " + (title != null ? title : "Hazard Zone"));
                             obj.put("lat", lat);
@@ -327,6 +373,9 @@ public class NightPlanActivity extends AppCompatActivity {
                         String js = "if (window.setCustomZones) { window.setCustomZones(" + dzArray.toString() + ", null); }";
                         webViewLeafletMap.evaluateJavascript(js, null);
                     }
+
+                    // Recalculate AI model with real hazards loaded
+                    onRealLocationReceived(currentUserLat, currentUserLng);
                 } catch (Exception e) {
                     Log.e(TAG, "Failed parsing Firebase danger zones", e);
                 }

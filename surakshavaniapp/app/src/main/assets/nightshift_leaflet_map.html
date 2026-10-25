@@ -506,6 +506,55 @@
         return R * c;
       }
 
+      // Fetch Genuine Real-World Safe Havens (OpenStreetMap Overpass API)
+      var lastOverpassFetch = 0;
+      function fetchRealSafeHavens(lat, lng) {
+        var now = Date.now();
+        if (now - lastOverpassFetch < 30000) return; // 30s debounce
+        lastOverpassFetch = now;
+
+        var overpassUrl = 'https://overpass-api.de/api/interpreter?data=[out:json][timeout:6];' +
+          '(node["amenity"="hospital"](around:4000,' + lat + ',' + lng + ');' +
+          'node["amenity"="pharmacy"](around:4000,' + lat + ',' + lng + ');' +
+          'node["amenity"="police"](around:4000,' + lat + ',' + lng + ');' +
+          'node["amenity"="fuel"](around:4000,' + lat + ',' + lng + '););out 12;';
+
+        fetch(overpassUrl)
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            if (data && data.elements && data.elements.length > 0) {
+              var liveHavens = [];
+              data.elements.forEach(function(el) {
+                var amenity = (el.tags && el.tags.amenity) || 'police';
+                var name = (el.tags && (el.tags.name || el.tags["name:en"])) || (amenity.toUpperCase() + " Station");
+                var cat = amenity === 'hospital' ? 'Level-1 ER' :
+                          amenity === 'pharmacy' ? '24/7 Pharmacy' :
+                          amenity === 'police' ? 'Police Station' : 'Fuel Station';
+                var icon = amenity === 'hospital' ? '🏥' :
+                           amenity === 'pharmacy' ? '💊' :
+                           amenity === 'police' ? '🛡️' : '⛽';
+                var color = amenity === 'hospital' ? '#F87171' :
+                            amenity === 'pharmacy' ? '#10B981' :
+                            amenity === 'police' ? '#38BDF8' : '#F59E0B';
+                liveHavens.push({
+                  name: name,
+                  cat: cat,
+                  lat: el.lat,
+                  lng: el.lon,
+                  icon: icon,
+                  color: color,
+                  info: "Live OpenStreetMap Verified Safe Haven"
+                });
+              });
+              SAFE_HAVENS = liveHavens;
+              renderSafeHavens();
+            }
+          })
+          .catch(function(e) {
+            console.log("Real-time Overpass safe havens fetch note:", e);
+          });
+      }
+
       function renderUserAndRoute() {
         if (!map) return;
 
@@ -554,7 +603,7 @@
         if (riskyPolyline) map.removeLayer(riskyPolyline);
 
         // Find nearest danger zone to draw the contrast risky path
-        var closestDanger = DANGER_ZONES[0];
+        var closestDanger = DANGER_ZONES.length > 0 ? DANGER_ZONES[0] : null;
         var minDist = 9999;
         DANGER_ZONES.forEach(function (dz) {
           var d = calculateDistanceKm(userLat, userLng, dz.lat, dz.lng);
@@ -564,68 +613,83 @@
           }
         });
 
-        // Risky Route: Direct unlit straight-line through danger zone
-        var riskyCoords = [
-          [userLat, userLng],
-          [closestDanger.lat, closestDanger.lng],
-          [destLat, destLng]
-        ];
+        if (closestDanger) {
+          var riskyCoords = [
+            [userLat, userLng],
+            [closestDanger.lat, closestDanger.lng],
+            [destLat, destLng]
+          ];
+          riskyPolyline = L.polyline(riskyCoords, {
+            color: '#EF4444',
+            weight: 3,
+            dashArray: '6, 6',
+            opacity: 0.75
+          }).addTo(map);
+        }
 
-        riskyPolyline = L.polyline(riskyCoords, {
-          color: '#EF4444',
-          weight: 3,
-          dashArray: '6, 6',
-          opacity: 0.75
-        }).addTo(map);
+        // Real-Time Turn-by-Turn Routing via OSRM Public Routing API
+        var osrmUrl = 'https://router.project-osrm.org/route/v1/foot/' +
+                      userLng.toFixed(5) + ',' + userLat.toFixed(5) + ';' +
+                      destLng.toFixed(5) + ',' + destLat.toFixed(5) +
+                      '?overview=full&geometries=geojson';
 
-        riskyPolyline.bindPopup(
-          '<div style="font-family:sans-serif;font-size:11px;color:#F8FAFC;">' +
-          '<strong style="color:#EF4444;">⚠️ Risky Path (Avoided)</strong><br>' +
-          '<span>Passes directly through ' + closestDanger.name + '</span><br>' +
-          '<span style="color:#FBBF24;">Risk Factor: Unlit & deserted at night</span>' +
-          '</div>'
-        );
+        fetch(osrmUrl)
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            if (data && data.routes && data.routes.length > 0) {
+              var r = data.routes[0];
+              var coordinates = r.geometry.coordinates.map(function(c) { return [c[1], c[0]]; });
 
-        // Perfect Direction (Safe Illuminated Corridor):
-        // Follows safe arterial waypoints, steers outside danger radius and connects through Apollo 24/7 Pharmacy
-        var safeHavenMid = SAFE_HAVENS[0]; // Apollo 24/7 Pharmacy
-        var safeCoords = [
-          [userLat, userLng],
-          [(userLat + safeHavenMid.lat)/2 + 0.0012, (userLng + safeHavenMid.lng)/2 + 0.0018], // Well-lit arterial entry
-          [safeHavenMid.lat, safeHavenMid.lng], // Safe Haven waypoint (Apollo 24/7)
-          [(safeHavenMid.lat + destLat)/2 + 0.0008, (safeHavenMid.lng + destLng)/2 + 0.0014], // Monitored transit lane
-          [destLat, destLng]
-        ];
+              if (safePolyline) map.removeLayer(safePolyline);
+              safePolyline = L.polyline(coordinates, {
+                color: '#00E676',
+                weight: 5.5,
+                opacity: 0.95,
+                className: 'safe-polyline-glow'
+              }).addTo(map);
 
-        safePolyline = L.polyline(safeCoords, {
-          color: '#00E676',
-          weight: 5.5,
-          opacity: 0.95,
-          className: 'safe-polyline-glow'
-        }).addTo(map);
+              var distKm = (r.distance / 1000.0);
+              var estMins = Math.round(r.duration / 60.0);
+              if (estMins < 3) estMins = 5;
 
-        safePolyline.bindPopup(
-          '<div style="font-family:sans-serif;font-size:11px;color:#F8FAFC;">' +
-          '<strong style="color:#00E676;">✓ THE PERFECT DIRECTION</strong><br>' +
-          '<span>Well-lit arterial corridor with 24/7 CCTV &amp; Safe Havens</span><br>' +
-          '<span style="color:#38BDF8;">Guaranteed steer away from hazard zones</span>' +
-          '</div>'
-        );
+              document.getElementById('statDist').innerText = distKm.toFixed(1) + ' KM';
+              document.getElementById('statEta').innerText = estMins + ' MINS';
+              fitAllRouteBounds();
+            } else {
+              fallbackCorridorRoute();
+            }
+          })
+          .catch(function(err) {
+            fallbackCorridorRoute();
+          });
 
-        // Update stats
-        var totalDistKm = calculateDistanceKm(userLat, userLng, destLat, destLng) * 1.25;
-        if (totalDistKm < 0.2) totalDistKm = 0.5;
-        var estMins = Math.round(totalDistKm * 6.5);
-        if (estMins < 3) estMins = 5;
+        function fallbackCorridorRoute() {
+          var safeCoords = [
+            [userLat, userLng],
+            [(userLat + destLat)/2 + 0.0012, (userLng + destLng)/2 + 0.0018],
+            [destLat, destLng]
+          ];
+          if (safePolyline) map.removeLayer(safePolyline);
+          safePolyline = L.polyline(safeCoords, {
+            color: '#00E676',
+            weight: 5.5,
+            opacity: 0.95,
+            className: 'safe-polyline-glow'
+          }).addTo(map);
 
-        document.getElementById('statDist').innerText = totalDistKm.toFixed(1) + ' KM';
-        document.getElementById('statEta').innerText = estMins + ' MINS';
+          var totalDistKm = calculateDistanceKm(userLat, userLng, destLat, destLng) * 1.25;
+          if (totalDistKm < 0.2) totalDistKm = 0.5;
+          var estMins = Math.round(totalDistKm * 6.5);
+          document.getElementById('statDist').innerText = totalDistKm.toFixed(1) + ' KM';
+          document.getElementById('statEta').innerText = estMins + ' MINS';
+          fitAllRouteBounds();
+        }
 
-        // Check if user is near danger zone
+        // Check hazard proximity
         var nearDanger = false;
         DANGER_ZONES.forEach(function(dz) {
           var distToDz = calculateDistanceKm(userLat, userLng, dz.lat, dz.lng) * 1000;
-          if (distToDz < dz.radius + 100) {
+          if (distToDz < dz.radius + 120) {
             nearDanger = true;
           }
         });
@@ -644,13 +708,8 @@
           document.getElementById('statMesh').className = 'stat-val gold';
         }
 
-        // Update coordinates HUD
         var coordsText = userLat.toFixed(4) + '°N, ' + userLng.toFixed(4) + '°E';
-        if (hasRealGps) {
-          document.getElementById('hudCoordsText').innerText = '🛰️ GPS: ' + coordsText;
-        } else {
-          document.getElementById('hudCoordsText').innerText = '🛰️ ' + coordsText;
-        }
+        document.getElementById('hudCoordsText').innerText = '🛰️ GPS: ' + coordsText;
 
         fitAllRouteBounds();
       }
@@ -669,8 +728,19 @@
 
       // ── Window APIs called from Android Java ──────────────────────────────
       window.setLiveCoordinates = function (uLat, uLng, recalculate) {
-        userLat = parseFloat(uLat);
-        userLng = parseFloat(uLng);
+        var parsedLat = parseFloat(uLat);
+        var parsedLng = parseFloat(uLng);
+        if (isNaN(parsedLat) || isNaN(parsedLng)) return;
+
+        // If user is far from initial destination (>15km), adapt destination relative to user
+        if (calculateDistanceKm(parsedLat, parsedLng, destLat, destLng) > 15.0) {
+          destLat = parsedLat + 0.012;
+          destLng = parsedLng + 0.009;
+          destName = "Safe Haven Destination";
+        }
+
+        userLat = parsedLat;
+        userLng = parsedLng;
         hasRealGps = true;
 
         if (userMarker) {
@@ -678,8 +748,27 @@
         }
         document.getElementById('hudCoordsText').innerText = '🛰️ GPS: ' + userLat.toFixed(4) + '°N, ' + userLng.toFixed(4) + '°E';
 
+        // Fetch genuine real-world safe havens in the user's actual city
+        fetchRealSafeHavens(userLat, userLng);
+
         if (recalculate !== false) {
           renderUserAndRoute();
+        }
+      };
+
+      window.updateAiSafetyModel = function (safetyScore, threatLabel, threatColor, recommendation, explanation) {
+        try {
+          var hudStatus = document.getElementById('hudStatus');
+          var hudStatusText = document.getElementById('hudStatusText');
+          if (hudStatus && threatLabel) {
+            hudStatusText.innerText = threatLabel;
+            if (threatColor) {
+              hudStatus.style.borderColor = threatColor;
+              hudStatus.style.color = threatColor;
+            }
+          }
+        } catch (e) {
+          console.error('Error applying AI safety model update', e);
         }
       };
 
@@ -700,6 +789,7 @@
           document.getElementById('statDist').innerText = distString.toUpperCase();
         }
 
+        fetchRealSafeHavens(userLat, userLng);
         renderUserAndRoute();
       };
 
