@@ -456,6 +456,36 @@
                             </com.google.android.material.card.MaterialCardView>
                         </LinearLayout>
 
+                        <!-- Live Leaflet Safety Radar in this section -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_home_leaflet_map"
+                            android:layout_width="match_parent"
+                            android:layout_height="175dp"
+                            android:layout_marginTop="10dp"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="0dp"
+                            app:strokeColor="@color/safe_green"
+                            app:strokeWidth="1.2dp">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <WebView
+                                    android:id="@+id/web_view_home_map"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" />
+
+                                <View
+                                    android:id="@+id/overlay_home_map_click"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="?android:attr/selectableItemBackground"
+                                    android:clickable="true"
+                                    android:focusable="true" />
+                            </FrameLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
                         <!-- Summary & Action Prompt -->
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -484,7 +514,7 @@
                                 android:ellipsize="end"
                                 android:fontFamily="sans-serif-bold"
                                 android:maxLines="1"
-                                android:text="Tap to generate safe 2:15 AM route &amp; open pharmacies →"
+                                android:text="Tap to open full Leaflet Night Navigation Radar →"
                                 android:textColor="@color/deep_purple"
                                 android:textSize="12sp" />
 

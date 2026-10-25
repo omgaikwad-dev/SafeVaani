@@ -19,12 +19,14 @@ package com.example.woshield;
  */
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.location.Location;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,6 +35,9 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -46,6 +51,9 @@ import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -102,6 +110,11 @@ public class HomePage extends AppCompatActivity {
     private MaterialCardView cardQuickPlan;
     private TextView tvCurrentTime, tvShiftContext, tvLastPlanSummary;
     private TextView tvEngineStatus, tvConfidenceLevel;
+    private WebView webViewHomeMap;
+    private View overlayHomeMapClick;
+    private MaterialCardView cardHomeLeafletMap;
+    private FusedLocationProviderClient homeLocationClient;
+    private LocationCallback homeLocationCallback;
 
     // ── Journey Monitoring ────────────────────────────────────────────────────
     private MaterialCardView cardJourneyStatus;
@@ -239,6 +252,12 @@ public class HomePage extends AppCompatActivity {
         tvEngineStatus   = findViewById(R.id.tv_engine_status);
         tvConfidenceLevel = findViewById(R.id.tv_confidence_level);
 
+        webViewHomeMap      = findViewById(R.id.web_view_home_map);
+        overlayHomeMapClick = findViewById(R.id.overlay_home_map_click);
+        cardHomeLeafletMap  = findViewById(R.id.card_home_leaflet_map);
+        setupHomeLeafletMap();
+        setupHomeLocation();
+
         // SOS
         btnEmergency = findViewById(R.id.btn_Emergency_send);
         tvSosStatus  = findViewById(R.id.tv_sos_status);
@@ -358,10 +377,18 @@ public class HomePage extends AppCompatActivity {
             btnHeaderProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
         }
 
-        // Night Plan — primary feature
-        if (btnNightPlan != null) {
-            btnNightPlan.setOnClickListener(v ->
-                    startActivity(new Intent(this, NightPlanActivity.class)));
+        // Direct Leaflet Map Navigation
+        View.OnClickListener openNightMapDirectly = v ->
+                startActivity(new Intent(this, NightPlanActivity.class));
+
+        if (btnNightPlan != null) btnNightPlan.setOnClickListener(openNightMapDirectly);
+        if (overlayHomeMapClick != null) overlayHomeMapClick.setOnClickListener(openNightMapDirectly);
+        if (cardHomeLeafletMap != null) cardHomeLeafletMap.setOnClickListener(openNightMapDirectly);
+        if (tvLastPlanSummary != null) tvLastPlanSummary.setOnClickListener(openNightMapDirectly);
+
+        View cardSafetyStatus = findViewById(R.id.card_safety_status);
+        if (cardSafetyStatus != null) {
+            cardSafetyStatus.setOnClickListener(openNightMapDirectly);
         }
 
         // City Map — safety map with incident zones
@@ -404,13 +431,6 @@ public class HomePage extends AppCompatActivity {
         if (btnHelplines != null) {
             btnHelplines.setOnClickListener(v ->
                     startActivity(new Intent(this, Helpline.class)));
-        }
-
-        // Status card → Night Plan
-        View cardSafetyStatus = findViewById(R.id.card_safety_status);
-        if (cardSafetyStatus != null) {
-            cardSafetyStatus.setOnClickListener(v ->
-                    startActivity(new Intent(this, NightPlanActivity.class)));
         }
 
         // Routines → reuse for shift schedule
@@ -1076,6 +1096,12 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (homeLocationClient != null && homeLocationCallback != null) {
+            homeLocationClient.removeLocationUpdates(homeLocationCallback);
+        }
+        if (webViewHomeMap != null) {
+            webViewHomeMap.destroy();
+        }
         if (userRef != null && userProfileListener != null) {
             userRef.removeEventListener(userProfileListener);
         }
@@ -1087,6 +1113,48 @@ public class HomePage extends AppCompatActivity {
         }
         if (apiExecutor != null) {
             apiExecutor.shutdownNow();
+        }
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private void setupHomeLeafletMap() {
+        if (webViewHomeMap == null) return;
+        WebSettings ws = webViewHomeMap.getSettings();
+        ws.setJavaScriptEnabled(true);
+        ws.setDomStorageEnabled(true);
+        ws.setAllowFileAccess(true);
+        ws.setAllowContentAccess(true);
+        ws.setGeolocationEnabled(true);
+        webViewHomeMap.setWebViewClient(new WebViewClient());
+        webViewHomeMap.loadUrl("file:///android_asset/nightshift_leaflet_map.html");
+    }
+
+    private void setupHomeLocation() {
+        homeLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        homeLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                Location loc = locationResult.getLastLocation();
+                if (loc != null && webViewHomeMap != null) {
+                    String js = String.format(java.util.Locale.US, "window.setLiveCoordinates(%f, %f, true);",
+                            loc.getLatitude(), loc.getLongitude());
+                    webViewHomeMap.evaluateJavascript(js, null);
+                }
+            }
+        };
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            LocationRequest req = new LocationRequest.Builder(Priority.PRIORITY_BALANCED_POWER_ACCURACY, 5000)
+                    .setMinUpdateIntervalMillis(2500)
+                    .build();
+            homeLocationClient.requestLocationUpdates(req, homeLocationCallback, Looper.getMainLooper());
+            homeLocationClient.getLastLocation().addOnSuccessListener(this, loc -> {
+                if (loc != null && webViewHomeMap != null) {
+                    String js = String.format(java.util.Locale.US, "window.setLiveCoordinates(%f, %f, true);",
+                            loc.getLatitude(), loc.getLongitude());
+                    webViewHomeMap.evaluateJavascript(js, null);
+                }
+            });
         }
     }
 }
