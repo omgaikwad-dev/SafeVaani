@@ -181,11 +181,10 @@
       // Add zoom control top-right
       L.control.zoom({ position: 'topright' }).addTo(this.map);
 
-      // Add high-clarity tiles (CartoDB Voyager: high contrast, smooth, clear street names for night visibility)
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      // Add high-clarity OpenStreetMap tiles (100% free, crisp, zero API key required)
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        subdomains: 'abcd',
-        attribution: '&copy; OpenStreetMap &copy; CARTO'
+        attribution: '&copy; OpenStreetMap contributors'
       }).addTo(this.map);
 
       // Render Danger Zones

@@ -80,7 +80,7 @@
         <!-- NightShift Navigator new activity -->
         <activity
             android:name=".NightPlanActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="Night Plan" />
         <activity
             android:name=".AdminDashboard"

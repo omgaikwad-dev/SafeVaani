@@ -334,11 +334,10 @@
           attributionControl: false
         }).setView([userLat, userLng], 14);
 
-        // Add CartoDB Voyager or Dark Matter tiles
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        // High-clarity OpenStreetMap tiles (100% free, crisp, zero API key required)
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
-          subdomains: 'abcd',
-          attribution: '&copy; OpenStreetMap &copy; CARTO'
+          attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
         dangerLayer.addTo(map);
