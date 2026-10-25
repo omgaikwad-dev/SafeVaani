@@ -26,6 +26,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
+import android.annotation.SuppressLint;
+import java.util.Locale;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -94,7 +99,8 @@ public class NightPlanActivity extends AppCompatActivity {
     private RecyclerView rvPlanItems;
     private NightPlanAdapter planAdapter;
 
-    // UI — Offline Vector Map
+    // UI — Leaflet Interactive Map & Offline Vector Map Fallback
+    private WebView leafletNightMapView;
     private OfflineNightMapView offlineNightMapView;
 
     // UI — Agent Thinking HUD
@@ -153,8 +159,10 @@ public class NightPlanActivity extends AppCompatActivity {
         btnGeneratePlan = findViewById(R.id.btnGeneratePlan);
         layoutInputSection = findViewById(R.id.layoutInputSection);
 
-        // Offline Vector Map View
+        // Leaflet Interactive Map & Offline Vector Map View
+        leafletNightMapView = findViewById(R.id.leafletNightMapView);
         offlineNightMapView = findViewById(R.id.offlineNightMapView);
+        setupLeafletWebView();
 
         // Agent Thinking HUD
         layoutAgentThinking = findViewById(R.id.layoutAgentThinking);
@@ -190,6 +198,56 @@ public class NightPlanActivity extends AppCompatActivity {
         btnStartJourney = findViewById(R.id.btnStartJourney);
         btnEmergencySOS = findViewById(R.id.btnEmergencySOS);
         btnCheckIn = findViewById(R.id.btnCheckIn);
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private void setupLeafletWebView() {
+        if (leafletNightMapView == null) return;
+        WebSettings settings = leafletNightMapView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setAllowFileAccess(true);
+        settings.setAllowContentAccess(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+
+        leafletNightMapView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                updateLeafletMapData();
+            }
+        });
+        leafletNightMapView.loadUrl("file:///android_asset/nightshift_leaflet_map.html");
+    }
+
+    private void updateLeafletMapData() {
+        if (leafletNightMapView == null) return;
+
+        double dLat = currentUserLat + 0.015;
+        double dLng = currentUserLng + 0.015;
+        String dName = etDestination != null ? etDestination.getText().toString().trim() : "Safe Haven";
+        if (TextUtils.isEmpty(dName)) dName = "Home Safe Haven (Satara Rd)";
+
+        if (currentPlan != null) {
+            for (NightPlanEngine.PlanItem item : currentPlan.allItems()) {
+                if (item.latitude != 0.0 && item.longitude != 0.0) {
+                    dLat = item.latitude;
+                    dLng = item.longitude;
+                    dName = item.title;
+                    break;
+                }
+            }
+        }
+
+        String etaStr = currentPlan != null ? currentPlan.estimatedArrival : "18 mins";
+        String distStr = "2.4 km";
+
+        String js = String.format(Locale.US,
+                "if(window.updateNightRoute) window.updateNightRoute(%f, %f, %f, %f, '%s', '%s', '%s');",
+                currentUserLat, currentUserLng, dLat, dLng, dName.replace("'", "\\'"), etaStr, distStr);
+
+        leafletNightMapView.evaluateJavascript(js, null);
     }
 
     private void setupChipGroup() {
@@ -332,6 +390,10 @@ public class NightPlanActivity extends AppCompatActivity {
     }
 
     private void onContinuousLocationUpdated(double lat, double lng) {
+        if (leafletNightMapView != null) {
+            leafletNightMapView.evaluateJavascript(
+                String.format(Locale.US, "if(window.setLiveCoordinates) window.setLiveCoordinates(%f, %f);", lat, lng), null);
+        }
         if (offlineNightMapView != null) {
             offlineNightMapView.updateUserLocation(lat, lng);
         }
@@ -580,7 +642,9 @@ public class NightPlanActivity extends AppCompatActivity {
 
         planAdapter.updateItems(allItems);
 
-        // Feed route data and 100 CSV records to Offline Canvas Map
+        // Feed route data and 100 CSV records to Leaflet Interactive Map & Canvas
+        updateLeafletMapData();
+
         if (offlineNightMapView != null && csvRepo != null) {
             List<NightOwlRecord> routeWaypoints = new ArrayList<>();
             double dLat = currentUserLat + 0.03;

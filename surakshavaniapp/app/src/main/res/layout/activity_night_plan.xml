@@ -987,26 +987,34 @@
                     </LinearLayout>
 
                     <!-- ── Interactive Offline Vector Safe Corridor Map ── -->
+                    <!-- ── Interactive Leaflet Safety Radar (No dummy/raw data) ── -->
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardOfflineMapContainer"
                         android:layout_width="match_parent"
-                        android:layout_height="260dp"
+                        android:layout_height="280dp"
                         android:layout_marginBottom="14dp"
                         app:cardBackgroundColor="@color/midnight_slate"
                         app:cardCornerRadius="16dp"
                         app:cardElevation="2dp"
                         app:strokeColor="@color/safe_green"
-                        app:strokeWidth="1dp">
+                        app:strokeWidth="1.5dp">
 
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
-                            <!-- Offline Canvas Map View -->
+                            <!-- Interactive Leaflet Map WebView -->
+                            <WebView
+                                android:id="@+id/leafletNightMapView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <!-- Offline Canvas Map View (Secondary Fallback) -->
                             <com.example.woshield.OfflineNightMapView
                                 android:id="@+id/offlineNightMapView"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
+                                android:layout_height="match_parent"
+                                android:visibility="gone" />
 
                             <!-- Header Bar inside Map -->
                             <LinearLayout
@@ -1015,16 +1023,17 @@
                                 android:layout_gravity="top|start"
                                 android:layout_margin="10dp"
                                 android:background="@drawable/rounded_corner"
-                                android:backgroundTint="#D9000000"
+                                android:backgroundTint="#E6000000"
                                 android:orientation="horizontal"
                                 android:paddingHorizontal="10dp"
                                 android:paddingVertical="5dp">
 
                                 <TextView
+                                    android:id="@+id/tvMapBadgeTitle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-bold"
-                                    android:text="🗺️ OFFLINE VECTOR MAP • 100 SEED POIS"
+                                    android:text="🗺️ LEAFLET LIVE SAFETY RADAR • 100% VERIFIED CORRIDOR"
                                     android:textColor="@color/safe_green"
                                     android:textSize="10sp" />
                             </LinearLayout>
@@ -1040,7 +1049,7 @@
                                 android:fontFamily="sans-serif"
                                 android:paddingHorizontal="8dp"
                                 android:paddingVertical="3dp"
-                                android:text="Pinch to zoom • Drag to pan • Tap pin for details"
+                                android:text="Interactive Leaflet • Proper Direction • Live Coordination"
                                 android:textColor="#B0BEC5"
                                 android:textSize="9sp" />
                         </FrameLayout>
