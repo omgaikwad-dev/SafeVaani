@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Title & Subtitle -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/badge_safe"
+                android:padding="8dp"
+                android:src="@drawable/ic_family_group"
+                app:tint="@color/deep_purple" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Add Circle Member"
+                    android:textColor="@color/dark_purple"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="sans-serif"
+                    android:text="Directly adds to your Trusted Circle"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="sans-serif"
+            android:text="Enter member details below. They will be directly added to your safety dashboard with instant emergency protection."
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
+
+        <!-- Member Name Input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_invite_name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Full Name *"
+            app:startIconDrawable="@drawable/ic_nav_profile"
+            app:startIconTint="@color/deep_purple"
+            app:boxStrokeColor="@color/deep_purple"
+            app:hintTextColor="@color/deep_purple">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_invite_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName|textCapWords"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Relationship Input (AutoComplete / Dropdown) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_invite_relation"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Relation (e.g. Mother, Father, Sister) *"
+            app:startIconDrawable="@drawable/ic_trusted_star"
+            app:startIconTint="@color/deep_purple"
+            app:boxStrokeColor="@color/deep_purple"
+            app:hintTextColor="@color/deep_purple">
+
+            <AutoCompleteTextView
+                android:id="@+id/actv_invite_relation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:textSize="14sp"
+                android:completionThreshold="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Mobile Number Input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_invite_phone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Mobile Number *"
+            app:startIconDrawable="@drawable/baseline_call_24"
+            app:startIconTint="@color/deep_purple"
+            app:boxStrokeColor="@color/deep_purple"
+            app:hintTextColor="@color/deep_purple">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_invite_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:maxLength="15"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Trust & Security Info Pill -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/badge_safe"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_check_circle"
+                app:tint="@color/status_safe" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:text="Directly added without waiting for email verification. 1-tap call and emergency protection enabled."
+                android:textColor="@color/status_safe"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

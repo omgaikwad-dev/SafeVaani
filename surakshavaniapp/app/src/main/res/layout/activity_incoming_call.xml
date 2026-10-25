@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0B0F19"
+    tools:context=".IncomingCallActivity">
+
+    <!-- Top Status Indicator -->
+    <TextView
+        android:id="@+id/tv_call_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.08"
+        android:text="INCOMING CALL"
+        android:textColor="#94A3B8"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Caller Name -->
+    <TextView
+        android:id="@+id/tv_caller_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Dad (Rajesh Sharma)"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_call_mode" />
+
+    <!-- Caller Number & Location -->
+    <TextView
+        android:id="@+id/tv_caller_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif"
+        android:text="+91 98765 43210 • Mobile"
+        android:textColor="#94A3B8"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_caller_name" />
+
+    <!-- In-Call Duration (Shown when answered) -->
+    <TextView
+        android:id="@+id/tv_call_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="00:00"
+        android:textColor="#22C55E"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_caller_number" />
+
+    <!-- Caller Photo / Avatar -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_avatar"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="40dp"
+        app:cardBackgroundColor="#1E293B"
+        app:cardCornerRadius="75dp"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_call_timer"
+        app:strokeColor="#334155"
+        app:strokeWidth="2dp">
+
+        <ImageView
+            android:id="@+id/iv_caller_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Caller Avatar"
+            android:scaleType="centerCrop"
+            android:src="@drawable/fake_call" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Ringing Pulse Text -->
+    <TextView
+        android:id="@+id/tv_ringing_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif"
+        android:text="Ringing..."
+        android:textColor="#E2E8F0"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_avatar" />
+
+    <!-- ============================================================= -->
+    <!-- INCOMING CALL ACTIONS (Decline / Answer)                        -->
+    <!-- ============================================================= -->
+    <LinearLayout
+        android:id="@+id/layout_incoming_actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="48dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Decline Button -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_decline_call"
+                android:layout_width="74dp"
+                android:layout_height="74dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="#EF4444"
+                app:cardCornerRadius="37dp"
+                app:cardElevation="6dp"
+                app:rippleColor="#FCA5A5"
+                app:strokeWidth="0dp">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Decline Call"
+                    android:src="@drawable/ic_call_end"
+                    app:tint="@color/white" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Decline"
+                android:textColor="#EF4444"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Answer Button -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_answer_call"
+                android:layout_width="74dp"
+                android:layout_height="74dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="#22C55E"
+                app:cardCornerRadius="37dp"
+                app:cardElevation="6dp"
+                app:rippleColor="#86EFAC"
+                app:strokeWidth="0dp">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Answer Call"
+                    android:src="@drawable/baseline_call_24"
+                    app:tint="@color/white" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Answer"
+                android:textColor="#22C55E"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- ============================================================= -->
+    <!-- ACTIVE IN-CALL ACTIONS (Grid + Red End Call)                  -->
+    <!-- ============================================================= -->
+    <LinearLayout
+        android:id="@+id/layout_in_call_actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Grid of in-call buttons: Mute, Keypad, Speaker -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <!-- Mute -->
+            <LinearLayout
+                android:id="@+id/btn_mute"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_mute"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    app:cardBackgroundColor="#1E293B"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="#334155"
+                    app:strokeWidth="1dp">
+
+                    <ImageView
+                        android:id="@+id/iv_mute"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Mute"
+                        android:src="@drawable/voice"
+                        app:tint="@color/white" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Mute"
+                    android:textColor="#94A3B8"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Keypad -->
+            <LinearLayout
+                android:id="@+id/btn_keypad"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    app:cardBackgroundColor="#1E293B"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="#334155"
+                    app:strokeWidth="1dp">
+
+                    <ImageView
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Keypad"
+                        android:src="@drawable/chat_icon"
+                        app:tint="@color/white" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Keypad"
+                    android:textColor="#94A3B8"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Speaker -->
+            <LinearLayout
+                android:id="@+id/btn_speaker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_speaker"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    app:cardBackgroundColor="#1E293B"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="#334155"
+                    app:strokeWidth="1dp">
+
+                    <ImageView
+                        android:id="@+id/iv_speaker"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Speaker"
+                        android:src="@drawable/siren_play"
+                        app:tint="@color/white" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Speaker"
+                    android:textColor="#94A3B8"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Red End Call Button -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btn_end_call"
+            android:layout_width="74dp"
+            android:layout_height="74dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="#EF4444"
+            app:cardCornerRadius="37dp"
+            app:cardElevation="8dp"
+            app:rippleColor="#FCA5A5"
+            app:strokeWidth="0dp">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:contentDescription="End Call"
+                android:src="@drawable/ic_call_end"
+                app:tint="@color/white" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="End Call"
+            android:textColor="#EF4444"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

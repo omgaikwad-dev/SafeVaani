@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="woshield_bg">#121016</color>
+    <color name="woshield_card_bg">#1E1A26</color>
+    <color name="text_primary">#F8FAFC</color>
+    <color name="text_secondary">#94A3B8</color>
+    <color name="text_muted">#64748B</color>
+    <color name="light_lavender">#2A2038</color>
+    <color name="subtle_border">#362C46</color>
+    <color name="card_stroke">#362C46</color>
+    <color name="bottom_nav_bg">#181420</color>
+    <color name="status_safe_bg">#0E3823</color>
+    <color name="status_warning_bg">#422C0A</color>
+    <color name="status_emergency_bg">#491210</color>
+</resources>

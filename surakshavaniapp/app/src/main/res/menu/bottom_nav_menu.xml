@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    bottom_nav_menu.xml — NightShift Navigator
+    Five primary sections for shift worker night navigation
+-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Night Plan — primary feature -->
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_nav_home"
+        android:title="Night Plan" />
+
+    <!-- City Safety Map — routes, incident zones, danger areas -->
+    <item
+        android:id="@+id/nav_map"
+        android:icon="@drawable/ic_nav_journey"
+        android:title="City Map" />
+
+    <!-- Open Services — 24/7 pharmacies, hospitals, police -->
+    <item
+        android:id="@+id/nav_services"
+        android:icon="@drawable/ic_nav_circle"
+        android:title="Services" />
+
+    <!-- Guardian Network — family/colleagues aware of journey -->
+    <item
+        android:id="@+id/nav_guardian"
+        android:icon="@drawable/ic_nav_profile"
+        android:title="Guardians" />
+
+    <!-- AI Companion — night-context aware chatbot -->
+    <item
+        android:id="@+id/nav_ai"
+        android:icon="@drawable/ic_nav_home"
+        android:title="AI Help" />
+
+</menu>

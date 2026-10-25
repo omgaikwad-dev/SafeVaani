@@ -1,0 +1,21 @@
+{
+  "name": "SafeVaani",
+  "short_name": "SafeVaani",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "theme_color": "#FFD920",
+  "background_color": "#FFD920",
+  "display": "standalone"
+}

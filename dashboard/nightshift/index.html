@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FDDB10">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Mrs+Saint+Delafield&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Titan+One&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+  <meta name="author" content="SafeVaani Safety">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <title>NightShift Decision Engine Dashboard | SafeVaani CitySafe</title>
+  <meta name="description" content="Real-time night-time decision engine for shift workers (nurses, guards, factory, delivery). Multi-modal night transit, 24/7 open services, and route safety.">
+
+  <style>
+    :root {
+      --bg: #F8F3E8;
+      --bg-card: #FFFFFF;
+      --bg-tint: #F0E7D4;
+      --text: #1F2236;
+      --text-muted: #565A70;
+      --border: #E6DDC9;
+      --border-light: #EFE8D8;
+      --yellow: #FDDB10;
+      --blue: #3F7DDE;
+      --orange: #CC4E08;
+      --orange-hover: #B34306;
+      --green: #2F9E5B;
+      --green-bg: #E8F6ED;
+      --coral: #EF5B4C;
+      --purple: #7B5CE6;
+      --font-display: "Libre Caslon Text", Georgia, serif;
+      --font-script: "Mrs Saint Delafield", cursive;
+      --font-sans: "Poppins", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+      --font-wordmark: "Titan One", sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--text); line-height: 1.5; overflow-x: hidden; }
+
+    /* HEADER */
+    .site-header {
+      position: sticky; top: 0; z-index: 1000;
+      background: var(--yellow);
+      border-bottom: 2px solid rgba(31,34,54,0.08);
+      box-shadow: 0 2px 14px rgba(31,34,54,0.06);
+    }
+    .hd {
+      max-width: 1240px; margin: 0 auto; height: 68px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(16px, 4vw, 36px); gap: 16px;
+    }
+    .hd-brand {
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+    }
+    .hd-mark { width: 40px; height: 40px; border-radius: 10px; }
+    .hd-name { font-family: var(--font-wordmark); font-size: 1.35rem; color: var(--text); }
+    .hd-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--text); color: #fff;
+      padding: 4px 10px; border-radius: 999px;
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .pulse-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: #2F9E5B;
+      box-shadow: 0 0 0 0 rgba(47,158,91,0.7); animation: pulseGreen 1.8s infinite;
+    }
+    @keyframes pulseGreen {
+      0% { box-shadow: 0 0 0 0 rgba(47,158,91,0.7); }
+      70% { box-shadow: 0 0 0 7px rgba(47,158,91,0); }
+      100% { box-shadow: 0 0 0 0 rgba(47,158,91,0); }
+    }
+    .hd-nav { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+    .hd-link {
+      padding: 8px 14px; font-size: 0.88rem; font-weight: 600; color: var(--text);
+      text-decoration: none; border-radius: 8px; transition: background 0.15s;
+    }
+    .hd-link:hover { background: rgba(31,34,54,0.08); }
+    .hd-cta {
+      background: var(--text); color: #fff; padding: 8px 18px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 700; text-decoration: none; transition: transform 0.15s;
+    }
+    .hd-cta:hover { transform: translateY(-1px); }
+
+    /* LAYOUT */
+    .main-wrap { max-width: 1240px; margin: 0 auto; padding: 28px clamp(16px, 4vw, 36px) 60px; }
+    .crumb-bar {
+      display: flex; align-items: center; gap: 8px; font-size: 0.85rem;
+      color: var(--text-muted); margin-bottom: 20px;
+    }
+    .crumb-bar a { color: var(--text-muted); text-decoration: none; font-weight: 500; }
+    .crumb-bar a:hover { color: var(--text); }
+    .crumb-cur { color: var(--text); font-weight: 700; }
+
+    /* HERO STRIP */
+    .engine-hero {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: clamp(24px, 4vw, 40px);
+      margin-bottom: 28px;
+      box-shadow: 0 4px 20px rgba(31,34,54,0.04);
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+    @media (max-width: 900px) { .engine-hero { grid-template-columns: 1fr; } }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700;
+      color: var(--orange); text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.8vw, 3rem);
+      font-weight: 700; line-height: 1.1;
+      color: var(--text); margin-bottom: 14px;
+    }
+    .hero-title em {
+      font-family: var(--font-script);
+      color: var(--blue);
+      font-style: normal;
+      font-size: 1.15em;
+    }
+    .hero-desc {
+      font-size: 1rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;
+    }
+
+    /* TELEMETRY METRICS ROW */
+    .telemetry-board {
+      background: var(--bg-tint);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .telem-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .telem-label {
+      font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-muted);
+    }
+    .telem-val {
+      font-family: var(--font-display); font-size: 1.5rem; font-weight: 700;
+      color: var(--text); margin-top: 4px;
+    }
+    .telem-sub { font-size: 0.75rem; color: var(--green); font-weight: 600; }
+
+    /* GRID: PLANNER + LIVE MAP */
+    .engine-workspace {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 960px) { .engine-workspace { grid-template-columns: 1fr; } }
+
+    .panel-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 4px 16px rgba(31,34,54,0.03);
+    }
+    .panel-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 22px; padding-bottom: 14px;
+      border-bottom: 1.5px solid var(--border-light);
+    }
+    .panel-title {
+      font-family: var(--font-display); font-size: 1.5rem; font-weight: 700;
+      color: var(--text);
+    }
+    .panel-tag {
+      font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700;
+      padding: 4px 10px; border-radius: 999px;
+      background: rgba(253,219,16,0.3); color: var(--text);
+    }
+
+    /* FORM STYLING */
+    .input-group { margin-bottom: 18px; }
+    .input-label {
+      display: block; font-size: 0.85rem; font-weight: 700;
+      color: var(--text); margin-bottom: 6px;
+    }
+    .input-field, .select-field {
+      width: 100%; height: 46px; border: 1.5px solid var(--border);
+      border-radius: 10px; background: #fff; padding: 0 14px;
+      font-family: var(--font-sans); font-size: 0.95rem; color: var(--text);
+      transition: border-color 0.2s; outline: none;
+    }
+    .input-field:focus, .select-field:focus { border-color: var(--text); }
+    .quick-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .chip-btn {
+      background: var(--bg-tint); border: 1px solid var(--border);
+      border-radius: 999px; padding: 5px 12px; font-size: 0.78rem;
+      font-weight: 600; color: var(--text); cursor: pointer; transition: all 0.15s;
+    }
+    .chip-btn.active, .chip-btn:hover { background: var(--text); color: #fff; }
+
+    .btn-calc {
+      width: 100%; height: 52px; background: var(--orange); color: #fff;
+      border: none; border-radius: 12px; font-family: var(--font-sans);
+      font-size: 1.05rem; font-weight: 700; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      transition: all 0.2s; box-shadow: 0 4px 14px rgba(204,78,8,0.25);
+    }
+    .btn-calc:hover { background: var(--orange-hover); transform: translateY(-1px); }
+
+    /* CONFIDENCE BADGES */
+    .confidence-legend {
+      background: var(--bg-tint); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px; margin-top: 20px;
+    }
+    .legend-title {
+      font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase;
+      font-weight: 700; color: var(--text-muted); margin-bottom: 8px;
+    }
+    .legend-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge-c {
+      font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700;
+      padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;
+    }
+    .badge-known { background: #D4EDDA; color: #155724; border: 1px solid #C3E6CB; }
+    .badge-probable { background: #FFF3CD; color: #856404; border: 1px solid #FFEEBA; }
+    .badge-outdated { background: #F8D7DA; color: #721C24; border: 1px solid #F5C6CB; }
+    .badge-unknown { background: #E2E3E5; color: #383D41; border: 1px solid #D6D8DB; }
+
+    /* RESULTS LIST */
+    .plan-result-box {
+      margin-top: 24px; padding-top: 20px;
+      border-top: 2px dashed var(--border);
+    }
+    .plan-header-strip {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--bg-tint); padding: 12px 18px; border-radius: 10px;
+      margin-bottom: 16px;
+    }
+    .plan-eta { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; }
+    .plan-score {
+      font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700;
+      background: var(--green); color: #fff; padding: 4px 10px; border-radius: 999px;
+    }
+
+    .plan-step {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px; margin-bottom: 10px;
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .step-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--bg-tint); display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .step-body { flex: 1; }
+    .step-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+    .step-title { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+    .step-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+
+    /* LIVE RADAR / MAP CARD */
+    .radar-card { display: flex; flex-direction: column; }
+    .radar-map {
+      height: 280px; background: #0F172A; border-radius: 14px;
+      position: relative; overflow: hidden; margin-bottom: 18px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(31,34,54,0.1);
+    }
+    .radar-sweep {
+      position: absolute; width: 260px; height: 260px;
+      border-radius: 50%; border: 1.5px solid rgba(47,158,91,0.3);
+      animation: radarRing 4s linear infinite;
+    }
+    @keyframes radarRing {
+      0% { transform: scale(0.3); opacity: 1; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+    .radar-hud {
+      position: absolute; top: 12px; left: 14px;
+      font-family: var(--font-mono); font-size: 0.75rem; color: #A7F3D0;
+      background: rgba(15,23,42,0.75); padding: 4px 8px; border-radius: 6px;
+    }
+    .radar-pin {
+      position: absolute; width: 14px; height: 14px; border-radius: 50%;
+      background: #FDDB10; box-shadow: 0 0 10px #FDDB10;
+    }
+    .pin-worker { top: 48%; left: 45%; }
+    .pin-pharm { top: 35%; left: 62%; background: #34D399; box-shadow: 0 0 10px #34D399; }
+    .pin-bus { top: 60%; left: 32%; background: #60A5FA; box-shadow: 0 0 10px #60A5FA; }
+
+    .live-feed-list { display: flex; flex-direction: column; gap: 10px; }
+    .feed-item {
+      background: var(--bg-tint); border-radius: 10px; padding: 10px 14px;
+      font-size: 0.82rem; display: flex; align-items: center; justify-content: space-between;
+    }
+    .feed-text { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+    .feed-time { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); }
+
+    /* PERSONAS SECTION */
+    .personas-sec { margin-top: 40px; }
+    .sec-h {
+      font-family: var(--font-display); font-size: 1.8rem; font-weight: 700;
+      color: var(--text); margin-bottom: 20px;
+    }
+    .personas-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;
+    }
+    .persona-card {
+      background: var(--bg-card); border: 1.5px solid var(--border);
+      border-radius: 16px; padding: 22px; transition: transform 0.2s;
+    }
+    .persona-card:hover { transform: translateY(-3px); border-color: var(--text); }
+    .persona-role { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--orange); }
+    .persona-name { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; margin: 4px 0 10px; }
+    .persona-quote { font-size: 0.88rem; color: var(--text-muted); font-style: italic; margin-bottom: 14px; line-height: 1.5; }
+    .persona-sol {
+      font-size: 0.82rem; background: var(--bg-tint); padding: 10px; border-radius: 8px;
+      font-weight: 600; color: var(--text);
+    }
+
+    /* FOOTER */
+    .dash-footer {
+      background: var(--yellow); border-top: 2px solid rgba(31,34,54,0.08);
+      margin-top: 80px; padding: 32px clamp(16px, 4vw, 36px);
+      text-align: center; font-size: 0.9rem; color: var(--text);
+    }
+    .dash-footer-links {
+      display: flex; justify-content: center; gap: 24px; margin-bottom: 12px; flex-wrap: wrap;
+    }
+    .dash-footer-links a { color: var(--text); text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="hd">
+      <a href="/" class="hd-brand">
+        <img class="hd-mark" src="/brand/safevaani-logo-512.png" alt="SafeVaani">
+        <span class="hd-name">SafeVaani</span>
+      </a>
+      <span class="hd-pill">
+        <span class="pulse-dot"></span>
+        Night Engine Active
+      </span>
+      <nav class="hd-nav">
+        <a href="/" class="hd-link">Home</a>
+        <a href="/dashboard/" class="hd-link">All Portals</a>
+        <a href="/features/" class="hd-link">Features</a>
+        <a href="/voice-sos/" class="hd-link">Voice SOS</a>
+        <a href="/dashboard/parent/" class="hd-link">Parent Portal</a>
+        <a href="/dashboard/police/" class="hd-link">Police CAD</a>
+        <a href="https://play.google.com/store/apps/details?id=in.safevaani.app" target="_blank" class="hd-cta">Get Android App</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main-wrap">
+
+    <!-- BREADCRUMBS -->
+    <div class="crumb-bar">
+      <a href="/">Home</a>
+      <span>/</span>
+      <a href="/dashboard/">Dashboards</a>
+      <span>/</span>
+      <span class="crumb-cur">Night-Time Decision Engine</span>
+    </div>
+
+    <!-- HERO -->
+    <section class="engine-hero">
+      <div>
+        <div class="hero-eyebrow">
+          <span>🌙</span> Theme 1 · Problem 1: The City That Sleeps While You Work
+        </div>
+        <h1 class="hero-title">
+          Night-Time <em>Decision Engine</em> for Shift Workers
+        </h1>
+        <p class="hero-desc">
+          When millions of nurses, security guards, delivery workers, and factory employees finish shifts at 2:30 AM, standard navigation fails. SafeVaani understands nighttime city dynamics with an explicit 4-tier uncertainty model — recommending safe transport, open 24/7 services, and automated check-ins.
+        </p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="#planner" class="chip-btn active" style="padding:10px 18px;font-size:0.9rem;">⚡ Launch Route Planner</a>
+          <a href="#personas" class="chip-btn" style="padding:10px 18px;font-size:0.9rem;">View Worker Personas</a>
+        </div>
+      </div>
+
+      <!-- TELEMETRY BOARD -->
+      <div class="telemetry-board">
+        <div class="telem-card">
+          <div class="telem-label">Current City Time</div>
+          <div class="telem-val" id="liveClock">02:15:00 AM</div>
+          <div class="telem-sub">Shift Handover Window</div>
+        </div>
+        <div class="telem-card">
+          <div class="telem-label">Active Night Routes</div>
+          <div class="telem-val">18 Lines</div>
+          <div class="telem-sub">Live Telemetry Linked</div>
+        </div>
+        <div class="telem-card">
+          <div class="telem-label">24/7 Verified Hubs</div>
+          <div class="telem-val">42 Safe Spots</div>
+          <div class="telem-sub">Pharmacies, Fuel, Police</div>
+        </div>
+        <div class="telem-card">
+          <div class="telem-label">Active Journeys</div>
+          <div class="telem-val">347 Safe</div>
+          <div class="telem-sub">0 Missed Check-ins</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORKSPACE: PLANNER + RADAR -->
+    <div class="engine-workspace" id="planner">
+
+      <!-- PLANNER PANEL -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Night Shift Route Evaluator</h2>
+            <p style="font-size:0.85rem;color:var(--text-muted);margin-top:2px;">
+              Input your shift parameters to generate a safety-optimized route plan.
+            </p>
+          </div>
+          <span class="panel-tag">LIVE ENGINE</span>
+        </div>
+
+        <!-- FORM -->
+        <div class="input-group">
+          <label class="input-label">Shift End Time</label>
+          <input type="text" id="inputShiftTime" class="input-field" value="02:15 AM">
+          <div class="quick-chips">
+            <button class="chip-btn active" onclick="setShift('02:15 AM')">02:15 AM (ICU Nurse)</button>
+            <button class="chip-btn" onclick="setShift('03:30 AM')">03:30 AM (Factory Staff)</button>
+            <button class="chip-btn" onclick="setShift('05:00 AM')">05:00 AM (Security Guard)</button>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">I am a (Worker Role)</label>
+          <select id="selectRole" class="select-field">
+            <option value="Nurse / Hospital Staff" selected>Nurse / Healthcare Staff (Night Duty)</option>
+            <option value="Factory / Manufacturing Staff">Factory / Industrial Worker</option>
+            <option value="Security Guard">Security Guard / Facility Staff</option>
+            <option value="Delivery Partner">Quick-Commerce / Delivery Rider</option>
+            <option value="Sanitation Worker">Sanitation / Municipal Staff</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">Origin (Workplace)</label>
+          <input type="text" id="inputOrigin" class="input-field" value="Bharati Vidyapeeth Hospital, Dhankawadi">
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">Destination (Home / Safe Haven)</label>
+          <input type="text" id="inputDest" class="input-field" value="Home Haven, Bibwewadi-Satara Road (18.46225° N, 73.864972° E)">
+        </div>
+
+        <button class="btn-calc" onclick="generateEnginePlan()">
+          <span>🧠 Generate Night-Time Plan</span>
+          <span style="font-size:1.2rem;">&rarr;</span>
+        </button>
+
+        <!-- CONFIDENCE LEGEND -->
+        <div class="confidence-legend">
+          <div class="legend-title">4-Tier Explicit Uncertainty Matrix</div>
+          <div class="legend-row">
+            <span class="badge-c badge-known">KNOWN ✓ Live Verified</span>
+            <span class="badge-c badge-probable">PROBABLE ~ 30d Pattern</span>
+            <span class="badge-c badge-outdated">OUTDATED ⏰ Stale Data</span>
+            <span class="badge-c badge-unknown">UNKNOWN ? Missing Feed</span>
+          </div>
+        </div>
+
+        <!-- GENERATED PLAN OUTPUT -->
+        <div class="plan-result-box" id="planOutput">
+          <div class="plan-header-strip">
+            <div>
+              <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;">Calculated ETA</div>
+              <div class="plan-eta" id="resEta">02:42 AM (27 mins)</div>
+            </div>
+            <div class="plan-score" id="resConfidence">92% CONFIDENCE</div>
+          </div>
+
+          <div id="planItemsList">
+            <!-- Step 1 -->
+            <div class="plan-step">
+              <div class="step-icon">🚌</div>
+              <div class="step-body">
+                <div class="step-head">
+                  <span class="step-title">Night Bus #212 (Katraj-Swargate Express)</span>
+                  <span class="badge-c badge-known">KNOWN ✓</span>
+                </div>
+                <p class="step-desc">
+                  Departs Hospital Gate at 02:28 AM (in 13 mins). Bus GPS live and verified. Drop-off at Bibwewadi Junction (02:38 AM).
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="plan-step">
+              <div class="step-icon">🛺</div>
+              <div class="step-body">
+                <div class="step-head">
+                  <span class="step-title">Contingency: 24/7 Prepaid Auto Stand</span>
+                  <span class="badge-c badge-probable">PROBABLE ~</span>
+                </div>
+                <p class="step-desc">
+                  Located 180m from hospital gate. 30-day historical pattern shows 88% driver availability between 02:00 AM and 03:00 AM.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="plan-step">
+              <div class="step-icon">💊</div>
+              <div class="step-body">
+                <div class="step-head">
+                  <span class="step-title">Open Service: Apollo 24/7 Pharmacy</span>
+                  <span class="badge-c badge-known">KNOWN ✓</span>
+                </div>
+                <p class="step-desc">
+                  Bibwewadi Junction (along route). Verified open, well-lit, CCTV operational, security guard present on premise.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="plan-step">
+              <div class="step-icon">💡</div>
+              <div class="step-body">
+                <div class="step-head">
+                  <span class="step-title">Safe Corridor: Satara Road Main Arterial</span>
+                  <span class="badge-c badge-known">KNOWN ✓</span>
+                </div>
+                <p class="step-desc">
+                  100% street lighting operational. Direct route avoids unlit secondary lanes and industrial underpass construction.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="plan-step">
+              <div class="step-icon">⏱️</div>
+              <div class="step-body">
+                <div class="step-head">
+                  <span class="step-title">Automated Journey Check-In Schedule</span>
+                  <span class="badge-c badge-known">KNOWN ✓</span>
+                </div>
+                <p class="step-desc">
+                  Checkpoint at 02:38 AM (bus drop-off) & 02:45 AM (Home Arrival). If missed, triggers 2-min warning then silent SMS escalation.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- LIVE RADAR / MAP PANEL -->
+      <div class="panel-card radar-card">
+        <div class="panel-header">
+          <h2 class="panel-title">Night City Telemetry Radar</h2>
+          <span class="panel-tag" style="background:#D4EDDA;color:#155724;">TELEMETRY SYNC</span>
+        </div>
+
+        <!-- RADAR VISUAL -->
+        <div class="radar-map">
+          <div class="radar-sweep"></div>
+          <div class="radar-sweep" style="animation-delay: 2s;"></div>
+          <div class="radar-hud">CORRIDOR: PUNE SOUTH [18.462°N, 73.864°E]</div>
+          <div class="radar-pin pin-worker" title="Worker Location"></div>
+          <div class="radar-pin pin-pharm" title="24/7 Apollo Pharmacy"></div>
+          <div class="radar-pin pin-bus" title="Night Bus 212"></div>
+        </div>
+
+        <div style="font-size:0.85rem;font-weight:700;margin-bottom:10px;">Live Night Sensor Feeds:</div>
+        <div class="live-feed-list">
+          <div class="feed-item">
+            <span class="feed-text"><span>🟢</span> PMPML Night Bus Feed #212 active</span>
+            <span class="feed-time">1 min ago</span>
+          </div>
+          <div class="feed-item">
+            <span class="feed-text"><span>🟢</span> Apollo Pharmacy 24/7 CCTV check passed</span>
+            <span class="feed-time">3 mins ago</span>
+          </div>
+          <div class="feed-item">
+            <span class="feed-text"><span>🟡</span> Katraj Underpass night resurfacing active</span>
+            <span class="feed-time">Rerouted</span>
+          </div>
+          <div class="feed-item">
+            <span class="feed-text"><span>🟢</span> Municipal Smart Streetlights 100% lit</span>
+            <span class="feed-time">Live</span>
+          </div>
+          <div class="feed-item">
+            <span class="feed-text"><span>🟣</span> Sector 4 Feeder Van telemetry unavailable</span>
+            <span class="feed-time">Flagged UNKNOWN</span>
+          </div>
+        </div>
+
+        <!-- GUARDIAN ALERT INTEGRATION -->
+        <div style="margin-top:20px;padding:16px;background:var(--bg-tint);border-radius:12px;border:1px solid var(--border);">
+          <div style="font-size:0.88rem;font-weight:700;color:var(--text);margin-bottom:4px;">
+            🛡️ Guardian &amp; Police Escalation System
+          </div>
+          <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.5;">
+            Integrated with SafeVaani's on-device ambient SOS, Parent Dashboard, and Police CAD Room. Works offline via SMS telemetry fallback.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- OFFLINE SEMANTIC SEARCH ENGINE DEMO SECTION -->
+    <section class="panel-card" style="margin-bottom: 32px; background: #FFFFFF; border: 2px solid var(--border); border-radius: 20px; padding: 28px;">
+      <div class="panel-header" style="margin-bottom: 18px;">
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--orange); font-weight: 700; margin-bottom: 4px;">
+            📶 Offline AI Intelligence · 100% Device Execution
+          </div>
+          <h2 class="panel-title" style="font-size: 1.6rem;">Offline Natural Language &amp; Semantic Query Engine</h2>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">
+            Executes when mobile network is completely <strong>OFF</strong> using the 4-stage pipeline: 
+            <code>Query &rarr; Regex Intent &rarr; Cosine Similarity &rarr; Structured Filter + Distance</code>.
+          </p>
+        </div>
+        <span class="panel-tag" style="background: #E8F6ED; color: #155724; font-weight: 700;">OFFLINE READY</span>
+      </div>
+
+      <!-- SEARCH INPUT -->
+      <div style="display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;">
+        <input type="text" id="offlineSearchQuery" class="input-field" 
+               style="flex: 1; min-width: 280px; height: 50px; font-size: 1rem; border: 2px solid var(--border);" 
+               value="Find a hospital near Hadapsar" 
+               placeholder="e.g. Find a hospital near Hadapsar, police in Kothrud, PUN023...">
+        <button class="btn-calc" onclick="runOfflineSearch()" style="width: auto; padding: 0 24px; height: 50px;">
+          <span>🔍 Execute Search</span>
+        </button>
+      </div>
+
+      <!-- QUICK QUERY CHIPS -->
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
+        <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); align-self: center;">Test Queries:</span>
+        <button class="chip-btn active" onclick="setSearchSample('Find a hospital near Hadapsar')">🏥 Find a hospital near Hadapsar</button>
+        <button class="chip-btn" onclick="setSearchSample('24/7 open pharmacy near Swargate')">💊 Pharmacy near Swargate</button>
+        <button class="chip-btn" onclick="setSearchSample('Police station in Kothrud area')">👮 Police in Kothrud</button>
+        <button class="chip-btn" onclick="setSearchSample('PMPML Ratrani night bus')">🚌 PMPML Ratrani bus</button>
+        <button class="chip-btn" onclick="setSearchSample('PUN023')">🎯 Record ID: PUN023</button>
+      </div>
+
+      <!-- 4-STEP PIPELINE HUD -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-bottom: 22px;">
+        <!-- Step 1 -->
+        <div style="background: var(--bg-tint); border: 1.5px solid var(--border); border-radius: 12px; padding: 14px;">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--orange); margin-bottom: 6px;">
+            STEP 1 · REGEX EXTRACTION
+          </div>
+          <div style="font-size: 0.85rem;" id="hudRegex">
+            <strong>Target:</strong> <span id="regCategory" style="color:#CC4E08;">hospital</span><br>
+            <strong>Locality Anchor:</strong> <span id="regLocality">Hadapsar [18.5018, 73.9260]</span><br>
+            <strong>ID / Coords:</strong> <span id="regId">None detected</span>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div style="background: var(--bg-tint); border: 1.5px solid var(--border); border-radius: 12px; padding: 14px;">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--blue); margin-bottom: 6px;">
+            STEP 2 · COSINE SIMILARITY
+          </div>
+          <div style="font-size: 0.85rem;" id="hudCosine">
+            <strong>TF Vector:</strong> <span id="cosTokens">[hospital, hadapsar]</span><br>
+            <strong>Max Similarity:</strong> <span id="cosScore" style="color:#3F7DDE;font-weight:700;">94.2%</span><br>
+            <strong>Top Document:</strong> <span id="cosTopDoc">Noble Hospital, Hadapsar</span>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div style="background: var(--bg-tint); border: 1.5px solid var(--border); border-radius: 12px; padding: 14px;">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--purple); margin-bottom: 6px;">
+            STEP 3 · STRUCTURED FILTER &amp; DISTANCE
+          </div>
+          <div style="font-size: 0.85rem;" id="hudFilter">
+            <strong>Category Filter:</strong> <span id="fltCategory">hospital (PASSED)</span><br>
+            <strong>Verification Weight:</strong> <span id="fltVer">PROBABLE (0.85x)</span><br>
+            <strong>Proximity:</strong> <span id="fltDist" style="color:#2F9E5B;font-weight:700;">0.0 km</span> from anchor
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div style="background: var(--bg-tint); border: 1.5px solid var(--border); border-radius: 12px; padding: 14px;">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--green); margin-bottom: 6px;">
+            STEP 4 · FINAL RANKING SCORE
+          </div>
+          <div style="font-size: 0.85rem;" id="hudScore">
+            <strong>Rank Score:</strong> <span id="finalRankScore" style="color:#2F9E5B;font-size:1.1rem;font-weight:700;">9.8 / 10</span><br>
+            <strong>Formula:</strong> <code>(Sim*0.45 + Loc*0.3)*Ver / (1+0.12*d)</code><br>
+            <strong>Matches:</strong> <span id="fltCount">3 verified records</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULTS CONTAINER -->
+      <div id="offlineSearchResults" style="display: flex; flex-direction: column; gap: 10px;">
+        <!-- Populated dynamically by JavaScript -->
+      </div>
+    </section>
+
+    <!-- PERSONAS SECTION -->
+    <section class="personas-sec" id="personas">
+      <h2 class="sec-h">Engineered for Night-Shift Workers Across India</h2>
+      <div class="personas-grid">
+
+        <!-- Persona 1 -->
+        <article class="persona-card">
+          <span class="persona-role">ICU STAFF NURSE · FINISHES 02:15 AM</span>
+          <h3 class="persona-name">Ananya Sharma</h3>
+          <p class="persona-quote">
+            "My hospital shift ends at 2:15 AM. Cabs cancel constantly, and walking alone down dark connecting lanes is stressful."
+          </p>
+          <div class="persona-sol">
+            <strong>Engine Solution:</strong> Prioritizes scheduled night hospital feeder bus + well-lit Apollo pharmacy corridor with automatic 02:45 AM check-in.
+          </div>
+        </article>
+
+        <!-- Persona 2 -->
+        <article class="persona-card">
+          <span class="persona-role">INDUSTRIAL FACILITY GUARD · FINISHES 05:00 AM</span>
+          <h3 class="persona-name">Ramesh Patil</h3>
+          <p class="persona-quote">
+            "Shift change is 5:00 AM before first train starts. If a route has broken streetlights or construction closures, I need to know in advance."
+          </p>
+          <div class="persona-sol">
+            <strong>Engine Solution:</strong> Municipal smart streetlight telemetry + night road closure reroutes with pre-calculated 1st train connections.
+          </div>
+        </article>
+
+        <!-- Persona 3 -->
+        <article class="persona-card">
+          <span class="persona-role">QUICK COMMERCE RIDER · NIGHT PEAK 01:00-04:00 AM</span>
+          <h3 class="persona-name">Vikram Singh</h3>
+          <p class="persona-quote">
+            "Delivering late orders between 1 AM and 4 AM. If I get a flat tire or battery drain, finding open repair spots or fuel is nearly impossible."
+          </p>
+          <div class="persona-sol">
+            <strong>Engine Solution:</strong> 24/7 verified open fuel stations, late-night tire hubs, and one-tap ambient Voice SOS trigger.
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="dash-footer">
+    <div class="dash-footer-links">
+      <a href="/">SafeVaani Home</a>
+      <a href="/dashboard/">Safety Portals</a>
+      <a href="/dashboard/parent/">Parent Dashboard</a>
+      <a href="/dashboard/police/">Police CAD</a>
+      <a href="/features/">Features</a>
+      <a href="/privacy-policy/">Privacy</a>
+    </div>
+    <p>© 2026 SafeVaani Safety. NightShift Decision Engine — Built for the city that sleeps while you work.</p>
+  </footer>
+
+  <script>
+    // Live clock updater
+    function updateClock() {
+      const now = new Date();
+      let h = now.getHours();
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12;
+      h = h ? h : 12;
+      const str = String(h).padStart(2, '0') + ':' + m + ':' + s + ' ' + ampm;
+      const el = document.getElementById('liveClock');
+      if (el) el.textContent = str;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function setShift(time) {
+      document.getElementById('inputShiftTime').value = time;
+      document.querySelectorAll('.quick-chips .chip-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.includes(time));
+      });
+    }
+
+    function generateEnginePlan() {
+      const time = document.getElementById('inputShiftTime').value;
+      const role = document.getElementById('selectRole').value;
+      const btn = document.querySelector('.btn-calc');
+      btn.innerHTML = '<span>⚡ Re-evaluating 4-Tier Matrix…</span>';
+      
+      setTimeout(() => {
+        btn.innerHTML = '<span>🧠 Generate Night-Time Plan</span><span style="font-size:1.2rem;">&rarr;</span>';
+        document.getElementById('resEta').textContent = '02:46 AM (31 mins)';
+        document.getElementById('resConfidence').textContent = '94% CONFIDENCE';
+        alert('Night Plan re-calculated successfully for ' + role + ' finishing at ' + time + '!');
+      }, 600);
+    }
+
+    // ==========================================
+    // OFFLINE SEMANTIC SEARCH ENGINE (JAVASCRIPT)
+    // 4-Stage Pipeline: Regex -> Cosine -> Filter+Distance -> Relevant Results
+    // ==========================================
+    const OFFLINE_SEED_DATA = [
+      { id: "PUN023", name: "Noble Hospital", city: "Pune", cat: "hospital", subtype: "emergency_hospital", area: "Hadapsar", status: "probable", lat: 18.5018, lng: 73.9260, note: "24/7 Emergency department & ICU in Hadapsar" },
+      { id: "PUN019", name: "Deenanath Mangeshkar Hospital", city: "Pune", cat: "hospital", subtype: "trauma_hospital", area: "Erandwane", status: "probable", lat: 18.5089, lng: 73.8336, note: "24/7 Casualty & emergency trauma care" },
+      { id: "PUN020", name: "Ruby Hall Clinic", city: "Pune", cat: "hospital", subtype: "emergency_hospital", area: "Sassoon Road", status: "probable", lat: 18.5289, lng: 73.8743, note: "Emergency department availability 24/7" },
+      { id: "PUN021", name: "Jehangir Hospital", city: "Pune", cat: "hospital", subtype: "emergency_hospital", area: "Sassoon Road", status: "probable", lat: 18.5289, lng: 73.8743, note: "24/7 Emergency casualty care" },
+      { id: "PUN024", name: "Manipal Hospital", city: "Pune", cat: "hospital", subtype: "emergency_hospital", area: "Baner", status: "probable", lat: 18.5590, lng: 73.7868, note: "Emergency department in Baner" },
+      { id: "PUN030", name: "Pharmacies near Noble Hospital", city: "Pune", cat: "pharmacy", subtype: "chemist", area: "Hadapsar", status: "probable", lat: 18.5018, lng: 73.9260, note: "24/7 All-night emergency medical chemist" },
+      { id: "PUN026", name: "KEM Hospital Pharmacy", city: "Pune", cat: "pharmacy", subtype: "chemist", area: "489 Rasta Peth", status: "probable", lat: 18.5169, lng: 73.8664, note: "24-hour service verified medical store" },
+      { id: "PUN047", name: "Police stations in Hadapsar area", city: "Pune", cat: "police", subtype: "police_station", area: "Hadapsar", status: "probable", lat: 18.5018, lng: 73.9260, note: "Hadapsar Police Station on-duty desk" },
+      { id: "PUN045", name: "Pune Police Commissionerate", city: "Pune", cat: "police", subtype: "police_hq", area: "Camp area", status: "known", lat: 18.5126, lng: 73.8792, note: "24/7 Police headquarters & women cell" },
+      { id: "PUN046", name: "Police stations in Shivajinagar area", city: "Pune", cat: "police", subtype: "police_station", area: "Shivajinagar", status: "known", lat: 18.5327, lng: 73.8496, note: "Shivajinagar police division desk" },
+      { id: "PUN003", name: "PMPML Ratrani RT-7", city: "Pune", cat: "transport", subtype: "night_bus", area: "NDA Gate to Pune Station", status: "probable", lat: 18.5074, lng: 73.8077, note: "Published late-night Ratrani express bus" },
+      { id: "PUN008", name: "Hadapsar Railway Station", city: "Pune", cat: "transport", subtype: "railway_station", area: "Hadapsar", status: "known", lat: 18.5018, lng: 73.9260, note: "Hadapsar terminal & auto stand point" },
+      { id: "PUN009", name: "Swargate Bus Station", city: "Pune", cat: "transport", subtype: "bus_terminal", area: "Swargate", status: "known", lat: 18.5018, lng: 73.8636, note: "Central transit hub & feeder connections" },
+      { id: "PUN042", name: "Fuel stations in Hadapsar", city: "Pune", cat: "fuel", subtype: "fuel_station", area: "Hadapsar", status: "probable", lat: 18.5018, lng: 73.9260, note: "Overnight open fuel pump & well-lit forecourt" },
+      { id: "NAG051", name: "Nagpur Metro Sitabuldi Interchange", city: "Nagpur", cat: "transport", subtype: "metro", area: "Sitabuldi", status: "known", lat: 21.1414, lng: 79.0825, note: "Major Nagpur night interchange" }
+    ];
+
+    const LOCALITY_ANCHORS = {
+      "hadapsar": [18.5018, 73.9260],
+      "swargate": [18.5018, 73.8636],
+      "kothrud": [18.5074, 73.8077],
+      "shivajinagar": [18.5327, 73.8496],
+      "katraj": [18.4529, 73.8586],
+      "baner": [18.5590, 73.7868],
+      "hinjawadi": [18.5913, 73.7389],
+      "sitabuldi": [21.1414, 79.0825]
+    };
+
+    function setSearchSample(q) {
+      document.getElementById('offlineSearchQuery').value = q;
+      document.querySelectorAll('#offlineSearchQuery ~ div .chip-btn').forEach(b => {
+        b.classList.toggle('active', b.textContent.includes(q.substring(0, 10)));
+      });
+      runOfflineSearch();
+    }
+
+    function haversineKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * 10) / 10;
+    }
+
+    function runOfflineSearch() {
+      const query = document.getElementById('offlineSearchQuery').value.trim();
+      if (!query) return;
+
+      const qLower = query.toLowerCase();
+
+      // STAGE 1: REGEX EXTRACTION
+      let extractedId = null;
+      const idMatch = query.match(/\b(PUN|NAG)[0-9]{3}\b/i);
+      if (idMatch) extractedId = idMatch[0].toUpperCase();
+
+      let targetCategory = null;
+      if (/hospital|clinic|doctor|emergency|medical/i.test(qLower)) targetCategory = "hospital";
+      else if (/police|station|chowki|cop|thana/i.test(qLower)) targetCategory = "police";
+      else if (/pharmacy|chemist|medicine|dawa/i.test(qLower)) targetCategory = "pharmacy";
+      else if (/bus|metro|ratrani|transit|train/i.test(qLower)) targetCategory = "transport";
+      else if (/fuel|petrol|diesel|cng/i.test(qLower)) targetCategory = "fuel";
+
+      let targetLocality = null;
+      let anchorCoords = [18.5204, 73.8567]; // default Pune
+      for (const loc in LOCALITY_ANCHORS) {
+        if (qLower.includes(loc)) {
+          targetLocality = loc;
+          anchorCoords = LOCALITY_ANCHORS[loc];
+          break;
+        }
+      }
+
+      // Update Step 1 HUD
+      document.getElementById('regCategory').textContent = targetCategory || "General Intent";
+      document.getElementById('regLocality').textContent = targetLocality ? `${targetLocality.toUpperCase()} [${anchorCoords.join(', ')}]` : "User GPS Fix";
+      document.getElementById('regId').textContent = extractedId ? extractedId : "None";
+
+      // STAGE 2: COSINE SIMILARITY
+      const stopWords = new Set(["find", "a", "an", "the", "near", "in", "at", "to", "for", "me", "is", "of", "and"]);
+      const queryTokens = qLower.replace(/[^a-z0-9]/g, ' ').split(/\s+/).filter(t => t.length >= 2 && !stopWords.has(t));
+      document.getElementById('cosTokens').textContent = `[${queryTokens.join(', ')}]`;
+
+      const qTf = {};
+      queryTokens.forEach(t => { qTf[t] = (qTf[t] || 0) + 1; });
+
+      let topCosine = 0;
+      let topDocName = "None";
+
+      // STAGE 3: STRUCTURED FILTER & DISTANCE RANKING
+      const scoredResults = [];
+
+      OFFLINE_SEED_DATA.forEach(record => {
+        // Direct ID Match
+        if (extractedId && record.id.toUpperCase() === extractedId) {
+          scoredResults.push({
+            record,
+            cosine: 1.0,
+            distance: haversineKm(anchorCoords[0], anchorCoords[1], record.lat, record.lng),
+            verWeight: 1.0,
+            score: 10.0
+          });
+          return;
+        }
+
+        // Structured Filter
+        let catMatch = 0;
+        if (targetCategory) {
+          if (record.cat.toLowerCase() === targetCategory) catMatch = 1.0;
+          else if (record.subtype.toLowerCase().includes(targetCategory)) catMatch = 0.8;
+          else return; // Filtered out by structured category check!
+        }
+
+        // Cosine Similarity with Document Text
+        const docText = `${record.name} ${record.area} ${record.cat} ${record.subtype} ${record.note}`.toLowerCase();
+        const docTokens = docText.replace(/[^a-z0-9]/g, ' ').split(/\s+/).filter(t => t.length >= 2 && !stopWords.has(t));
+        const docTf = {};
+        docTokens.forEach(t => { docTf[t] = (docTf[t] || 0) + 1; });
+
+        let dot = 0, normQ = 0, normD = 0;
+        for (const t in qTf) {
+          normQ += qTf[t] * qTf[t];
+          if (docTf[t]) dot += qTf[t] * docTf[t];
+        }
+        for (const t in docTf) { normD += docTf[t] * docTf[t]; }
+        const cosine = (normQ > 0 && normD > 0) ? (dot / (Math.sqrt(normQ) * Math.sqrt(normD))) : 0;
+
+        if (cosine > topCosine) {
+          topCosine = cosine;
+          topDocName = `${record.name}, ${record.area}`;
+        }
+
+        // Locality Bonus
+        let locBonus = 0;
+        if (targetLocality && record.area.toLowerCase().includes(targetLocality)) {
+          locBonus = 0.6;
+        }
+
+        // Haversine Distance
+        const distKm = haversineKm(anchorCoords[0], anchorCoords[1], record.lat, record.lng);
+
+        // Verification Weight
+        let verWeight = 0.50;
+        if (record.status === "known") verWeight = 1.0;
+        else if (record.status === "probable") verWeight = 0.85;
+
+        // Final Ranking Formula
+        const semantic = (0.45 * cosine) + (0.35 * catMatch) + (0.20 * locBonus);
+        const finalScore = (semantic * 10) * verWeight / (1.0 + 0.12 * distKm);
+
+        scoredResults.push({
+          record,
+          cosine,
+          distance: distKm,
+          verWeight,
+          score: finalScore
+        });
+      });
+
+      scoredResults.sort((a, b) => b.score - a.score);
+
+      // Update HUDs
+      document.getElementById('cosScore').textContent = Math.round(topCosine * 100) + '%';
+      document.getElementById('cosTopDoc').textContent = topDocName;
+      document.getElementById('fltCategory').textContent = targetCategory ? `${targetCategory} (ENFORCED)` : "All categories";
+      document.getElementById('fltVer').textContent = scoredResults[0] ? `${scoredResults[0].record.status.toUpperCase()} (${scoredResults[0].verWeight}x)` : "None";
+      document.getElementById('fltDist').textContent = scoredResults[0] ? `${scoredResults[0].distance} km` : "N/A";
+      document.getElementById('finalRankScore').textContent = scoredResults[0] ? `${scoredResults[0].score.toFixed(1)} / 10` : "0";
+      document.getElementById('fltCount').textContent = `${scoredResults.length} relevant record(s)`;
+
+      // Render Results
+      const resContainer = document.getElementById('offlineSearchResults');
+      resContainer.innerHTML = '';
+
+      if (scoredResults.length === 0) {
+        resContainer.innerHTML = '<div style="padding:14px;background:var(--bg-tint);border-radius:10px;text-align:center;">No matching records found in seed dataset.</div>';
+        return;
+      }
+
+      scoredResults.slice(0, 5).forEach((item, idx) => {
+        const r = item.record;
+        const emoji = r.cat === 'hospital' ? '🏥' : (r.cat === 'police' ? '👮' : (r.cat === 'pharmacy' ? '💊' : (r.cat === 'transport' ? '🚌' : '⛽')));
+        const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${r.lat},${r.lng}&travelmode=driving`;
+
+        const row = document.createElement('div');
+        row.className = 'plan-step';
+        row.style.background = '#FFFFFF';
+        row.style.border = idx === 0 ? '2px solid var(--orange)' : '1px solid var(--border)';
+        row.innerHTML = `
+          <div class="step-icon">${emoji}</div>
+          <div class="step-body">
+            <div class="step-head">
+              <div>
+                <span style="font-family:var(--font-mono);font-size:0.75rem;font-weight:700;color:var(--orange);margin-right:6px;">[${r.id}]</span>
+                <span class="step-title">${r.name}</span>
+                <span style="font-size:0.8rem;color:var(--text-muted);margin-left:6px;">· ${r.area}, ${r.city}</span>
+              </div>
+              <div>
+                <span class="badge-c badge-${r.status}">${r.status.toUpperCase()}</span>
+                <span style="font-family:var(--font-mono);font-size:0.75rem;background:#E8F6ED;color:#155724;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:6px;">${item.distance} km</span>
+              </div>
+            </div>
+            <p class="step-desc" style="margin-bottom:8px;">${r.note}</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);">
+                GPS: <code>${r.lat}, ${r.lng}</code> · Cosine Sim: <strong>${Math.round(item.cosine * 100)}%</strong> · Rank: <strong>${item.score.toFixed(1)}</strong>
+              </span>
+              <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" 
+                 style="display:inline-flex;align-items:center;gap:6px;background:var(--text);color:#fff;font-size:0.78rem;font-weight:700;padding:6px 14px;border-radius:8px;text-decoration:none;">
+                🧭 Navigate in Google Maps &rarr;
+              </a>
+            </div>
+          </div>
+        `;
+        resContainer.appendChild(row);
+      });
+    }
+
+    // Trigger initial search for default query on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      runOfflineSearch();
+    });
+  </script>
+</body>
+</html>

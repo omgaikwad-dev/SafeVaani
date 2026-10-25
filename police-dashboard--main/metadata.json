@@ -1,0 +1,7 @@
+{
+  "name": "Sentinel SafeParent Dashboard",
+  "description": "A high-security parental control and family safety dashboard for monitoring real-time SOS alerts, member locations, and emergency evidence.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

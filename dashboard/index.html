@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FDDB10">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Mrs+Saint+Delafield&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Titan+One&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+  <meta name="author" content="SafeVaani Safety">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <title>Safety Dashboards & Command Portals | SafeVaani Safety</title>
+  <meta name="description" content="Dedicated safety portals for parents to monitor their loved ones in real time and for police control rooms to dispatch emergency units with live voice evidence.">
+  
+  <link rel="stylesheet" href="/_astro/Layout.DFqHNPMM.css">
+  <link rel="stylesheet" href="/_astro/Footer.vCNRsjcb.css">
+
+  <!-- Theme Pre-Render Check (Zero Flicker) -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem("safevaani_theme");
+        if (!t && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          t = "dark";
+        }
+        if (t === "dark") document.documentElement.setAttribute("data-theme", "dark");
+        else document.documentElement.setAttribute("data-theme", "light");
+      } catch(e) {}
+    })();
+  </script>
+
+  <style>
+    /* Scoped styling strictly following the Orbii design system */
+    :root {
+      --dash-bg: #F8F3E8;
+      --dash-card-bg: #FFFFFF;
+      --dash-ink: #1F2236;
+      --dash-ink-soft: #565A70;
+      --dash-border: #E6DDC9;
+      --dash-border-light: #EFE8D8;
+      --dash-yellow: #FDDB10;
+      --dash-blue: #3F7DDE;
+      --dash-orange: #CC4E08;
+      --dash-orange-hover: #B34306;
+      --dash-green: #2F9E5B;
+      --dash-coral: #EF5B4C;
+      --dash-purple: #7B5CE6;
+    }
+
+    /* ========================================================
+       DARK THEME SYSTEM TOKENS & OVERRIDES
+    ======================================================== */
+    html[data-theme="dark"] {
+      --dash-bg: #0C1017;
+      --dash-card-bg: #151A24;
+      --dash-card-hover: #1C2331;
+      --dash-ink: #F1F4F9;
+      --dash-ink-soft: #9BA3B5;
+      --dash-border: #222938;
+      --dash-border-light: #1A202D;
+      --dash-yellow: #FDDB10;
+      --dash-blue: #4D8BEE;
+      --dash-orange: #E65C14;
+      --dash-green: #34AD65;
+      --dash-coral: #F1685A;
+      --dash-purple: #8B6EF3;
+    }
+
+    html[data-theme="dark"] body {
+      background-color: var(--dash-bg);
+      color: var(--dash-ink);
+    }
+    html[data-theme="dark"] .site-header {
+      background: #11151F;
+      border-bottom: 1px solid var(--dash-border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    html[data-theme="dark"] .hd-brand-text,
+    html[data-theme="dark"] .hd-link {
+      color: #F1F4F9;
+    }
+    html[data-theme="dark"] .hd-link:hover {
+      color: var(--dash-blue);
+    }
+    html[data-theme="dark"] .hd-cta {
+      background: var(--dash-yellow);
+      color: #1F2236;
+    }
+    html[data-theme="dark"] .hd-sheet {
+      background: #11151F !important;
+    }
+    html[data-theme="dark"] .crumb-bar a,
+    html[data-theme="dark"] .crumb-bar .crumb-sep {
+      color: var(--dash-ink-soft);
+    }
+    html[data-theme="dark"] .crumb-bar .crumb-current {
+      color: var(--dash-ink);
+    }
+    html[data-theme="dark"] .portal-card,
+    html[data-theme="dark"] .sim-card,
+    html[data-theme="dark"] .spec-box {
+      background: var(--dash-card-bg);
+      border-color: var(--dash-border);
+      box-shadow: 0 6px 24px -8px rgba(0, 0, 0, 0.45);
+    }
+    html[data-theme="dark"] .portal-preview-box {
+      background: #0E121A;
+      border-color: var(--dash-border);
+    }
+    html[data-theme="dark"] .telemetry-label {
+      color: var(--dash-ink-soft);
+    }
+    html[data-theme="dark"] .telemetry-value {
+      color: var(--dash-ink);
+    }
+    html[data-theme="dark"] .stat-chip {
+      background: #11151F;
+      border-color: var(--dash-border);
+      color: var(--dash-ink);
+    }
+    html[data-theme="dark"] .sim-tab-btn {
+      background: #10141D;
+      border-color: var(--dash-border);
+      color: var(--dash-ink-soft);
+    }
+    html[data-theme="dark"] .sim-tab-btn.active {
+      background: var(--dash-card-bg);
+      color: var(--dash-ink);
+      border-color: var(--dash-blue);
+    }
+    html[data-theme="dark"] .sim-terminal {
+      background: #080B10;
+      border-color: var(--dash-border);
+    }
+    html[data-theme="dark"] .sim-log-entry {
+      background: #11151F;
+      border-color: var(--dash-border);
+      color: var(--dash-ink);
+    }
+    html[data-theme="dark"] .sf {
+      background: #11151F;
+      border-top-color: var(--dash-border);
+      color: var(--dash-ink);
+    }
+    html[data-theme="dark"] .sf-main a,
+    html[data-theme="dark"] .sf-copy {
+      color: var(--dash-ink);
+    }
+
+    /* THEME TOGGLE BUTTON COMPONENT */
+    .btn-theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(31, 34, 54, 0.08);
+      border: 1.5px solid rgba(31, 34, 54, 0.15);
+      border-radius: 999px;
+      padding: 4px 10px 4px 4px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--dash-ink);
+      transition: all 0.2s ease;
+      outline: none;
+      user-select: none;
+    }
+    .btn-theme-toggle:hover {
+      background: rgba(31, 34, 54, 0.14);
+      transform: translateY(-1px);
+    }
+    html[data-theme="dark"] .btn-theme-toggle {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.18);
+      color: #F1F4F9;
+    }
+    html[data-theme="dark"] .btn-theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .theme-toggle-track {
+      width: 28px;
+      height: 18px;
+      background: #E0D7C3;
+      border-radius: 999px;
+      position: relative;
+      transition: background 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+    html[data-theme="dark"] .theme-toggle-track {
+      background: var(--dash-blue);
+    }
+    .theme-toggle-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      position: absolute;
+      left: 2px;
+      transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+    html[data-theme="dark"] .theme-toggle-thumb {
+      transform: translateX(10px);
+      background: #0C1017;
+      color: #FDDB10;
+    }
+    .theme-toggle-thumb svg {
+      width: 9px;
+      height: 9px;
+    }
+    .theme-toggle-thumb .icon-moon { display: none; }
+    .theme-toggle-thumb .icon-sun { display: block; color: #CC4E08; }
+    html[data-theme="dark"] .theme-toggle-thumb .icon-moon { display: block; color: #FDDB10; }
+    html[data-theme="dark"] .theme-toggle-thumb .icon-sun { display: none; }
+    .theme-toggle-label {
+      font-size: 0.74rem;
+      letter-spacing: 0.02em;
+      font-weight: 700;
+    }
+
+    body {
+      background-color: var(--dash-bg);
+      color: var(--dash-ink);
+      font-family: var(--font-sans);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .site-header {
+      background: var(--dash-yellow);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      transition: box-shadow .25s ease, background .25s ease;
+    }
+    .site-header.scrolled {
+      box-shadow: 0 6px 20px -14px rgba(31, 34, 54, 0.4);
+    }
+    .hd {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 3.2vw, 56px);
+    }
+    .hd-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .hd-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: block;
+    }
+    .hd-brand-text {
+      font-family: var(--font-wordmark);
+      font-size: 1.4rem;
+      color: var(--dash-ink);
+      letter-spacing: -0.01em;
+    }
+    .hd-nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 2vw, 32px);
+    }
+    .hd-link {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--dash-ink);
+      text-decoration: none;
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+      transition: border-color .18s ease, opacity .18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hd-link:hover {
+      border-bottom-color: rgba(31, 34, 54, 0.45);
+    }
+    .hd-link[aria-current="page"] {
+      border-bottom-color: var(--dash-blue);
+      color: var(--dash-ink);
+    }
+    .hd-nav-dash-pill {
+      background: var(--dash-ink);
+      color: #FDDB10;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform .18s ease, background-color .18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hd-nav-dash-pill:hover {
+      background: #121422;
+      transform: translateY(-1px);
+    }
+    .hd-pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #2F9E5B;
+      box-shadow: 0 0 0 0 rgba(47, 158, 91, 0.7);
+      animation: pulseGreen 1.8s infinite;
+    }
+    @keyframes pulseGreen {
+      0% { box-shadow: 0 0 0 0 rgba(47, 158, 91, 0.7); }
+      70% { box-shadow: 0 0 0 8px rgba(47, 158, 91, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(47, 158, 91, 0); }
+    }
+    .hd-cta {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--dash-ink);
+      text-decoration: none;
+      padding: 8px 18px;
+      border: 1.5px solid var(--dash-ink);
+      border-radius: 8px;
+      transition: background .18s ease, color .18s ease;
+    }
+    .hd-cta:hover {
+      background: var(--dash-ink);
+      color: #fff;
+    }
+
+    /* Mobile Navigation Sheet */
+    .hd-burger {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+    .hd-burger span {
+      width: 24px;
+      height: 2.5px;
+      border-radius: 2px;
+      background: var(--dash-ink);
+      transition: transform .2s ease;
+    }
+    .hd-burger[aria-expanded="true"] span:first-child {
+      transform: translateY(4.75px) rotate(45deg);
+    }
+    .hd-burger[aria-expanded="true"] span:last-child {
+      transform: translateY(-4.75px) rotate(-45deg);
+    }
+    .hd-sheet {
+      position: fixed;
+      inset: 72px 0 0;
+      background: var(--dash-yellow);
+      padding: 28px 24px calc(28px + env(safe-area-inset-bottom, 0px));
+      overflow-y: auto;
+      z-index: 999;
+    }
+    .hd-sheet[hidden] {
+      display: none;
+    }
+    .hd-sheet-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .hd-sheet-link {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.8rem;
+      color: var(--dash-ink);
+      text-decoration: none;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(31, 34, 54, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 768px) {
+      .hd-nav { display: none; }
+      .hd-burger { display: inline-flex; }
+    }
+
+    /* Main Container */
+    .dash-main {
+      padding-top: 100px;
+      padding-bottom: 90px;
+    }
+    .container {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 4vw, 40px);
+      box-sizing: border-box;
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs ol {
+      list-style: none;
+      margin: 0 0 24px;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+    }
+    .breadcrumbs a {
+      color: var(--dash-ink-soft);
+      text-decoration: none;
+      transition: color .15s ease;
+    }
+    .breadcrumbs a:hover {
+      color: var(--dash-blue);
+    }
+    .breadcrumbs .sep {
+      color: var(--dash-border);
+    }
+    .breadcrumbs span[aria-current] {
+      color: var(--dash-ink);
+      font-weight: 600;
+    }
+
+    /* Hero Section */
+    .dash-hero {
+      text-align: center;
+      padding: 30px 0 60px;
+      position: relative;
+    }
+    .dash-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(63, 125, 222, 0.12);
+      border: 1px solid rgba(63, 125, 222, 0.28);
+      color: #2659B8;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .dash-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+      line-height: 1.05;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--dash-ink);
+      margin: 0 auto 20px;
+      max-width: 900px;
+      text-wrap: balance;
+    }
+    .dash-title em {
+      font-family: var(--font-script);
+      font-style: normal;
+      font-size: 1.28em;
+      color: var(--dash-blue);
+      line-height: 0.6;
+      vertical-align: -0.04em;
+    }
+    .dash-lead {
+      font-size: clamp(1.1rem, 2vw, 1.25rem);
+      line-height: 1.65;
+      color: var(--dash-ink-soft);
+      max-width: 680px;
+      margin: 0 auto 36px;
+    }
+    .dash-jump-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .jump-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--dash-border);
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--dash-ink);
+      text-decoration: none;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+      box-shadow: 0 2px 6px rgba(31, 34, 54, 0.04);
+    }
+    .jump-pill:hover {
+      border-color: var(--dash-ink);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(31, 34, 54, 0.08);
+    }
+
+    /* Dual Portals Section */
+    .portals-section {
+      margin-top: 20px;
+      margin-bottom: 70px;
+    }
+    .portals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 32px;
+    }
+    @media (max-width: 768px) {
+      .portals-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .portal-card {
+      background: var(--dash-card-bg);
+      border: 1.5px solid var(--dash-border);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 18px rgba(31, 34, 54, 0.06);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      position: relative;
+    }
+    .portal-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(31, 34, 54, 0.12);
+      border-color: rgba(31, 34, 54, 0.3);
+    }
+
+    .portal-card-parent {
+      border-top: 5px solid var(--dash-orange);
+    }
+    .portal-card-police {
+      border-top: 5px solid var(--dash-blue);
+    }
+
+    .portal-card-header {
+      padding: 32px 32px 20px;
+      position: relative;
+    }
+    .portal-badge-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .portal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+    .portal-badge-parent {
+      background: rgba(204, 78, 8, 0.1);
+      color: #B34306;
+      border: 1px solid rgba(204, 78, 8, 0.25);
+    }
+    .portal-badge-police {
+      background: rgba(63, 125, 222, 0.12);
+      color: #1F4FA8;
+      border: 1px solid rgba(63, 125, 222, 0.28);
+    }
+    .portal-status-online {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #2F9E5B;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .portal-title {
+      font-family: var(--font-display);
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--dash-ink);
+      margin: 0 0 10px;
+    }
+    .portal-desc {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--dash-ink-soft);
+      margin: 0;
+    }
+
+    /* Live Telemetry Mock Preview Inside Card */
+    .portal-preview-box {
+      margin: 0 32px 24px;
+      background: #F8F6F0;
+      border: 1px solid var(--dash-border);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .telemetry-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(230, 221, 201, 0.9);
+      font-size: 0.9rem;
+    }
+    .telemetry-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .telemetry-label {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--dash-ink-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .telemetry-value {
+      font-weight: 600;
+      color: var(--dash-ink);
+    }
+    .telemetry-tag-safe {
+      background: #E8F6ED;
+      color: #1F7A43;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .telemetry-tag-alert {
+      background: #FDEDEC;
+      color: #C0392B;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      animation: alertBlink 1.5s infinite;
+    }
+    @keyframes alertBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* Audio Waveform Simulator snippet */
+    .audio-telemetry-strip {
+      background: #FFFFFF;
+      border: 1px solid var(--dash-border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .wave-bars {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 22px;
+      flex: 1;
+    }
+    .wave-bar {
+      width: 3px;
+      background: var(--dash-blue);
+      border-radius: 3px;
+      animation: wavePulse 1.2s ease-in-out infinite alternate;
+    }
+    .wave-bar:nth-child(2) { animation-delay: .2s; }
+    .wave-bar:nth-child(3) { animation-delay: .4s; }
+    .wave-bar:nth-child(4) { animation-delay: .1s; }
+    .wave-bar:nth-child(5) { animation-delay: .3s; }
+    .wave-bar:nth-child(6) { animation-delay: .5s; }
+    .wave-bar:nth-child(7) { animation-delay: .25s; }
+    .wave-bar:nth-child(8) { animation-delay: .45s; }
+    .wave-bar:nth-child(9) { animation-delay: .15s; }
+    @keyframes wavePulse {
+      0% { height: 4px; }
+      100% { height: 22px; }
+    }
+
+    /* Feature highlights list */
+    .portal-features-list {
+      padding: 0 32px 28px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .portal-feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--dash-ink-soft);
+    }
+    .portal-feature-item svg {
+      flex-shrink: 0;
+      margin-top: 3px;
+      color: var(--dash-blue);
+    }
+    .portal-feature-item strong {
+      color: var(--dash-ink);
+    }
+
+    /* Portal CTA Footer */
+    .portal-card-footer {
+      padding: 24px 32px 32px;
+      border-top: 1px solid var(--dash-border-light);
+      background: #FAF8F2;
+    }
+    .portal-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-family: var(--font-sans);
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-sizing: border-box;
+      transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .portal-btn-parent {
+      background: var(--dash-orange);
+      color: #FFFFFF;
+      box-shadow: 0 8px 20px -8px rgba(204, 78, 8, 0.5);
+    }
+    .portal-btn-parent:hover {
+      background: var(--dash-orange-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px -10px rgba(204, 78, 8, 0.6);
+      color: #FFFFFF;
+    }
+    .portal-btn-police {
+      background: var(--dash-ink);
+      color: #FFFFFF;
+      box-shadow: 0 8px 20px -8px rgba(31, 34, 54, 0.4);
+    }
+    .portal-btn-police:hover {
+      background: #111320;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px -10px rgba(31, 34, 54, 0.5);
+      color: #FFFFFF;
+    }
+    .portal-btn-arrow {
+      transition: transform .2s ease;
+    }
+    .portal-btn:hover .portal-btn-arrow {
+      transform: translateX(4px);
+    }
+
+    /* Interactive Live Console Simulator */
+    .sim-section {
+      background: #FFFFFF;
+      border: 1.5px solid var(--dash-border);
+      border-radius: 24px;
+      padding: clamp(32px, 5vw, 56px);
+      margin-bottom: 70px;
+      box-shadow: 0 6px 24px rgba(31, 34, 54, 0.05);
+    }
+    .sim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 32px;
+      border-bottom: 1.5px solid var(--dash-border-light);
+      padding-bottom: 24px;
+    }
+    .sim-heading-wrap h3 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      color: var(--dash-ink);
+      margin: 0 0 8px;
+    }
+    .sim-heading-wrap p {
+      color: var(--dash-ink-soft);
+      font-size: 1.05rem;
+      margin: 0;
+    }
+    .sim-tabs {
+      display: flex;
+      gap: 10px;
+      background: #F3EFE6;
+      padding: 6px;
+      border-radius: 12px;
+    }
+    .sim-tab-btn {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--dash-ink-soft);
+      cursor: pointer;
+      transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sim-tab-btn.active {
+      background: #FFFFFF;
+      color: var(--dash-ink);
+      box-shadow: 0 2px 8px rgba(31, 34, 54, 0.08);
+    }
+
+    .sim-console-body {
+      background: #FAF8F2;
+      border: 1px solid var(--dash-border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .sim-view-panel {
+      display: none;
+    }
+    .sim-view-panel.active {
+      display: block;
+    }
+
+    .sim-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FFFFFF;
+      border: 1px solid var(--dash-border);
+      border-radius: 12px;
+      padding: 14px 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .sim-banner-id {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--dash-ink);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sim-btn-trigger {
+      background: #FDDB10;
+      border: 1.5px solid var(--dash-ink);
+      color: var(--dash-ink);
+      font-family: var(--font-sans);
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      transition: transform .15s ease, background-color .15s ease;
+    }
+    .sim-btn-trigger:hover {
+      background: #f0ce00;
+      transform: translateY(-1px);
+    }
+
+    .sim-telemetry-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .sim-telemetry-card {
+      background: #FFFFFF;
+      border: 1px solid var(--dash-border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .sim-telemetry-num {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--dash-ink);
+      margin-top: 4px;
+    }
+
+    .sim-log-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sim-log-entry {
+      background: #FFFFFF;
+      border: 1px solid var(--dash-border);
+      border-radius: 10px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.92rem;
+      gap: 12px;
+    }
+    .sim-log-time {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--dash-ink-soft);
+    }
+
+    /* Core AI Engine Section */
+    .engine-section {
+      margin-bottom: 70px;
+    }
+    .engine-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .engine-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2.1rem, 4.2vw, 3.2rem);
+      font-weight: 700;
+      color: var(--dash-ink);
+      margin: 10px 0 16px;
+    }
+    .engine-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .engine-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--dash-border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .engine-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--dash-ink);
+    }
+    .engine-icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+    .engine-card h4 {
+      font-family: var(--font-sans);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--dash-ink);
+      margin: 0 0 10px;
+    }
+    .engine-card p {
+      font-size: 0.98rem;
+      line-height: 1.6;
+      color: var(--dash-ink-soft);
+      margin: 0;
+    }
+
+    /* Android App Callout */
+    .app-callout {
+      background: #033B34;
+      background-image: radial-gradient(58% 62% at 88% 6%, rgba(58, 143, 126, .3), transparent 70%),
+                        radial-gradient(circle at 1px 1px, rgba(150, 210, 196, .1) 1px, transparent 0);
+      background-size: 100% 100%, 28px 28px;
+      color: #FFFFFF;
+      border-radius: 20px;
+      padding: clamp(36px, 6vw, 64px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 60px;
+    }
+    @media (max-width: 860px) {
+      .app-callout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .app-callout h3 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: #F8F3E8;
+    }
+    .app-callout p {
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 580px;
+      margin: 0;
+    }
+    .app-download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #FDDB10;
+      color: var(--dash-ink);
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 16px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: transform .18s ease, background-color .18s ease;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    }
+    .app-download-btn:hover {
+      background: #ffe338;
+      transform: translateY(-2px);
+    }
+
+    /* Footer styling */
+    .sf {
+      background: var(--dash-yellow);
+      color: var(--dash-ink);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header (Orbii Yellow Tone) -->
+  <header class="site-header tone-yellow" id="site-header">
+    <div class="hd">
+      <a href="/" class="hd-logo" aria-label="SafeVaani Safety, home">
+        <img class="hd-mark" src="/brand/safevaani-logo-512.png" alt="" width="44" height="44" decoding="async">
+        <span class="hd-brand-text">SafeVaani</span>
+      </a>
+
+      <nav class="hd-nav" aria-label="Main navigation">
+        <a href="/features/" class="hd-link">Features</a>
+        <a href="/voice-sos/" class="hd-link">Voice SOS</a>
+        <a href="/dashboard/" class="hd-nav-dash-pill" aria-current="page">
+          <span class="hd-pulse-dot"></span>
+          Dashboards
+        </a>
+        <a href="/blog/" class="hd-link">Blog</a>
+        <div class="lang-toggle-wrap">
+          <div class="lang-toggle-box" title="Change Language / भाषा बदलें">
+            <span class="lang-globe-icon" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+            </span>
+            <select class="sv-lang-select" aria-label="Language Selector">
+              <option value="en">English (EN)</option>
+              <option value="hi">हिन्दी (Hindi)</option>
+              <option value="mr">मराठी (Marathi)</option>
+              <option value="gu">ગુજરાતી (Gujarati)</option>
+              <option value="ta">தமிழ் (Tamil)</option>
+              <option value="te">తెలుగు (Telugu)</option>
+              <option value="kn">ಕನ್ನಡ (Kannada)</option>
+              <option value="bn">বাংলা (Bengali)</option>
+              <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+            </select>
+          </div>
+        </div>
+        <button type="button" class="btn-theme-toggle" id="theme-toggle-btn" aria-label="Toggle Dark and Light Mode" title="Toggle Theme">
+          <span class="theme-toggle-track">
+            <span class="theme-toggle-thumb">
+              <svg class="icon-sun" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+              <svg class="icon-moon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </span>
+          </span>
+          <span class="theme-toggle-label">Dark</span>
+        </button>
+        <a href="https://play.google.com/store/apps/details?id=in.safevaani.app" target="_blank" rel="noopener" class="hd-cta">Get App</a>
+      </nav>
+
+      <button class="hd-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="hd-sheet" id="hd-burger">
+        <span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div class="hd-sheet" id="hd-sheet" hidden>
+      <nav class="hd-sheet-nav" aria-label="Mobile navigation">
+        <a href="/" class="hd-sheet-link">Home</a>
+        <a href="/dashboard/" class="hd-sheet-link" style="color: #2F9E5B;">
+          Dashboards &amp; Portals
+          <span style="font-size: 0.85rem; background: var(--dash-ink); color: #fff; padding: 4px 10px; border-radius: 999px;">Live</span>
+        </a>
+        <a href="/features/" class="hd-sheet-link">Features</a>
+        <a href="/voice-sos/" class="hd-sheet-link">Voice SOS</a>
+        <a href="/blog/" class="hd-sheet-link">Blog</a>
+        <a href="/dashboard/parent/" class="hd-sheet-link" style="font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          Parent Dashboard &rarr;
+        </a>
+        <a href="/dashboard/police/" class="hd-sheet-link" style="font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          Police CAD Center &rarr;
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="dash-main">
+    <div class="container">
+      
+      <!-- Breadcrumbs -->
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a><span class="sep">/</span></li>
+          <li><span aria-current="page">Dashboards &amp; Command Portals</span></li>
+        </ol>
+      </nav>
+
+      <!-- Hero Header -->
+      <section class="dash-hero">
+        <div class="dash-eyebrow">
+          <span class="hd-pulse-dot"></span>
+          Real-Time Command &amp; Telemetry Ecosystem
+        </div>
+        <h1 class="dash-title">
+          Two Sides of Protection.<br>
+          <em style="--script-color: var(--dash-blue);">Zero Latency Response.</em>
+        </h1>
+        <p class="dash-lead">
+          Dedicated, tamper-proof portals engineered for both guardians monitoring their loved ones at home and police control rooms dispatching emergency units in seconds.
+        </p>
+
+        <!-- Quick Jump Navigation -->
+        <div class="dash-jump-bar">
+          <a href="/dashboard/nightshift/" class="jump-pill" style="border-color: #FDDB10; background: rgba(253,219,16,0.15);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            NightShift Engine
+          </a>
+          <a href="#parent-portal" class="jump-pill">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            Parent Dashboard
+          </a>
+          <a href="#police-portal" class="jump-pill">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            Police Command Center
+          </a>
+          <a href="#live-simulator" class="jump-pill">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            Live Telemetry Demo
+          </a>
+          <a href="#core-technology" class="jump-pill">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            AI Engine
+          </a>
+        </div>
+      </section>
+
+      <!-- Portals Cards Grid -->
+      <section class="portals-section">
+        <div class="portals-grid">
+
+          <!-- PORTAL 0: NightShift Decision Engine -->
+          <article class="portal-card" id="nightshift-portal" style="border: 2px solid #FDDB10; box-shadow: 0 8px 30px rgba(253, 219, 16, 0.15);">
+            <div class="portal-card-header">
+              <div class="portal-badge-wrap">
+                <span class="portal-badge" style="background: rgba(253, 219, 16, 0.25); color: #856404; border-color: rgba(253, 219, 16, 0.5);">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                  Theme 1 · Problem 1 Flagship
+                </span>
+                <span class="portal-status-online">
+                  <span class="hd-pulse-dot" style="background: #2F9E5B;"></span>
+                  Engine Online
+                </span>
+              </div>
+              <h2 class="portal-title">NightShift Decision Engine</h2>
+              <p class="portal-desc">
+                Dedicated command center for shift workers (nurses, guards, factory, delivery). Multi-modal night transit, 24/7 verified open services, and route safety scoring.
+              </p>
+            </div>
+
+            <div class="portal-preview-box">
+              <div class="telemetry-row">
+                <span class="telemetry-label">Shift Handover</span>
+                <span class="telemetry-value">02:15 AM • ICU Night Staff</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">4-Tier Matrix</span>
+                <span class="telemetry-tag-safe" style="background:#D4EDDA; color:#155724;">KNOWN ✓ Live Feeds Linked</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">Transit &amp; Services</span>
+                <span class="telemetry-value">Bus #212 (02:28 AM) + Apollo 24/7</span>
+              </div>
+            </div>
+
+            <div class="portal-features-list">
+              <div class="portal-feature-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#CC4E08" stroke-width="2.2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Multi-Modal Transit &amp; Contingencies:</strong> Real-time night buses, late-night metro, and verified prepaid auto stands.</span>
+              </div>
+              <div class="portal-feature-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#CC4E08" stroke-width="2.2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>24/7 Open Services:</strong> Live-verified 24/7 pharmacies with security guards, trauma centers, and well-lit fuel stops.</span>
+              </div>
+              <div class="portal-feature-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#CC4E08" stroke-width="2.2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Automated Journey Check-Ins:</strong> Timed departure and arrival monitoring with escalating guardian SMS alerts.</span>
+              </div>
+            </div>
+
+            <div class="portal-card-footer">
+              <a href="/dashboard/nightshift/" class="portal-btn" style="background: #CC4E08; color: #fff;">
+                <span>Open NightShift Engine Portal</span>
+                <span class="portal-btn-arrow">&rarr;</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- PORTAL 1: Parent Dashboard -->
+          <article class="portal-card portal-card-parent" id="parent-portal">
+            <div class="portal-card-header">
+              <div class="portal-badge-wrap">
+                <span class="portal-badge portal-badge-parent">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                  Family Safety Circle
+                </span>
+                <span class="portal-status-online">
+                  <span class="hd-pulse-dot"></span>
+                  Telemetry Active
+                </span>
+              </div>
+              <h2 class="portal-title">Parent Dashboard</h2>
+              <p class="portal-desc">
+                Real-time tracking, safe zone arrivals, and immediate distress notifications with audio verification when your child needs you.
+              </p>
+            </div>
+
+            <!-- Parent Telemetry Mock Box -->
+            <div class="portal-preview-box">
+              <div class="telemetry-row">
+                <span class="telemetry-label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  Active Tracking
+                </span>
+                <span class="telemetry-value">Sneha • School Route 4</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  Current Location
+                </span>
+                <span class="telemetry-value">Shivaji Chowk, Sector 7</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="18" height="12" rx="2"></rect><line x1="23" y1="13" x2="23" y2="11"></line></svg>
+                  Phone Telemetry
+                </span>
+                <span class="telemetry-value">91% • GPS &plusmn;2m</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">Safe Zone Status</span>
+                <span class="telemetry-tag-safe">Inside Safe Corridor</span>
+              </div>
+
+              <!-- Ambient Audio Check -->
+              <div class="audio-telemetry-strip">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3F7DDE" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                <div class="wave-bars">
+                  <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                  <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                  <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                </div>
+                <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--dash-ink-soft);">Voice Shield Active</span>
+              </div>
+            </div>
+
+            <!-- Key Features -->
+            <div class="portal-features-list">
+              <div class="portal-feature-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Instant Distress Telemetry:</strong> Receive automatic alarms when child screams or says "Bachao", even with phone locked.</span>
+              </div>
+              <div class="portal-feature-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Geofence Safe Zones:</strong> Automated check-in/out alerts for home, school, tuition, and trusted friend houses.</span>
+              </div>
+              <div class="portal-feature-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Live Audio Escort:</strong> Listen into child's surroundings live with end-to-end cryptographic privacy.</span>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="portal-card-footer">
+              <a href="/dashboard/parent/" class="portal-btn portal-btn-parent">
+                <span>Login to Parent Portal</span>
+                <span class="portal-btn-arrow">&rarr;</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- PORTAL 2: Police Dashboard -->
+          <article class="portal-card portal-card-police" id="police-portal">
+            <div class="portal-card-header">
+              <div class="portal-badge-wrap">
+                <span class="portal-badge portal-badge-police">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                  Emergency CAD &amp; Police 112
+                </span>
+                <span class="portal-status-online">
+                  <span class="hd-pulse-dot" style="background: #3F7DDE;"></span>
+                  CAD Room Connected
+                </span>
+              </div>
+              <h2 class="portal-title">Police Dashboard</h2>
+              <p class="portal-desc">
+                Centralized control room view for law enforcement: high-priority SOS alerts, live audio evidence, and rapid PCR patrol dispatch router.
+              </p>
+            </div>
+
+            <!-- Police Telemetry Mock Box -->
+            <div class="portal-preview-box" style="background: #F4F6FB;">
+              <div class="telemetry-row">
+                <span class="telemetry-label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                  Emergency Incident
+                </span>
+                <span class="telemetry-tag-alert">ALERT #SOS-7741</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                  AI Trigger Marker
+                </span>
+                <span class="telemetry-value" style="color: #C0392B;">Distress Scream (98.4%)</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                  GPS Coordinates
+                </span>
+                <span class="telemetry-value" style="font-family: var(--font-mono); font-size: 0.85rem;">18.5204&deg; N, 73.8567&deg; E</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">Assigned PCR Unit</span>
+                <span class="telemetry-value" style="color: #2659B8;">PCR Van #09 (ETA 3 mins)</span>
+              </div>
+
+              <!-- Audio Evidence Vault -->
+              <div class="audio-telemetry-strip" style="border-color: rgba(63, 125, 222, 0.3);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                <div class="wave-bars">
+                  <span class="wave-bar" style="background:#C0392B;"></span>
+                  <span class="wave-bar" style="background:#C0392B;"></span>
+                  <span class="wave-bar" style="background:#C0392B;"></span>
+                  <span class="wave-bar" style="background:#C0392B;"></span>
+                  <span class="wave-bar" style="background:#C0392B;"></span>
+                </div>
+                <span style="font-family: var(--font-mono); font-size: 0.72rem; color: #1F2236; font-weight: 600;">Evidence Lock: 15s Pre-SOS</span>
+              </div>
+            </div>
+
+            <!-- Key Features -->
+            <div class="portal-features-list">
+              <div class="portal-feature-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Priority Emergency CAD Feed:</strong> Incoming SOS sorted by vocal stress confidence score &amp; urgency level.</span>
+              </div>
+              <div class="portal-feature-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Tamper-Proof Audio Proof:</strong> Audio recording locked in cloud storage with SHA-256 hash for FIR filing.</span>
+              </div>
+              <div class="portal-feature-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Nearest Patrol Router:</strong> One-click automated route telemetry sent directly to nearest police patrol cruiser.</span>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="portal-card-footer">
+              <a href="/dashboard/police/" class="portal-btn portal-btn-police">
+                <span>Login to Police Portal</span>
+                <span class="portal-btn-arrow">&rarr;</span>
+              </a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- Interactive Live Console Simulator -->
+      <section class="sim-section" id="live-simulator">
+        <div class="sim-header">
+          <div class="sim-heading-wrap">
+            <span class="dash-eyebrow" style="background: rgba(47, 158, 91, 0.12); color: #1A703E; border-color: rgba(47, 158, 91, 0.25);">
+              ● Interactive Simulator
+            </span>
+            <h3>Explore Command Console Views</h3>
+            <p>Switch between the Parent &amp; Police perspectives to inspect real-time distress telemetry.</p>
+          </div>
+
+          <!-- Perspective Switcher Tabs -->
+          <div class="sim-tabs" role="tablist">
+            <button class="sim-tab-btn active" id="tab-btn-parent" onclick="switchTab('parent')" style="display:inline-flex;align-items:center;gap:8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              Parent Perspective
+            </button>
+            <button class="sim-tab-btn" id="tab-btn-police" onclick="switchTab('police')" style="display:inline-flex;align-items:center;gap:8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              Police CAD Room
+            </button>
+          </div>
+        </div>
+
+        <!-- Simulator Body -->
+        <div class="sim-console-body">
+          
+          <!-- Parent Console View -->
+          <div class="sim-view-panel active" id="view-parent">
+            <div class="sim-banner">
+              <div class="sim-banner-id">
+                <span class="hd-pulse-dot"></span>
+                Child Profile: Sneha Patil (ID: #SV-9182)
+              </div>
+              <div>
+                <button class="sim-btn-trigger" id="test-alert-btn" onclick="simulateAlert()" style="display:inline-flex;align-items:center;gap:6px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                  Simulate Test SOS Trigger
+                </button>
+              </div>
+            </div>
+
+            <div class="sim-telemetry-grid">
+              <div class="sim-telemetry-card">
+                <span class="telemetry-label">Active State</span>
+                <div class="sim-telemetry-num" id="parent-sim-state" style="color: #2F9E5B;">Normal</div>
+              </div>
+              <div class="telemetry-card sim-telemetry-card">
+                <span class="telemetry-label">Device Battery</span>
+                <div class="sim-telemetry-num">94%</div>
+              </div>
+              <div class="telemetry-card sim-telemetry-card">
+                <span class="telemetry-label">Safe Zone Radius</span>
+                <div class="sim-telemetry-num">500 m</div>
+              </div>
+              <div class="telemetry-card sim-telemetry-card">
+                <span class="telemetry-label">Response Circle</span>
+                <div class="sim-telemetry-num">4 Guardians</div>
+              </div>
+            </div>
+
+            <!-- Activity Log -->
+            <div class="sim-log-list" id="parent-log-list">
+              <div class="sim-log-entry">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #2F9E5B;"></span>
+                  <span><strong>Safe Zone Entered:</strong> Green Valley High School</span>
+                </div>
+                <span class="sim-log-time">Today, 08:30 AM</span>
+              </div>
+              <div class="sim-log-entry">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #3F7DDE;"></span>
+                  <span><strong>On-Device Voice Sentinel:</strong> Passive listening active with locked screen</span>
+                </div>
+                <span class="sim-log-time">Today, 08:00 AM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Police Console View -->
+          <div class="sim-view-panel" id="view-police">
+            <div class="sim-banner">
+              <div class="sim-banner-id">
+                <span class="hd-pulse-dot" style="background: #3F7DDE;"></span>
+                Central Command Terminal: Sector 4 Dispatches
+              </div>
+              <div>
+                <span style="font-family: var(--font-mono); font-size: 0.8rem; background: #E6EEF8; padding: 6px 12px; border-radius: 6px; color: #1C3B80;">
+                  CAD Priority Filter: SOS Active
+                </span>
+              </div>
+            </div>
+
+            <div class="sim-telemetry-grid">
+              <div class="sim-telemetry-card">
+                <span class="telemetry-label">PCR Units Available</span>
+                <div class="sim-telemetry-num" style="color: #3F7DDE;">12 Units</div>
+              </div>
+              <div class="telemetry-card sim-telemetry-card">
+                <span class="telemetry-label">Avg Response ETA</span>
+                <div class="sim-telemetry-num">3m 12s</div>
+              </div>
+              <div class="telemetry-card sim-telemetry-card">
+                <span class="telemetry-label">Distress Conf. Threshold</span>
+                <div class="sim-telemetry-num">&gt; 95%</div>
+              </div>
+              <div class="telemetry-card sim-telemetry-card">
+                <span class="telemetry-label">Evidence Cloud Status</span>
+                <div class="sim-telemetry-num" style="color: #2F9E5B;">Synced</div>
+              </div>
+            </div>
+
+            <!-- Activity Log -->
+            <div class="sim-log-list">
+              <div class="sim-log-entry">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #2F9E5B;"></span>
+                  <span><strong>PCR Unit #14:</strong> Patrolling Zone 2 &mdash; Sector 4 East</span>
+                </div>
+                <span class="sim-log-time">10:45 AM</span>
+              </div>
+              <div class="sim-log-entry">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #FDDB10;"></span>
+                  <span><strong>Routine Geofence Ping:</strong> 142 Active Citizens Protected in Area</span>
+                </div>
+                <span class="sim-log-time">10:40 AM</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- BalMitra Core Technology Section -->
+      <section class="engine-section" id="core-technology">
+        <div class="engine-header">
+          <span class="dash-eyebrow">
+            Core AI &amp; Safety Technology
+          </span>
+          <h2>The Intelligent Engine Behind the Portals</h2>
+          <p style="max-width: 620px; margin: 0 auto; color: var(--dash-ink-soft); font-size: 1.1rem;">
+            BalMitra and SafeVaani unite on-device edge intelligence with high-priority cloud emergency routers for maximum reliability.
+          </p>
+        </div>
+
+        <div class="engine-grid">
+          <div class="engine-card">
+            <div class="engine-icon-wrap" style="background: rgba(204, 78, 8, 0.1); color: var(--dash-orange);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+            </div>
+            <h4>Real-time Voice Analysis</h4>
+            <p>Our on-device neural network continuously analyzes vocal pitch and stress frequencies to recognize cries for help in milliseconds.</p>
+          </div>
+
+          <div class="engine-card">
+            <div class="engine-icon-wrap" style="background: rgba(63, 125, 222, 0.12); color: var(--dash-blue);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            </div>
+            <h4>Emotion &amp; Panic Detection</h4>
+            <p>Advanced machine learning differentiates genuine danger screams from sports, TV audio, and playful shouts to prevent false alarms.</p>
+          </div>
+
+          <div class="engine-card">
+            <div class="engine-icon-wrap" style="background: rgba(47, 158, 91, 0.12); color: var(--dash-green);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <h4>Instant Geo-Location Relay</h4>
+            <p>When panic is detected, high-precision GPS telemetry broadcasts simultaneously to family circles and the nearest police station.</p>
+          </div>
+
+          <div class="engine-card">
+            <div class="engine-icon-wrap" style="background: rgba(123, 92, 230, 0.12); color: var(--dash-purple);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <h4>Secure Evidence Cloud</h4>
+            <p>Audio snippets and time-stamped incident telemetry are securely signed and archived, serving as tamper-proof legal evidence.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- App Download Callout -->
+      <section class="app-callout">
+        <div>
+          <span style="font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: #FDDB10; display: inline-block; margin-bottom: 8px;">
+            ● Android Mobile Client
+          </span>
+          <h3>Deploy BalMitra on Android Devices</h3>
+          <p>
+            Lightweight, battery-efficient application running seamlessly in the background with locked screen support and offline SMS fallback.
+          </p>
+        </div>
+        <div>
+          <a href="https://github.com/shampatil23/Sham-Patil/releases/download/v/Balmitra.apk" class="app-download-btn">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download BalMitra APK
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Orbii Tone-Yellow Footer -->
+  <footer class="sf">
+    <div class="sf-in">
+      <div class="sf-row">
+        <nav aria-label="Footer">
+          <ul class="sf-main" role="list">
+            <li><a href="/features/">Features</a></li>
+            <li><a href="/voice-sos/">Voice SOS</a></li>
+            <li><a href="/dashboard/">Dashboards</a></li>
+            <li><a href="/dashboard/parent/">Parent Portal</a></li>
+            <li><a href="/dashboard/police/">Police CAD</a></li>
+            <li><a href="/help/">Help Center</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="/terms-of-service/">Terms &amp; Conditions</a></li>
+          </ul>
+        </nav>
+        <a href="https://play.google.com/store/apps/details?id=in.safevaani.app" target="_blank" rel="noopener" class="sf-play" aria-label="Get SafeVaani on Google Play">
+          <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+            <path d="M4 2.6l10.4 9.4L4 21.4c-.4-.2-.6-.6-.6-1.1V3.7c0-.5.2-.9.6-1.1z" fill="#34A853"></path>
+            <path d="M17.6 15L14.4 12l3.2-3 3.4 1.9c1 .6 1 1.6 0 2.2z" fill="#FBBC04"></path>
+            <path d="M4 2.6c.3-.2.8-.2 1.2 0l12.4 6.4-3.2 3z" fill="#4285F4"></path>
+            <path d="M14.4 12l3.2 3-12.4 6.4c-.4.2-.9.2-1.2 0z" fill="#EA4335"></path>
+          </svg>
+          <span><small>Get it on</small>Google Play</span>
+        </a>
+      </div>
+
+      <div class="sf-bar">
+        <p class="sf-copy">&copy; 2026 SafeVaani Safety. All rights reserved.</p>
+        <div class="sf-social">
+          <span>Follow our mission</span>
+          <a href="https://instagram.com/orbiisafety" target="_blank" rel="noopener" aria-label="SafeVaani on Instagram">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1F2236" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.4" cy="6.6" r="1.1" fill="#1F2236" stroke="none"></circle></svg>
+          </a>
+          <a href="https://twitter.com/orbiisafety" target="_blank" rel="noopener" aria-label="SafeVaani on X">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#1F2236" d="M18.2 2.3h3.3l-7.2 8.2 8.5 11.2h-6.6l-5.2-6.8-6 6.8H1.7l7.7-8.8L1.3 2.3h6.8l4.7 6.2zm-1.1 17.5h1.8L7.1 4.1H5.1z"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Header Scroll behavior
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      header?.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    // Mobile Hamburger
+    const burger = document.getElementById('hd-burger');
+    const sheet = document.getElementById('hd-sheet');
+    burger?.addEventListener('click', () => {
+      const isOpen = burger.getAttribute('aria-expanded') === 'true';
+      burger.setAttribute('aria-expanded', String(!isOpen));
+      burger.setAttribute('aria-label', !isOpen ? 'Close menu' : 'Open menu');
+      sheet.hidden = isOpen;
+      document.documentElement.style.overflow = !isOpen ? 'hidden' : '';
+    });
+    sheet?.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        burger?.setAttribute('aria-expanded', 'false');
+        if (sheet) sheet.hidden = true;
+        document.documentElement.style.overflow = '';
+      });
+    });
+
+    // Tab Switcher for Simulator
+    function switchTab(view) {
+      const parentTab = document.getElementById('tab-btn-parent');
+      const policeTab = document.getElementById('tab-btn-police');
+      const parentView = document.getElementById('view-parent');
+      const policeView = document.getElementById('view-police');
+
+      if (view === 'parent') {
+        parentTab?.classList.add('active');
+        policeTab?.classList.remove('active');
+        parentView?.classList.add('active');
+        policeView?.classList.remove('active');
+      } else {
+        policeTab?.classList.add('active');
+        parentTab?.classList.remove('active');
+        policeView?.classList.add('active');
+        parentView?.classList.remove('active');
+      }
+    }
+
+    // Interactive Alert Simulation
+    function simulateAlert() {
+      const btn = document.getElementById('test-alert-btn');
+      const stateEl = document.getElementById('parent-sim-state');
+      const logList = document.getElementById('parent-log-list');
+
+      if (!btn || !stateEl || !logList) return;
+
+      btn.disabled = true;
+      btn.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> Emergency SOS Triggered...</span>`;
+      btn.style.background = '#EF5B4C';
+      btn.style.color = '#FFFFFF';
+
+      stateEl.textContent = 'CRITICAL SOS';
+      stateEl.style.color = '#EF5B4C';
+
+      // Insert mock alert entry
+      const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const newEntry = document.createElement('div');
+      newEntry.className = 'sim-log-entry';
+      newEntry.style.borderColor = '#EF5B4C';
+      newEntry.style.background = '#FDEDEC';
+      newEntry.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: #EF5B4C; animation: alertBlink 1s infinite;"></span>
+          <span><strong style="color: #C0392B;">High Distress Trigger:</strong> Voice keyword "Bachao" detected. Police 112 alerted &amp; PCR Unit #09 dispatched.</span>
+        </div>
+        <span class="sim-log-time">${now}</span>
+      `;
+      logList.prepend(newEntry);
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> Simulate Test SOS Trigger</span>`;
+        btn.style.background = '#FDDB10';
+        btn.style.color = 'var(--dash-ink)';
+      }, 5000);
+    }
+
+    // Theme Management (Light / Dark Mode)
+    function getSafeVaaniTheme() {
+      return document.documentElement.getAttribute("data-theme") || "light";
+    }
+    function updateThemeLabels(theme) {
+      document.querySelectorAll(".theme-toggle-label").forEach((el) => {
+        el.textContent = theme === "dark" ? "Light" : "Dark";
+      });
+    }
+    function toggleSafeVaaniTheme() {
+      const current = getSafeVaaniTheme();
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try {
+        localStorage.setItem("safevaani_theme", next);
+      } catch(e){}
+      updateThemeLabels(next);
+    }
+    document.querySelectorAll(".btn-theme-toggle, #theme-toggle-btn").forEach((btn) => {
+      btn.addEventListener("click", toggleSafeVaaniTheme);
+    });
+    updateThemeLabels(getSafeVaaniTheme());
+  </script>
+  <script src="/google-translate.js"></script>
+</body>
+</html>

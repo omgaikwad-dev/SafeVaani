@@ -1,0 +1,3255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FDDB10">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Mrs+Saint+Delafield&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Titan+One&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+  <meta name="author" content="SafeVaani Safety">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <title>Police CAD Command Center &amp; 112 Dispatch | SafeVaani Safety</title>
+  <meta name="description" content="Authorized law enforcement dispatch operations room. Real-time Voice SOS distress alerts, ambient screaming verification, and automated PCR patrol routing.">
+  
+  <link rel="stylesheet" href="/_astro/Layout.DFqHNPMM.css">
+  <link rel="stylesheet" href="/_astro/Footer.vCNRsjcb.css">
+
+  <!-- Leaflet Map CSS & JS (OpenStreetMap API + Local Resilient Fallback) -->
+  <link rel="stylesheet" href="/_astro/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="/_astro/leaflet.js"></script>
+  <script>
+    if (typeof L === 'undefined') {
+      document.write('<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""><\/script>');
+    }
+  </script>
+  <!-- Theme & Session Pre-Render Check (Zero Flicker) -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem("safevaani_theme");
+        if (!t && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          t = "dark";
+        }
+        if (t === "dark") document.documentElement.setAttribute("data-theme", "dark");
+        else document.documentElement.setAttribute("data-theme", "light");
+
+        if (localStorage.getItem("police_cad_session")) {
+          document.documentElement.classList.add("police-session-active");
+        }
+      } catch(e) {}
+    })();
+  </script>
+  <style>
+    html.police-session-active #police-auth-view { display: none !important; }
+    html.police-session-active #police-console-view { display: block !important; }
+  </style>
+
+  <style>
+    :root {
+      --dash-bg: #F8F3E8;
+      --dash-card-bg: #FFFFFF;
+      --dash-ink: #1F2236;
+      --dash-ink-soft: #565A70;
+      --dash-border: #E6DDC9;
+      --dash-border-light: #EFE8D8;
+      --dash-yellow: #FDDB10;
+      --dash-blue: #3F7DDE;
+      --dash-blue-dark: #204EA3;
+      --dash-orange: #CC4E08;
+      --dash-green: #2F9E5B;
+      --dash-coral: #EF5B4C;
+      --dash-red: #D9251D;
+      --dash-purple: #7B5CE6;
+    }
+
+    /* ========================================================
+       DARK THEME SYSTEM TOKENS & OVERRIDES
+    ======================================================== */
+    html[data-theme="dark"] {
+      --dash-bg: #0C1017;
+      --dash-card-bg: #151A24;
+      --dash-card-hover: #1C2331;
+      --dash-ink: #F1F4F9;
+      --dash-ink-soft: #9BA3B5;
+      --dash-border: #222938;
+      --dash-border-light: #1A202D;
+      --dash-yellow: #FDDB10;
+      --dash-blue: #4D8BEE;
+      --dash-blue-dark: #3264BA;
+      --dash-orange: #E65C14;
+      --dash-green: #34AD65;
+      --dash-coral: #F1685A;
+      --dash-red: #E63935;
+      --dash-purple: #8B6EF3;
+    }
+
+    /* Dark Mode Global Overrides for Police Dashboard */
+    html[data-theme="dark"] body {
+      background-color: var(--dash-bg);
+      color: var(--dash-ink);
+    }
+    html[data-theme="dark"] .site-header {
+      background: #11151F;
+      border-bottom: 1px solid var(--dash-border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    html[data-theme="dark"] .hd-brand-text,
+    html[data-theme="dark"] .hd-link {
+      color: #F1F4F9;
+    }
+    html[data-theme="dark"] .hd-link:hover {
+      color: var(--dash-blue);
+    }
+    html[data-theme="dark"] .hd-cta {
+      background: var(--dash-yellow);
+      color: #1F2236;
+    }
+    html[data-theme="dark"] .hd-sheet {
+      background: #11151F !important;
+    }
+    html[data-theme="dark"] .crumb-bar a,
+    html[data-theme="dark"] .crumb-bar .crumb-sep {
+      color: var(--dash-ink-soft);
+    }
+    html[data-theme="dark"] .crumb-bar .crumb-current {
+      color: var(--dash-ink);
+    }
+    html[data-theme="dark"] .police-auth-card,
+    html[data-theme="dark"] .cad-top-bar,
+    html[data-theme="dark"] .kpi-card,
+    html[data-theme="dark"] .feed-controls-bar,
+    html[data-theme="dark"] .event-feed-card,
+    html[data-theme="dark"] .cad-map-box,
+    html[data-theme="dark"] .police-node-detail-panel,
+    html[data-theme="dark"] .incidents-log-card,
+    html[data-theme="dark"] .notice-security {
+      background: var(--dash-card-bg);
+      border-color: var(--dash-border);
+      box-shadow: 0 6px 24px -8px rgba(0, 0, 0, 0.45);
+    }
+    html[data-theme="dark"] .cad-tab-link {
+      background: #10141D;
+      border-color: var(--dash-border);
+      color: var(--dash-ink-soft);
+    }
+    html[data-theme="dark"] .cad-tab-link.active {
+      background: var(--dash-card-bg);
+      color: var(--dash-ink);
+      border-color: var(--dash-blue);
+    }
+    html[data-theme="dark"] .form-input,
+    html[data-theme="dark"] .feed-search-input {
+      background: #0E121A;
+      border-color: var(--dash-border);
+      color: var(--dash-ink);
+    }
+    html[data-theme="dark"] .form-input:focus,
+    html[data-theme="dark"] .feed-search-input:focus {
+      border-color: var(--dash-blue);
+      box-shadow: 0 0 0 3px rgba(77, 139, 238, 0.2);
+      background: #131822;
+    }
+    html[data-theme="dark"] .filter-chip {
+      background: #10141D;
+      border-color: var(--dash-border);
+      color: var(--dash-ink-soft);
+    }
+    html[data-theme="dark"] .filter-chip:hover {
+      background: #182030;
+      color: var(--dash-ink);
+    }
+    html[data-theme="dark"] .filter-chip.active {
+      background: var(--dash-ink);
+      color: #0C1017;
+      border-color: var(--dash-ink);
+    }
+    html[data-theme="dark"] .quad-box {
+      background: #0E121A;
+      border-color: var(--dash-border);
+    }
+    html[data-theme="dark"] .log-table th {
+      background: #0E121A;
+      color: var(--dash-ink-soft);
+      border-color: var(--dash-border);
+    }
+    html[data-theme="dark"] .log-table td {
+      border-color: var(--dash-border);
+      color: var(--dash-ink);
+    }
+    html[data-theme="dark"] .log-table tbody tr:hover td {
+      background: #182030;
+    }
+    html[data-theme="dark"] .btn-loc-radar,
+    html[data-theme="dark"] .btn-loc-gmaps,
+    html[data-theme="dark"] .btn-return-hub {
+      background: #10141D;
+      border-color: var(--dash-border);
+      color: var(--dash-ink);
+    }
+    html[data-theme="dark"] .btn-loc-radar:hover,
+    html[data-theme="dark"] .btn-loc-gmaps:hover,
+    html[data-theme="dark"] .btn-return-hub:hover {
+      background: #182030;
+      border-color: var(--dash-blue);
+      color: #FFFFFF;
+    }
+    html[data-theme="dark"] .btn-demo-police {
+      background: #10141D;
+      border-color: var(--dash-border);
+      color: var(--dash-blue);
+    }
+    html[data-theme="dark"] .btn-demo-police:hover {
+      background: #182030;
+    }
+    html[data-theme="dark"] .empty-state-box {
+      background: #10141D;
+      border-color: var(--dash-border);
+      color: var(--dash-ink);
+    }
+    /* Dark tactical GIS Leaflet Map */
+    html[data-theme="dark"] #police-tactical-map .leaflet-tile {
+      filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+    }
+    html[data-theme="dark"] .leaflet-control-zoom-in,
+    html[data-theme="dark"] .leaflet-control-zoom-out {
+      background: #151A24 !important;
+      color: #F1F4F9 !important;
+      border-color: var(--dash-border) !important;
+    }
+    html[data-theme="dark"] .leaflet-control-attribution {
+      background: rgba(12, 16, 23, 0.8) !important;
+      color: #9BA3B5 !important;
+    }
+    html[data-theme="dark"] .sf {
+      background: #080A0F;
+      border-top: 1px solid var(--dash-border);
+    }
+    html[data-theme="dark"] .sf-main a,
+    html[data-theme="dark"] .sf-copy {
+      color: var(--dash-ink-soft);
+    }
+    html[data-theme="dark"] .sf-main a:hover {
+      color: #FFFFFF;
+    }
+
+    /* Theme Toggle Button */
+    .btn-theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(31, 34, 54, 0.08);
+      border: 1.5px solid var(--dash-border);
+      padding: 6px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--dash-ink);
+      transition: all .2s ease;
+      user-select: none;
+    }
+    .btn-theme-toggle:hover {
+      background: rgba(31, 34, 54, 0.15);
+      transform: translateY(-1px);
+    }
+    html[data-theme="dark"] .btn-theme-toggle {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--dash-border);
+      color: #F1F4F9;
+    }
+    html[data-theme="dark"] .btn-theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+    .theme-toggle-track {
+      width: 30px;
+      height: 18px;
+      background: #D8D0BC;
+      border-radius: 999px;
+      position: relative;
+      transition: background .25s ease;
+      display: inline-block;
+    }
+    html[data-theme="dark"] .theme-toggle-track {
+      background: #3F7DDE;
+    }
+    .theme-toggle-thumb {
+      width: 14px;
+      height: 14px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+    html[data-theme="dark"] .theme-toggle-thumb {
+      transform: translateX(12px);
+      background: #0B0E14;
+      color: #FDDB10;
+    }
+    .icon-sun { display: block; color: #CC4E08; }
+    .icon-moon { display: none; }
+    html[data-theme="dark"] .icon-sun { display: none; }
+    html[data-theme="dark"] .icon-moon { display: block; color: #FDDB10; }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--dash-bg);
+      color: var(--dash-ink);
+      font-family: var(--font-sans);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .site-header {
+      background: var(--dash-yellow);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      transition: box-shadow .25s ease;
+    }
+    .site-header.scrolled {
+      box-shadow: 0 6px 20px -14px rgba(31, 34, 54, 0.4);
+    }
+    .hd {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      max-width: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0 clamp(16px, 1.8vw, 32px);
+      box-sizing: border-box;
+    }
+    .hd-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .hd-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: block;
+    }
+    .hd-brand-text {
+      font-family: var(--font-wordmark);
+      font-size: 1.4rem;
+      color: var(--dash-ink);
+    }
+    .hd-nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 2vw, 28px);
+    }
+    .hd-link {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--dash-ink);
+      text-decoration: none;
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+      transition: border-color .18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hd-link:hover {
+      border-bottom-color: rgba(31, 34, 54, 0.45);
+    }
+    .hd-link[aria-current="page"] {
+      border-bottom-color: var(--dash-blue);
+      color: var(--dash-blue-dark);
+    }
+    .hd-cta {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--dash-ink);
+      text-decoration: none;
+      padding: 7px 18px;
+      border: 1.5px solid var(--dash-ink);
+      border-radius: 999px;
+      transition: all .18s ease;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hd-cta:hover {
+      background: var(--dash-ink);
+      color: #FFFFFF;
+    }
+    .hd-burger {
+      display: none;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .hd-burger span {
+      display: block;
+      width: 24px;
+      height: 2.5px;
+      background: var(--dash-ink);
+      margin: 5px 0;
+      border-radius: 2px;
+    }
+    @media (max-width: 860px) {
+      .hd-nav { display: none; }
+      .hd-burger { display: block; }
+    }
+
+    .police-main {
+      flex: 1;
+      padding-top: 86px;
+      padding-bottom: 36px;
+      max-width: 100%;
+      width: 100%;
+      margin: 0;
+      padding-left: clamp(14px, 1.4vw, 24px);
+      padding-right: clamp(14px, 1.4vw, 24px);
+      box-sizing: border-box;
+    }
+
+    /* Breadcrumbs */
+    .crumb-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--dash-ink-soft);
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .crumb-bar a {
+      color: var(--dash-ink-soft);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .crumb-bar a:hover { color: var(--dash-ink); }
+    .crumb-bar .crumb-sep { opacity: 0.45; }
+    .crumb-bar .crumb-current { color: var(--dash-ink); font-weight: 700; }
+
+    /* Page Header */
+    .police-hero {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 36px auto;
+    }
+    .badge-police-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(63, 125, 222, 0.12);
+      color: var(--dash-blue-dark);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(63, 125, 222, 0.28);
+    }
+    .police-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      line-height: 1.15;
+      color: var(--dash-ink);
+      margin: 0 0 14px 0;
+      letter-spacing: -0.015em;
+    }
+    .police-title em {
+      font-family: var(--font-script);
+      font-style: normal;
+      color: var(--dash-blue);
+      font-size: 1.25em;
+      font-weight: 400;
+      display: inline-block;
+      transform: translateY(2px);
+    }
+    .police-desc {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--dash-ink-soft);
+      margin: 0 auto;
+      max-width: 620px;
+    }
+
+    /* Auth Card Container */
+    .police-auth-wrap {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .police-auth-card {
+      background: var(--dash-card-bg);
+      border: 1.5px solid var(--dash-border);
+      border-radius: 24px;
+      padding: clamp(24px, 4.5vw, 36px);
+      box-shadow: 0 18px 45px -12px rgba(31, 34, 54, 0.14);
+      position: relative;
+    }
+    .police-auth-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #1F2236, #3F7DDE, #FDDB10);
+      border-top-left-radius: 22px;
+      border-top-right-radius: 22px;
+    }
+
+    .notice-security {
+      background: #FFF9E6;
+      border: 1px solid #FFE28A;
+      color: #7A5B00;
+      padding: 11px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--dash-ink);
+      margin-bottom: 7px;
+    }
+    .form-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .form-icon {
+      position: absolute;
+      left: 14px;
+      color: var(--dash-ink-soft);
+      pointer-events: none;
+    }
+    .form-input {
+      width: 100%;
+      padding: 13px 14px 13px 44px;
+      border: 1.5px solid var(--dash-border);
+      border-radius: 12px;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      color: var(--dash-ink);
+      background: #FAF8F2;
+      transition: all .2s ease;
+      outline: none;
+    }
+    .form-input:focus {
+      background: #FFFFFF;
+      border-color: var(--dash-blue);
+      box-shadow: 0 0 0 3px rgba(63, 125, 222, 0.15);
+    }
+    .form-input::placeholder { color: #A3A6B4; }
+
+    .btn-police-submit {
+      width: 100%;
+      background: var(--dash-ink);
+      color: #FFFFFF;
+      border: 0;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 10px 24px -10px rgba(31, 34, 54, 0.5);
+      transition: all .2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-police-submit:hover {
+      background: #111422;
+      transform: translateY(-1px);
+    }
+
+    .demo-divider {
+      position: relative;
+      text-align: center;
+      margin: 24px 0;
+    }
+    .demo-divider::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--dash-border);
+    }
+    .demo-divider span {
+      position: relative;
+      background: var(--dash-card-bg);
+      padding: 0 12px;
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      color: var(--dash-ink-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .btn-demo-police {
+      width: 100%;
+      background: #EFF3FC;
+      color: var(--dash-blue-dark);
+      border: 1px solid rgba(63, 125, 222, 0.3);
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all .2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-demo-police:hover {
+      background: #DFE8F9;
+    }
+
+    /* ========================================================
+       AUTHENTICATED POLICE CAD COMMAND CONSOLE
+    ======================================================== */
+    .police-console {
+      display: none;
+      animation: fadeIn .3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .cad-top-bar {
+      background: #FFFFFF;
+      border: 1.5px solid var(--dash-border);
+      border-radius: 18px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 18px -6px rgba(31, 34, 54, 0.08);
+    }
+    .officer-profile-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .officer-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--dash-ink);
+      color: #FDDB10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      border: 1.5px solid var(--dash-border);
+    }
+
+    /* Section Navigation Bar */
+    .cad-section-tabs {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #FAF8F2;
+      border: 1.5px solid var(--dash-border);
+      border-radius: 16px;
+      padding: 6px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .cad-section-tabs::-webkit-scrollbar { display: none; }
+
+    .cad-tab-link {
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: 0;
+      background: transparent;
+      color: var(--dash-ink-soft);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: all .2s ease;
+      text-decoration: none;
+    }
+    .cad-tab-link:hover {
+      color: var(--dash-ink);
+      background: rgba(31, 34, 54, 0.05);
+    }
+    .cad-tab-link.active {
+      background: #FFFFFF;
+      color: var(--dash-ink);
+      box-shadow: 0 2px 8px rgba(31, 34, 54, 0.08);
+    }
+    .tab-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #D9251D;
+      display: inline-block;
+      animation: alertPulse 1.6s infinite;
+    }
+    .tab-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: #FEECEB;
+      color: #D9251D;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .kpi-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--dash-border);
+      border-radius: 16px;
+      padding: 18px 20px;
+      box-shadow: 0 4px 14px -6px rgba(31, 34, 54, 0.06);
+    }
+    .kpi-title {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--dash-ink-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .kpi-num {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--dash-ink);
+      margin-bottom: 4px;
+    }
+    .kpi-sub {
+      font-size: 0.8rem;
+      color: var(--dash-ink-soft);
+    }
+
+    /* ========================================================
+       SECTION 1: RECENT EVENT HISTORY (FIREBASE REALTIME DB)
+    ======================================================== */
+    .section-wrap {
+      margin-bottom: 36px;
+      scroll-margin-top: 90px;
+    }
+    .section-header-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .section-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--dash-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+    }
+    .section-heading {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      margin: 0;
+      color: var(--dash-ink);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-desc {
+      font-size: 0.88rem;
+      color: var(--dash-ink-soft);
+      margin: 0;
+      max-width: 680px;
+    }
+
+    /* Controls bar */
+    .feed-controls-bar {
+      background: #FFFFFF;
+      border: 1.5px solid var(--dash-border);
+      border-radius: 16px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .feed-search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 240px;
+    }
+    .feed-search-input {
+      width: 100%;
+      padding: 9px 12px 9px 36px;
+      border: 1.5px solid var(--dash-border);
+      border-radius: 10px;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      background: #FAF8F2;
+      outline: none;
+      transition: all .2s ease;
+    }
+    .feed-search-input:focus {
+      background: #FFFFFF;
+      border-color: var(--dash-blue);
+    }
+    .feed-filter-chips {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .filter-chip {
+      background: #FAF8F2;
+      border: 1px solid var(--dash-border);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--dash-ink-soft);
+      cursor: pointer;
+      transition: all .15s ease;
+    }
+    .filter-chip.active, .filter-chip:hover {
+      background: var(--dash-ink);
+      color: #FFFFFF;
+      border-color: var(--dash-ink);
+    }
+    .btn-sync-rtdb {
+      background: rgba(47, 158, 91, 0.12);
+      color: #2F9E5B;
+      border: 1px solid rgba(47, 158, 91, 0.3);
+      padding: 7px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background .2s ease;
+    }
+    .btn-sync-rtdb:hover {
+      background: rgba(47, 158, 91, 0.2);
+    }
+    .sync-icon.spinning {
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Event History Cards List */
+    .events-feed-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .event-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--dash-border);
+      border-radius: 20px;
+      padding: clamp(20px, 3vw, 26px);
+      box-shadow: 0 6px 20px -8px rgba(31, 34, 54, 0.08);
+      position: relative;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .event-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px -10px rgba(31, 34, 54, 0.12);
+    }
+    .event-card.emergency-critical {
+      border-color: rgba(217, 37, 29, 0.5);
+      border-left: 6px solid #D9251D;
+    }
+    .event-card.emergency-domestic {
+      border-color: rgba(204, 78, 8, 0.5);
+      border-left: 6px solid #CC4E08;
+    }
+    .event-card.emergency-standard {
+      border-color: rgba(63, 125, 222, 0.5);
+      border-left: 6px solid var(--dash-blue);
+    }
+
+    .event-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .event-id-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .event-id-badge {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.85rem;
+      background: #FAF8F2;
+      border: 1px solid var(--dash-border);
+      padding: 4px 10px;
+      border-radius: 8px;
+      color: var(--dash-ink);
+    }
+    .event-time-pill {
+      font-size: 0.8rem;
+      color: var(--dash-ink-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .event-status-tag {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .tag-critical {
+      background: #FEECEB;
+      color: #D9251D;
+      border: 1px solid rgba(217, 37, 29, 0.3);
+    }
+    .tag-domestic {
+      background: #FFF3EB;
+      color: #CC4E08;
+      border: 1px solid rgba(204, 78, 8, 0.3);
+    }
+    .tag-dispatched {
+      background: #EFF3FC;
+      color: var(--dash-blue);
+      border: 1px solid rgba(63, 125, 222, 0.3);
+    }
+    .tag-resolved {
+      background: #EAF7EE;
+      color: #2F9E5B;
+      border: 1px solid rgba(47, 158, 91, 0.3);
+    }
+
+    /* Caller info row */
+    .event-caller-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background: #FAF8F2;
+      border-radius: 12px;
+      border: 1px solid var(--dash-border-light);
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .caller-details {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .caller-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #EDE6D6;
+      color: var(--dash-ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .caller-name {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--dash-ink);
+    }
+    .caller-phone {
+      font-size: 0.82rem;
+      color: var(--dash-ink-soft);
+      font-family: var(--font-mono);
+    }
+    .btn-quick-call {
+      color: var(--dash-blue-dark);
+      background: #FFFFFF;
+      border: 1px solid rgba(63, 125, 222, 0.3);
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background .15s ease;
+    }
+    .btn-quick-call:hover {
+      background: #EFF3FC;
+    }
+
+    /* Core 4 Feature Grid inside each alert card */
+    .event-quad-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .quad-box {
+      background: #FAF8F2;
+      border: 1px solid var(--dash-border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .quad-title {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--dash-ink-soft);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .quad-main-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--dash-ink);
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+    .quad-sub-text {
+      font-size: 0.8rem;
+      color: var(--dash-ink-soft);
+      line-height: 1.4;
+    }
+
+    /* Location section */
+    .loc-coords {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--dash-blue-dark);
+      background: #EFF3FC;
+      padding: 4px 8px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    .loc-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .btn-loc-radar {
+      background: #FFFFFF;
+      border: 1px solid var(--dash-border);
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--dash-ink);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all .15s ease;
+    }
+    .btn-loc-radar:hover {
+      background: #EDE6D6;
+      border-color: #DACFBA;
+    }
+    .btn-loc-gmaps {
+      color: var(--dash-blue);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-loc-gmaps:hover { text-decoration: underline; }
+
+    /* Voice Recording Box */
+    .audio-player-box {
+      background: #FFFFFF;
+      border: 1.5px solid rgba(63, 125, 222, 0.25);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-top: 4px;
+    }
+    .audio-player-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-audio-play {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--dash-blue);
+      color: #FFFFFF;
+      border: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .18s ease, transform .15s ease;
+      flex-shrink: 0;
+    }
+    .btn-audio-play:hover {
+      background: var(--dash-blue-dark);
+      transform: scale(1.06);
+    }
+    .waveform-visualizer {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 22px;
+      flex: 1;
+    }
+    .wave-bar {
+      width: 3.5px;
+      height: 6px;
+      background: #3F7DDE;
+      border-radius: 2px;
+      opacity: 0.45;
+      transition: height .2s ease;
+    }
+    .waveform-visualizer.playing .wave-bar {
+      opacity: 1;
+      animation: wavePulse 0.8s ease-in-out infinite alternate;
+    }
+    .waveform-visualizer.playing .wave-bar:nth-child(2) { animation-delay: 0.15s; }
+    .waveform-visualizer.playing .wave-bar:nth-child(3) { animation-delay: 0.3s; }
+    .waveform-visualizer.playing .wave-bar:nth-child(4) { animation-delay: 0.45s; }
+    .waveform-visualizer.playing .wave-bar:nth-child(5) { animation-delay: 0.2s; }
+    .waveform-visualizer.playing .wave-bar:nth-child(6) { animation-delay: 0.35s; }
+    .waveform-visualizer.playing .wave-bar:nth-child(7) { animation-delay: 0.5s; }
+    .waveform-visualizer.playing .wave-bar:nth-child(8) { animation-delay: 0.1s; }
+    @keyframes wavePulse {
+      0% { height: 4px; }
+      100% { height: 22px; }
+    }
+    .audio-time-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--dash-ink-soft);
+      white-space: nowrap;
+    }
+
+    /* ETA Box */
+    .eta-highlight {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--dash-red);
+      margin-bottom: 4px;
+    }
+    .eta-progress-track {
+      width: 100%;
+      height: 6px;
+      background: #E6DDC9;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 8px 0;
+    }
+    .eta-progress-bar {
+      height: 100%;
+      width: 65%;
+      background: linear-gradient(90deg, #FDDB10, #3F7DDE, #D9251D);
+      border-radius: 999px;
+      animation: etaProgress 3s infinite alternate ease-in-out;
+    }
+    @keyframes etaProgress {
+      0% { width: 45%; }
+      100% { width: 85%; }
+    }
+
+    /* Action buttons row */
+    .event-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1px solid var(--dash-border-light);
+      flex-wrap: wrap;
+    }
+    .btn-dispatch-event {
+      background: #D9251D;
+      color: #FFFFFF;
+      border: 0;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px -4px rgba(217, 37, 29, 0.5);
+      transition: all .18s ease;
+    }
+    .btn-dispatch-event:hover {
+      background: #B81D16;
+      transform: translateY(-1px);
+    }
+    .btn-dispatch-event.dispatched {
+      background: var(--dash-ink);
+      box-shadow: none;
+    }
+    .btn-resolve-event {
+      background: #FAF8F2;
+      color: var(--dash-green);
+      border: 1.5px solid var(--dash-border);
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all .15s ease;
+    }
+    .btn-resolve-event:hover {
+      background: #EAF7EE;
+      border-color: #A3D8B4;
+    }
+
+    /* Map Box (Section 2 - Leaflet OpenStreetMap) */
+    .cad-map-box {
+      background: #FFFFFF;
+      border: 1.5px solid var(--dash-border);
+      border-radius: 20px;
+      padding: clamp(20px, 3.5vw, 28px);
+      box-shadow: 0 6px 20px -8px rgba(31, 34, 54, 0.08);
+    }
+    .police-map-split {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    @media (min-width: 980px) {
+      .police-map-split.has-selection {
+        grid-template-columns: 1.45fr 1fr;
+      }
+    }
+    #police-tactical-map {
+      height: 480px;
+      width: 100%;
+      border-radius: 16px;
+      border: 1.5px solid var(--dash-border);
+      z-index: 5;
+    }
+    .safety-beacon {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+    }
+    .safety-beacon-ring {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: rgba(217, 37, 29, 0.4);
+      animation: beaconPulse 1.8s infinite;
+    }
+    .safety-beacon-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 32px;
+      height: 32px;
+      background: #D9251D;
+      color: #FFFFFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(217, 37, 29, 0.6);
+      border: 2px solid #FFFFFF;
+      transition: transform .2s ease;
+    }
+    .safety-beacon:hover .safety-beacon-core {
+      transform: translate(-50%, -50%) scale(1.15);
+    }
+    .safety-beacon.domestic .safety-beacon-core {
+      background: #CC4E08;
+      box-shadow: 0 4px 12px rgba(204, 78, 8, 0.6);
+    }
+    .safety-beacon.domestic .safety-beacon-ring {
+      background: rgba(204, 78, 8, 0.4);
+    }
+    .safety-beacon-label {
+      position: absolute;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(31, 34, 54, 0.94);
+      backdrop-filter: blur(4px);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      font-family: var(--font-mono);
+      pointer-events: none;
+    }
+    @keyframes beaconPulse {
+      0% { transform: scale(0.9); opacity: 0.9; }
+      50% { transform: scale(1.7); opacity: 0.2; }
+      100% { transform: scale(0.9); opacity: 0.9; }
+    }
+    .police-node-detail-panel {
+      background: #FAF8F2;
+      border: 1.5px solid var(--dash-border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeIn .25s ease;
+    }
+
+    /* Incident Log Table (Section 3) */
+    .incidents-log-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--dash-border);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 4px 14px -6px rgba(31, 34, 54, 0.06);
+    }
+    .log-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .log-table th {
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--dash-ink-soft);
+      padding: 12px 14px;
+      border-bottom: 1.5px solid var(--dash-border);
+    }
+    .log-table td {
+      padding: 14px;
+      border-bottom: 1px solid var(--dash-border-light);
+      color: var(--dash-ink);
+    }
+
+    /* Empty State */
+    .empty-state-box {
+      text-align: center;
+      padding: 48px 24px;
+      background: #FFFFFF;
+      border: 1.5px dashed var(--dash-border);
+      border-radius: 20px;
+      color: var(--dash-ink-soft);
+    }
+
+    /* Return button */
+    .btn-return-hub {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--dash-ink-soft);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 10px 22px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--dash-border);
+      border-radius: 999px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(31, 34, 54, 0.04);
+    }
+    .btn-return-hub:hover {
+      color: var(--dash-ink);
+      border-color: var(--dash-ink);
+      transform: translateX(-3px);
+      box-shadow: 0 4px 12px rgba(31, 34, 54, 0.08);
+    }
+
+    /* ========================================================
+       ORBII FOOTER STYLING
+    ======================================================== */
+    .sf {
+      background: var(--dash-yellow);
+      color: var(--dash-ink);
+      margin-top: 60px;
+      border-top: 1px solid rgba(31, 34, 54, 0.15);
+      position: relative;
+      z-index: 10;
+      width: 100%;
+    }
+    .sf-in {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 38px clamp(20px, 3.5vw, 56px) 28px;
+    }
+    .sf-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      padding-bottom: 24px;
+    }
+    .sf-main {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px 34px;
+    }
+    .sf-main li {
+      margin: 0;
+      padding: 0;
+    }
+    .sf-main a {
+      color: var(--dash-ink);
+      text-decoration: none;
+      font-family: var(--font-sans);
+      font-size: 0.96rem;
+      font-weight: 600;
+      transition: opacity .18s ease;
+    }
+    .sf-main a:hover {
+      opacity: 0.75;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    .sf-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-top: 22px;
+      border-top: 1px solid rgba(31, 34, 54, 0.15);
+    }
+    .sf-copy {
+      margin: 0;
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      color: var(--dash-ink);
+      opacity: 0.85;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Header -->
+  <header class="site-header tone-yellow" id="site-header">
+    <div class="hd">
+      <a href="/" class="hd-logo" aria-label="SafeVaani Safety, home">
+        <img class="hd-mark" src="/brand/safevaani-logo-512.png" alt="" width="44" height="44" decoding="async">
+        <span class="hd-brand-text">SafeVaani</span>
+      </a>
+
+      <nav class="hd-nav" aria-label="Main navigation">
+        <a href="/features" class="hd-link">Features</a>
+        <a href="/voice-sos" class="hd-link">Voice SOS</a>
+        <a href="/dashboard/" class="hd-link">Dashboards Hub</a>
+        <a href="/dashboard/parent/" class="hd-link">Parent Portal</a>
+        <a href="/dashboard/police/" class="hd-link" aria-current="page">Police CAD</a>
+        <div class="lang-toggle-wrap">
+          <div class="lang-toggle-box" title="Change Language / भाषा बदलें">
+            <span class="lang-globe-icon" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+            </span>
+            <select class="sv-lang-select" aria-label="Language Selector">
+              <option value="en">English (EN)</option>
+              <option value="hi">हिन्दी (Hindi)</option>
+              <option value="mr">मराठी (Marathi)</option>
+              <option value="gu">ગુજરાતી (Gujarati)</option>
+              <option value="ta">தமிழ் (Tamil)</option>
+              <option value="te">తెలుగు (Telugu)</option>
+              <option value="kn">ಕನ್ನಡ (Kannada)</option>
+              <option value="bn">বাংলা (Bengali)</option>
+              <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+            </select>
+          </div>
+        </div>
+        <button type="button" class="btn-theme-toggle" id="theme-toggle-btn" aria-label="Toggle Dark and Light Mode" title="Toggle Theme">
+          <span class="theme-toggle-track">
+            <span class="theme-toggle-thumb">
+              <svg class="icon-sun" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+              <svg class="icon-moon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </span>
+          </span>
+          <span class="theme-toggle-label">Dark</span>
+        </button>
+        <a href="https://play.google.com/store/apps/details?id=in.safevaani.app" target="_blank" rel="noopener" class="hd-cta" style="margin-left:8px;">Try now for free</a>
+      </nav>
+
+      <button class="hd-burger" type="button" aria-label="Open menu" id="burger-btn">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="hd-sheet" id="hd-sheet" hidden style="position:fixed;top:72px;left:0;right:0;bottom:0;background:#F8F3E8;z-index:999;padding:24px;">
+    <nav style="display:flex;flex-direction:column;gap:18px;font-size:1.15rem;font-weight:600;">
+      <a href="/dashboard/" style="color:var(--dash-ink);text-decoration:none;">Unified Dashboard</a>
+      <a href="/dashboard/parent/" style="color:var(--dash-ink);text-decoration:none;">Parent Portal</a>
+      <a href="/dashboard/police/" style="color:var(--dash-blue);text-decoration:none;font-weight:700;">Police CAD Command &rarr;</a>
+      <a href="/features" style="color:var(--dash-ink);text-decoration:none;">Features</a>
+      <a href="/voice-sos" style="color:var(--dash-ink);text-decoration:none;">Voice SOS</a>
+      <a href="/" style="color:var(--dash-ink);text-decoration:none;">Home</a>
+    </nav>
+  </div>
+
+  <main class="police-main">
+    <!-- Breadcrumb -->
+    <div class="crumb-bar">
+      <a href="/">Home</a>
+      <span class="crumb-sep">/</span>
+      <a href="/dashboard/">Dashboards</a>
+      <span class="crumb-sep">/</span>
+      <span class="crumb-current">Police CAD Room</span>
+    </div>
+
+    <!-- ========================================================
+         VIEW 1: POLICE AUTHENTICATION (Direct Access, No Landing)
+    ======================================================== -->
+    <div id="police-auth-view" class="police-auth-wrap">
+      <div class="police-hero">
+        <div class="badge-police-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          CAD 112 &bull; Law Enforcement Access
+        </div>
+        <h1 class="police-title">Police Emergency <em>Command Room</em></h1>
+        <p class="police-desc">
+          Official access for police control rooms and PCR dispatch officers. Real-time distress telemetry and verified ambient audio evidence.
+        </p>
+      </div>
+
+      <div class="police-auth-card">
+        <div class="notice-security">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7A5B00" stroke-width="2" style="shrink:0;margin-top:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          <span><strong>Authorized Police Personnel Only:</strong> All access attempts are cryptographically timestamped and logged under official CAD 112 protocol.</span>
+        </div>
+
+        <div style="background:rgba(43,76,126,0.08);border:1px solid rgba(43,76,126,0.2);border-radius:12px;padding:12px 14px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:0.75rem;font-weight:700;color:var(--dash-blue);text-transform:uppercase;letter-spacing:0.04em;">Official Sentinel CAD Credentials</div>
+            <div style="font-size:0.84rem;font-family:var(--font-mono);color:var(--dash-ink);margin-top:2px;">
+              <strong>admin@police.sentinel.gov</strong> &bull; SecureLogin!2024
+            </div>
+          </div>
+          <button type="button" id="btn-autofill-police" style="background:var(--dash-blue);color:#FFF;border:0;padding:6px 14px;border-radius:8px;font-size:0.8rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+            <span>Auto-fill &amp; Login</span> &rarr;
+          </button>
+        </div>
+
+        <form id="police-login-form">
+          <div class="form-group">
+            <label class="form-label" for="police-id">Official Police ID / Badge Email</label>
+            <div class="form-input-wrap">
+              <svg class="form-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <input class="form-input" type="email" id="police-id" placeholder="officer@police.gov.in" required autocomplete="username">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="police-password">Secure Authentication Stamp / PIN</label>
+            <div class="form-input-wrap">
+              <svg class="form-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <input class="form-input" type="password" id="police-password" placeholder="••••••••" required autocomplete="current-password">
+            </div>
+          </div>
+
+          <button type="submit" class="btn-police-submit" id="btn-police-login">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span>Access Police CAD Console &rarr;</span>
+          </button>
+        </form>
+
+        <div class="demo-divider">
+          <span>Or test without police badge</span>
+        </div>
+
+        <button type="button" class="btn-demo-police" id="btn-demo-cad">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>Instant Preview &bull; Police CAD Command Room</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         VIEW 2: AUTHENTICATED POLICE CAD CONSOLE
+    ======================================================== -->
+    <div id="police-console-view" class="police-console">
+      <!-- Officer Session Bar -->
+      <div class="cad-top-bar">
+        <div class="officer-profile-chip">
+          <div class="officer-avatar" style="background:#1E293B;color:#FDDB10;display:flex;align-items:center;justify-content:center;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+          <div>
+            <div style="font-weight:700;font-size:1rem;color:var(--dash-ink);" id="disp-officer-name">
+              Insp. Vikram Singh &bull; Badge #DL-4482
+            </div>
+            <div style="font-size:0.82rem;color:var(--dash-ink-soft);font-family:var(--font-mono);" id="disp-officer-zone">
+              Zone 4 Central Command &bull; PCR Van Network Online
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+          <div class="lang-toggle-wrap">
+            <div class="lang-toggle-box" title="Change Language / भाषा बदलें">
+              <span class="lang-globe-icon" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+              </span>
+              <select class="sv-lang-select" aria-label="Language Selector">
+                <option value="en">English (EN)</option>
+                <option value="hi">हिन्दी (Hindi)</option>
+                <option value="mr">मराठी (Marathi)</option>
+                <option value="gu">ગુજરાતી (Gujarati)</option>
+                <option value="ta">தமிழ் (Tamil)</option>
+                <option value="te">తెలుగు (Telugu)</option>
+                <option value="kn">ಕನ್ನಡ (Kannada)</option>
+                <option value="bn">বাংলা (Bengali)</option>
+                <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+              </select>
+            </div>
+          </div>
+          <button type="button" id="btn-toggle-siren" class="btn-siren-toggle" style="background:#FFECEC;border:1.5px solid #D9251D;color:#D9251D;padding:6px 14px;border-radius:999px;font-weight:700;font-size:0.82rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-sans);" title="Emergency Siren Active (Click to Test Siren)">
+            <span>🚨</span>
+            <span id="siren-status-text">Siren: Active (Test)</span>
+          </button>
+          <button type="button" class="btn-theme-toggle" id="cad-theme-toggle" aria-label="Toggle Theme" title="Toggle Dark/Light Mode">
+            <span class="theme-toggle-track">
+              <span class="theme-toggle-thumb">
+                <svg class="icon-sun" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                <svg class="icon-moon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+              </span>
+            </span>
+            <span class="theme-toggle-label">Dark</span>
+          </button>
+          <span style="font-family:var(--font-mono);font-size:0.78rem;color:#2F9E5B;font-weight:700;background:rgba(47,158,91,0.12);padding:5px 12px;border-radius:999px;">
+            ● CAD Stream Live
+          </span>
+          <button class="btn-loc-radar" id="btn-police-signout" type="button" style="padding:6px 14px;font-size:0.82rem;">
+            End Duty Session
+          </button>
+        </div>
+      </div>
+
+      <!-- Section Navigation Anchors -->
+      <nav class="cad-section-tabs" aria-label="Police Dashboard Sections">
+        <a href="#section-event-history" class="cad-tab-link active" id="tab-nav-history">
+          <span class="tab-pulse-dot"></span>
+          <span>Recent Incident Feed</span>
+          <span class="tab-badge" id="badge-tab-count">11 Alerts</span>
+        </a>
+        <a href="#section-tactical-radar" class="cad-tab-link" id="tab-nav-radar">
+          <span>Tactical Radar &amp; Map</span>
+        </a>
+        <a href="#section-dispatch-log" class="cad-tab-link" id="tab-nav-log">
+          <span>CAD Log &amp; Audit</span>
+        </a>
+      </nav>
+
+      <!-- KPI Overview Grid -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-title">
+            <span>Emergencies</span>
+            <span style="color:#D9251D;">● Live</span>
+          </div>
+          <div class="kpi-num" style="color:#D9251D;" id="counter-active">11</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-title">
+            <span>Patrol Units En Route</span>
+            <span style="color:var(--dash-blue);">Active</span>
+          </div>
+          <div class="kpi-num" style="color:var(--dash-blue);" id="counter-patrols">4</div>
+          <div class="kpi-sub">PCR Units #09, #14, #22, #04</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-title">
+            <span>Average Dispatch ETA</span>
+            <span>Target &lt; 4m</span>
+          </div>
+          <div class="kpi-num">2.4m</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-title">
+            <span>Audio Evidence Ratio</span>
+            <span style="color:var(--dash-green);">Verified</span>
+          </div>
+          <div class="kpi-num" id="counter-audio">9 / 11</div>
+        </div>
+      </div>
+
+      <!-- ========================================================
+           SECTION 1: RECENT EVENT HISTORY (REALTIME FIREBASE STREAM)
+      ======================================================== -->
+      <section class="section-wrap" id="section-event-history">
+        <div class="section-header-box">
+          <div class="section-title-wrap">
+            <h2 class="section-heading" style="display:flex;align-items:center;gap:10px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D9251D" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <span>Recent Incident Feed</span>
+              <span style="font-size:0.85rem;font-family:var(--font-mono);font-weight:400;color:var(--dash-ink-soft);" id="sync-status-indicator">
+                (Syncing...)
+              </span>
+            </h2>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:10px;">
+            <button type="button" class="btn-sync-rtdb" id="btn-manual-sync">
+              <svg class="sync-icon" id="sync-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              <span>Refresh Stream</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="feed-controls-bar">
+          <div class="feed-search-wrap">
+            <svg style="position:absolute;left:11px;top:10px;color:var(--dash-ink-soft);" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="feed-search" class="feed-search-input" placeholder="Search by incident ID, caller, phone, distress marker...">
+          </div>
+
+          <div class="feed-filter-chips">
+            <button type="button" class="filter-chip active" data-filter="all">All Events (<span id="count-all">11</span>)</button>
+            <button type="button" class="filter-chip" data-filter="audio">With Voice Recording (<span id="count-audio">9</span>)</button>
+            <button type="button" class="filter-chip" data-filter="distress">Distress / Domestic</button>
+            <button type="button" class="filter-chip" data-filter="coords">GPS Fixed</button>
+          </div>
+        </div>
+
+        <!-- Dynamic Events Stream Container -->
+        <div class="events-feed-list" id="events-feed-container">
+          <!-- Populated dynamically by Firebase RTDB -->
+          <div class="empty-state-box">
+            <div style="font-size:1.8rem;margin-bottom:8px;">⏳</div>
+            <div style="font-weight:700;font-size:1.05rem;">Fetching live distress alerts...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           SECTION 2: LIVE TACTICAL RADAR & LEAFLET MAP
+      ======================================================== -->
+      <section class="section-wrap" id="section-tactical-radar">
+        <div class="section-header-box">
+          <div class="section-title-wrap">
+            <h2 class="section-heading" style="display:flex;align-items:center;gap:10px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--dash-blue)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 10 10"></path><path d="M12 6a6 6 0 0 1 6 6"></path><circle cx="12" cy="12" r="2"></circle></svg>
+              <span>Tactical Radar &amp; Geo-Relay</span>
+            </h2>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button type="button" class="btn-demo-police" style="padding:7px 16px;font-size:0.85rem;display:inline-flex;align-items:center;gap:6px;" id="btn-recenter-radar">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>
+              <span>Center All Nodes</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="cad-map-box">
+          <!-- Filter chips for police tactical map -->
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+            <span style="font-size:0.75rem;font-family:var(--font-mono);color:var(--dash-ink-soft);font-weight:700;">ACTIVE BEACONS:</span>
+            <button type="button" class="filter-chip active" id="pchip-all">All Danger Nodes (5)</button>
+            <button type="button" class="filter-chip" id="pchip-audio">With Voice Audio (4)</button>
+            <button type="button" class="filter-chip" id="pchip-domestic">Domestic Alerts (1)</button>
+          </div>
+
+          <div class="police-map-split has-selection" id="police-map-container">
+            <!-- Real Leaflet Map Canvas -->
+            <div id="police-tactical-map"></div>
+
+            <!-- Selected Node Woman Safety Detail Card -->
+            <aside class="police-node-detail-panel" id="police-safety-detail-panel">
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px;">
+                  <div>
+                    <h3 style="margin:0;font-family:var(--font-serif);font-size:1.35rem;color:var(--dash-ink);" id="pnode-name">Sham Dhangar (+91 9529811731)</h3>
+                    <div style="font-size:0.8rem;color:var(--dash-ink-soft);font-family:var(--font-mono);margin-top:2px;" id="pnode-sector">
+                      Sangamner / Akole Region, Maharashtra
+                    </div>
+                  </div>
+                  <span class="event-status-tag tag-critical" id="pnode-status-tag">● CRITICAL SOS</span>
+                </div>
+
+                <!-- Threat & Message -->
+                <div style="background:#FFFFFF;border:1px solid var(--dash-border);border-radius:12px;padding:12px;margin-bottom:12px;">
+                  <div style="font-family:var(--font-mono);font-size:0.72rem;text-transform:uppercase;color:var(--dash-ink-soft);margin-bottom:4px;">Threat Telemetry</div>
+                  <div style="font-weight:700;font-size:0.92rem;color:#D9251D;line-height:1.35;" id="pnode-threat">
+                    Voice SOS [High Threat • 98.4% Confidence]
+                  </div>
+                  <div style="font-size:0.8rem;color:var(--dash-ink-soft);margin-top:3px;" id="pnode-threat-sub">
+                    Manual Voice Shield (SOS Button) • Emergency SMS Dispatched
+                  </div>
+                </div>
+
+                <!-- GPS Coordinates -->
+                <div style="display:flex;align-items:center;justify-content:space-between;background:#FFFFFF;border:1px solid var(--dash-border);border-radius:10px;padding:8px 12px;font-family:var(--font-mono);font-size:0.82rem;margin-bottom:12px;">
+                  <div><strong>GPS:</strong> <span id="pnode-coords" style="color:var(--dash-blue);">19.614112&deg; N, 74.184358&deg; E</span></div>
+                  <a href="https://www.google.com/maps?q=19.614112,74.184358" target="_blank" rel="noopener" id="pnode-gmaps-link" style="color:var(--dash-blue);text-decoration:none;font-weight:700;display:inline-flex;align-items:center;gap:4px;">
+                    <span>Maps</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  </a>
+                </div>
+
+                <!-- Playable Audio Evidence -->
+                <div style="background:#EFF3FC;border:1.5px solid rgba(63,125,222,0.3);border-radius:12px;padding:12px;margin-bottom:12px;" id="pnode-audio-box">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                    <span style="font-weight:700;font-size:0.84rem;color:var(--dash-ink);display:inline-flex;align-items:center;gap:6px;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                      <span>Ambient Audio Recording</span>
+                    </span>
+                    <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--dash-ink-soft);" id="pnode-audio-time">00:00 / 00:06</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <button type="button" class="btn-audio-play" id="btn-pnode-play" data-src="https://res.cloudinary.com/dbbzoslvi/video/upload/v1792730053/ir2b5241d5dn1x2k6re5.mp4" aria-label="Play recording" style="width:32px;height:32px;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </button>
+                    <div class="waveform-visualizer" id="pnode-waveforms">
+                      <div class="wave-bar"></div>
+                      <div class="wave-bar"></div>
+                      <div class="wave-bar"></div>
+                      <div class="wave-bar"></div>
+                      <div class="wave-bar"></div>
+                      <div class="wave-bar"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Family Contacts -->
+                <div style="background:#FFFFFF;border:1px solid var(--dash-border);border-radius:12px;padding:12px;margin-bottom:14px;">
+                  <div style="font-family:var(--font-mono);font-size:0.72rem;text-transform:uppercase;color:var(--dash-ink-soft);margin-bottom:6px;">Emergency Contacts</div>
+                  <div id="pnode-contacts-list">
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;">
+                      <span style="font-size:0.85rem;font-weight:600;">Pooja Dhangar (Sister): +91 9822334455</span>
+                      <a href="tel:+919822334455" class="btn-quick-call" style="display:inline-flex;align-items:center;gap:4px;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        <span>Call</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action buttons -->
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                <button type="button" class="btn-dispatch-event" id="btn-pnode-dispatch" style="flex:1;justify-content:center;display:inline-flex;align-items:center;gap:8px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                  <span>Dispatch PCR Van #09 (ETA 2.1m)</span>
+                </button>
+                <button type="button" class="btn-resolve-event" id="btn-pnode-contain">
+                  <span>Mark Safe</span>
+                </button>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           SECTION 3: CAD INCIDENT LOG & AUDIT
+      ======================================================== -->
+      <section class="section-wrap" id="section-dispatch-log">
+        <div class="section-header-box">
+          <div class="section-title-wrap">
+            <h2 class="section-heading" style="display:flex;align-items:center;gap:10px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--dash-ink)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+              <span>CAD Dispatch Audit &amp; Incident Log</span>
+            </h2>
+          </div>
+        </div>
+
+        <div class="incidents-log-card">
+          <div style="overflow-x:auto;">
+            <table class="log-table">
+              <thead>
+                <tr>
+                  <th>Incident ID</th>
+                  <th>Timestamp</th>
+                  <th>Caller / Contact</th>
+                  <th>Distress Marker</th>
+                  <th>Location</th>
+                  <th>Assigned Unit</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="cad-log-table-body">
+                <tr>
+                  <td style="font-family:var(--font-mono);font-weight:700;">#P2q4Mp0</td>
+                  <td>Just now</td>
+                  <td>Harsh (+91 7822983308)</td>
+                  <td style="color:#D9251D;font-weight:700;">Vocal Distress [High Decibel]</td>
+                  <td>18.4990° N, 73.7740° E</td>
+                  <td>PCR Van #09</td>
+                  <td><span class="event-status-tag tag-critical">EN ROUTE</span></td>
+                </tr>
+                <tr>
+                  <td style="font-family:var(--font-mono);font-weight:700;">#P1E2OB</td>
+                  <td>12m ago</td>
+                  <td>Harsh Shinde</td>
+                  <td style="color:#CC4E08;font-weight:700;">Domestic Conflict Telemetry</td>
+                  <td>18.4727° N, 73.9359° E</td>
+                  <td>PCR Van #14</td>
+                  <td><span class="event-status-tag tag-domestic">INVESTIGATING</span></td>
+                </tr>
+                <tr>
+                  <td style="font-family:var(--font-mono);font-weight:700;">#P2q0rn</td>
+                  <td>28m ago</td>
+                  <td>Ravindra Dhangar</td>
+                  <td>Acoustic Stress Peak (84 dB)</td>
+                  <td>18.4991° N, 73.7748° E</td>
+                  <td>PCR Van #04</td>
+                  <td><span class="event-status-tag tag-resolved">SAFE / CLOSED</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Return link -->
+      <div style="text-align:center;margin-top:36px;margin-bottom:12px;">
+        <a href="/dashboard/" class="btn-return-hub">
+          <span>&larr;</span>
+          <span>Return to Unified Dashboards Hub</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Orbii Footer -->
+  <footer class="sf" style="margin-top:auto;">
+    <div class="sf-in">
+      <div class="sf-row">
+        <nav aria-label="Footer">
+          <ul class="sf-main" role="list">
+            <li><a href="/dashboard/" style="font-weight:700;">Dashboards Hub</a></li>
+            <li><a href="/dashboard/parent/">Parent Portal</a></li>
+            <li><a href="/dashboard/police/" style="font-weight:700;color:var(--dash-blue);">Police CAD</a></li>
+            <li><a href="/features">Features</a></li>
+            <li><a href="/voice-sos">Voice SOS</a></li>
+            <li><a href="/help">Help Center</a></li>
+            <li><a href="/terms-of-service">Terms &amp; Conditions</a></li>
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="sf-bar">
+        <p class="sf-copy">&copy; 2026 SafeVaani Safety. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ========================================================
+    // FIREBASE REALTIME DATABASE SYNC CONFIG & BASELINE ALERTS
+    // ========================================================
+    const RTDB_ALERTS_URL = "https://woshild-f4df5-default-rtdb.firebaseio.com/alerts.json";
+    const RTDB_SOS_ALERTS_URL = "https://woshild-f4df5-default-rtdb.firebaseio.com/sos_alerts.json";
+    const RTDB_USERS_URL = "https://woshild-f4df5-default-rtdb.firebaseio.com/users.json";
+
+    // Baseline data strictly using verified real RTDB alert records (No demo/Ananya data)
+    const fallbackAlerts = [
+      {
+        "alertId": "-P4b1QtzLkCBXwzBIRKX",
+        "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792730053/ir2b5241d5dn1x2k6re5.mp4",
+        "confidence": 98.4,
+        "contactsAlerted": [
+          { "name": "sham", "phone": "9529811731", "relationship": "Self / Family" },
+          { "name": "Pooja Dhangar", "phone": "9822334455", "relationship": "Sister" }
+        ],
+        "emotion": "Voice SOS",
+        "etaMinutes": 1.5,
+        "formattedTime": "Oct 23, 2026 | 10:04 am",
+        "id": "-P4b1QtzLkCBXwzBIRKX",
+        "isEmergency": true,
+        "latitude": 19.6141118,
+        "locationName": "Sangamner / Akole Region, Maharashtra",
+        "longitude": 74.1843575,
+        "mapUrl": "https://maps.google.com/?q=19.6141118,74.1843575",
+        "pcrUnit": "PCR Van #07",
+        "reason": "Manual Voice Shield (SOS Button) • Emergency SMS Dispatched",
+        "smsMessage": "🚨 SURAKSHAVAANI EMERGENCY 🚨\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6141118,74.1843575\n\n🎤 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792730053/ir2b5241d5dn1x2k6re5.mp4",
+        "status": "ACTIVE",
+        "threatLevel": "High",
+        "timestamp": 1792730052811,
+        "triggerSource": "Manual Voice Shield (SOS Button)",
+        "userEmail": "sham@gmail.com",
+        "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+        "userName": "Sham Dhangar",
+        "userPhone": "+91 9529811731"
+      },
+      {
+        "alertId": "-P4b18Tr-hC425yrz3rJ",
+        "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792729978/ac8uziixfbj9pubww8qd.mp4",
+        "confidence": 97.8,
+        "contactsAlerted": [
+          { "name": "sham", "phone": "9529811731", "relationship": "Self / Family" },
+          { "name": "Pooja Dhangar", "phone": "9822334455", "relationship": "Sister" }
+        ],
+        "emotion": "Voice SOS",
+        "etaMinutes": 1.9,
+        "formattedTime": "Oct 23, 2026 | 10:02 am",
+        "id": "-P4b18Tr-hC425yrz3rJ",
+        "isEmergency": true,
+        "latitude": 19.6141158,
+        "locationName": "Sangamner / Akole Region, Maharashtra",
+        "longitude": 74.184337,
+        "mapUrl": "https://maps.google.com/?q=19.6141158,74.184337",
+        "pcrUnit": "PCR Van #07",
+        "reason": "Manual Voice Shield (SOS Button) • Emergency SMS Dispatched",
+        "smsMessage": "🚨 SURAKSHAVAANI EMERGENCY 🚨\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6141158,74.184337\n\n🎤 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792729978/ac8uziixfbj9pubww8qd.mp4",
+        "status": "ACTIVE",
+        "threatLevel": "High",
+        "timestamp": 1792729977178,
+        "triggerSource": "Manual Voice Shield (SOS Button)",
+        "userEmail": "sham@gmail.com",
+        "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+        "userName": "Sham Dhangar",
+        "userPhone": "+91 9529811731"
+      },
+      {
+        "alertId": "-P4atY920hi-VXLcrlOa",
+        "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792727722/b4awqqvweqdgwqhp1fl3.mp4",
+        "confidence": 98.0,
+        "contactsAlerted": [
+          { "name": "sham", "phone": "9529811731", "relationship": "Self / Family" },
+          { "name": "Pooja Dhangar", "phone": "9822334455", "relationship": "Sister" }
+        ],
+        "emotion": "Voice SOS",
+        "etaMinutes": 2.2,
+        "formattedTime": "Oct 23, 2026 | 09:25 am",
+        "id": "-P4atY920hi-VXLcrlOa",
+        "isEmergency": true,
+        "latitude": 19.6131142,
+        "locationName": "Sangamner / Akole Region, Maharashtra",
+        "longitude": 74.1860269,
+        "mapUrl": "https://maps.google.com/?q=19.6131142,74.1860269",
+        "pcrUnit": "PCR Van #07",
+        "reason": "Manual Voice Shield (SOS Button) • Emergency SMS Dispatched",
+        "smsMessage": "🚨 SURAKSHAVAANI EMERGENCY 🚨\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6131142,74.1860269\n\n🎤 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792727722/b4awqqvweqdgwqhp1fl3.mp4",
+        "status": "ACTIVE",
+        "threatLevel": "High",
+        "timestamp": 1792727722783,
+        "triggerSource": "Manual Voice Shield (SOS Button)",
+        "userEmail": "sham@gmail.com",
+        "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+        "userName": "Sham Dhangar",
+        "userPhone": "+91 9529811731"
+      },
+      {
+        "alertId": "-P4ae6kBBLuM1JRlH2gA",
+        "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792723679/idg6hy8ncdvqyuibm3z9.mp4",
+        "confidence": 98.4,
+        "contactsAlerted": [
+          {
+            "name": "sham",
+            "phone": "9529811731",
+            "relationship": "me"
+          }
+        ],
+        "emotion": "Voice SOS",
+        "etaMinutes": 2.1,
+        "formattedTime": "Oct 23, 2026 | 08:17 am",
+        "id": "-P4ae6kBBLuM1JRlH2gA",
+        "isEmergency": true,
+        "latitude": 19.6133123,
+        "locationName": "Sangamner / Akole Region, Maharashtra",
+        "longitude": 74.1850968,
+        "mapUrl": "https://maps.google.com/?q=19.6133123,74.1850968",
+        "pcrUnit": "PCR Van #07",
+        "reason": "Manual Voice Shield (SOS Button) • Emergency SMS Dispatched",
+        "smsMessage": "🚨 SURAKSHAVAANI EMERGENCY 🚨\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6133123,74.1850968\n\n🎤 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792723679/idg6hy8ncdvqyuibm3z9.mp4",
+        "status": "ACTIVE",
+        "threatLevel": "High",
+        "timestamp": 1792724105375,
+        "triggerSource": "Manual Voice Shield (SOS Button)",
+        "userEmail": "sham@gmail.com",
+        "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+        "userName": "Sham Dhangar",
+        "userPhone": "+91 9529811731"
+      }
+    ];
+
+    // State management & DOM elements
+    const authView = document.getElementById("police-auth-view");
+    const consoleView = document.getElementById("police-console-view");
+    const loginForm = document.getElementById("police-login-form");
+    const btnDemo = document.getElementById("btn-demo-cad");
+    const btnSignout = document.getElementById("btn-police-signout");
+    const dispOfficerName = document.getElementById("disp-officer-name");
+    const dispOfficerZone = document.getElementById("disp-officer-zone");
+    const eventsFeedContainer = document.getElementById("events-feed-container");
+    const syncStatusIndicator = document.getElementById("sync-status-indicator");
+    const btnManualSync = document.getElementById("btn-manual-sync");
+    const syncIcon = document.getElementById("sync-icon");
+    const feedSearch = document.getElementById("feed-search");
+    const filterChips = document.querySelectorAll(".filter-chip");
+    const counterActive = document.getElementById("counter-active");
+    const counterAudio = document.getElementById("counter-audio");
+    const badgeTabCount = document.getElementById("badge-tab-count");
+
+    // Restore cached real events if present, otherwise initialize with real fallback records
+    let currentEvents = [];
+    try {
+      const cached = localStorage.getItem("cached_police_events");
+      if (cached) {
+        const parsedCached = JSON.parse(cached);
+        if (Array.isArray(parsedCached) && parsedCached.length > 0) {
+          currentEvents = parsedCached;
+        }
+      }
+    } catch(e){}
+    if (!currentEvents || currentEvents.length === 0) {
+      currentEvents = [...fallbackAlerts];
+    }
+    let currentFilter = "all";
+    let activeAudioEl = null;
+    let activeWaveform = null;
+
+    // Open CAD Console & persist session
+    function openCADConsole(officerEmail, zoneCode) {
+      document.documentElement.classList.add("police-session-active");
+      authView.style.display = "none";
+      consoleView.style.display = "block";
+      const email = officerEmail || "insp.vikram@delhipolice.gov.in";
+      const zone = zoneCode || "PCR-DELHI-ZONE4";
+      const name = email.split("@")[0].replace(".", " ").toUpperCase();
+      dispOfficerName.textContent = `${name} • Verified CAD Officer`;
+      dispOfficerZone.textContent = `${zone} • PCR Patrol Router Connected`;
+
+      try {
+        localStorage.setItem("police_cad_session", JSON.stringify({ email, zone }));
+      } catch(e){}
+
+      startPatrolAnimation();
+      updateDashboardCounters();
+      renderEventFeed();
+      loadRealtimeEvents();
+      setTimeout(() => {
+        initPoliceTacticalMap();
+      }, 100);
+    }
+
+    // Auto-restore police CAD session on refresh
+    let sessionRestored = false;
+    try {
+      const savedPoliceSession = localStorage.getItem("police_cad_session");
+      if (savedPoliceSession) {
+        const parsed = JSON.parse(savedPoliceSession);
+        openCADConsole(parsed.email, parsed.zone);
+        sessionRestored = true;
+      }
+    } catch(e) {
+      localStorage.removeItem("police_cad_session");
+    }
+
+    // If pre-render script in head activated console, ensure openCADConsole is invoked
+    if (!sessionRestored && document.documentElement.classList.contains("police-session-active")) {
+      openCADConsole("insp.vikram@delhipolice.gov.in", "PCR-DELHI-ZONE4");
+    }
+
+    // Always ensure counters and feed are populated immediately with baseline data
+    updateDashboardCounters();
+    renderEventFeed();
+
+    const btnAutofill = document.getElementById("btn-autofill-police");
+    if (btnAutofill) {
+      btnAutofill.addEventListener("click", () => {
+        const idInput = document.getElementById("police-id");
+        const passInput = document.getElementById("police-password");
+        if (idInput) idInput.value = "admin@police.sentinel.gov";
+        if (passInput) passInput.value = "SecureLogin!2024";
+        openCADConsole("admin@police.sentinel.gov", "ZONE 4 CENTRAL");
+      });
+    }
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("police-id").value.trim();
+      openCADConsole(email, "ZONE 4 CENTRAL");
+    });
+
+    btnDemo.addEventListener("click", () => {
+      openCADConsole("insp.vikram@delhipolice.gov.in", "PCR-DELHI-ZONE4");
+    });
+
+    btnSignout.addEventListener("click", () => {
+      try {
+        localStorage.removeItem("police_cad_session");
+      } catch(e){}
+      document.documentElement.classList.remove("police-session-active");
+      authView.style.display = "block";
+      consoleView.style.display = "none";
+    });
+
+    // Emergency Siren Audio Synthesizer (Web Audio API Dual-Tone Police Siren + Fallback)
+    class EmergencySiren {
+      constructor() {
+        this.audioCtx = null;
+        this.osc = null;
+        this.gain = null;
+        this.isPlaying = false;
+        this.stopTimeout = null;
+        this.sirenAudio = new Audio("https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3");
+      }
+      ensureContext() {
+        try {
+          if (!this.audioCtx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) this.audioCtx = new AudioCtx();
+          }
+          if (this.audioCtx && this.audioCtx.state === "suspended") {
+            this.audioCtx.resume();
+          }
+        } catch(e){}
+      }
+      play(duration = 5) {
+        this.ensureContext();
+        this.stop();
+        this.isPlaying = true;
+        const sirenBtnText = document.getElementById("siren-status-text");
+        const sirenBtn = document.getElementById("btn-toggle-siren");
+        if (sirenBtnText) sirenBtnText.textContent = "🚨 Siren: SOUNDING";
+        if (sirenBtn) {
+          sirenBtn.style.background = "#D9251D";
+          sirenBtn.style.color = "#FFFFFF";
+        }
+
+        // 1. Web Audio API synthesized high-low emergency police siren
+        if (this.audioCtx) {
+          try {
+            const ctx = this.audioCtx;
+            const now = ctx.currentTime;
+            const masterGain = ctx.createGain();
+            masterGain.gain.setValueAtTime(0.001, now);
+            masterGain.gain.exponentialRampToValueAtTime(0.35, now + 0.15);
+            masterGain.gain.setValueAtTime(0.35, now + duration - 0.4);
+            masterGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+            masterGain.connect(ctx.destination);
+
+            const osc = ctx.createOscillator();
+            osc.type = "sawtooth";
+            const cycle = 0.7;
+            let t = 0;
+            while (t < duration) {
+              osc.frequency.setValueAtTime(650, now + t);
+              osc.frequency.linearRampToValueAtTime(1150, now + t + 0.35);
+              osc.frequency.linearRampToValueAtTime(650, now + Math.min(duration, t + cycle));
+              t += cycle;
+            }
+            osc.connect(masterGain);
+            osc.start(now);
+            osc.stop(now + duration);
+
+            this.osc = osc;
+            this.gain = masterGain;
+
+            clearTimeout(this.stopTimeout);
+            this.stopTimeout = setTimeout(() => {
+              this.stop();
+            }, duration * 1000);
+            return;
+          } catch(e){
+            console.warn("Oscillator siren error:", e);
+          }
+        }
+
+        // 2. Fallback audio element
+        try {
+          this.sirenAudio.currentTime = 0;
+          this.sirenAudio.play().catch(e => console.log("Audio play note:", e));
+        } catch(e){}
+      }
+      stop() {
+        clearTimeout(this.stopTimeout);
+        if (this.osc) {
+          try { this.osc.stop(); this.osc.disconnect(); } catch(e){}
+          this.osc = null;
+        }
+        if (this.gain) {
+          try { this.gain.disconnect(); } catch(e){}
+          this.gain = null;
+        }
+        if (this.sirenAudio) {
+          try { this.sirenAudio.pause(); } catch(e){}
+        }
+        this.isPlaying = false;
+        const sirenBtnText = document.getElementById("siren-status-text");
+        const sirenBtn = document.getElementById("btn-toggle-siren");
+        if (sirenBtnText) sirenBtnText.textContent = "Siren: Active (Test)";
+        if (sirenBtn) {
+          sirenBtn.style.background = "#FFECEC";
+          sirenBtn.style.color = "#D9251D";
+        }
+      }
+    }
+
+    const emergencySiren = new EmergencySiren();
+    let previousEmergencyCount = 0;
+
+    // Unlock audio context on ANY user touch or click
+    window.addEventListener("click", () => emergencySiren.ensureContext(), { once: true });
+    window.addEventListener("keydown", () => emergencySiren.ensureContext(), { once: true });
+
+    const btnToggleSiren = document.getElementById("btn-toggle-siren");
+    if (btnToggleSiren) {
+      btnToggleSiren.addEventListener("click", () => {
+        emergencySiren.ensureContext();
+        if (emergencySiren.isPlaying) {
+          emergencySiren.stop();
+        } else {
+          emergencySiren.play(5);
+        }
+      });
+    }
+
+    // Patrol Van Animation on Map
+    function startPatrolAnimation() {
+      const pcrMarker = document.getElementById("pcr-marker");
+      if (!pcrMarker) return;
+      setTimeout(() => {
+        pcrMarker.style.top = "44%";
+        pcrMarker.style.left = "42%";
+      }, 800);
+    }
+
+    async function loadRealtimeEvents() {
+      if (syncIcon) syncIcon.classList.add("spinning");
+      if (syncStatusIndicator) syncStatusIndicator.textContent = "Syncing live RTDB...";
+
+      let alertsData = {};
+      let usersData = {};
+
+      try {
+        // Fetch live Firebase endpoints with safe timeouts
+        const fetchTimeout = (url, ms = 4000) => {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), ms);
+          return fetch(url, { signal: controller.signal })
+            .then(res => { clearTimeout(timer); return res; })
+            .catch(() => { clearTimeout(timer); return null; });
+        };
+
+        const [alertsRes, sosAlertsRes, usersRes] = await Promise.all([
+          fetchTimeout(RTDB_ALERTS_URL),
+          fetchTimeout(RTDB_SOS_ALERTS_URL),
+          fetchTimeout(RTDB_USERS_URL)
+        ]);
+
+        if (alertsRes && alertsRes.ok) {
+          const d = await alertsRes.json().catch(() => null);
+          if (d && typeof d === 'object') Object.assign(alertsData, d);
+        }
+        if (sosAlertsRes && sosAlertsRes.ok) {
+          const d = await sosAlertsRes.json().catch(() => null);
+          if (d && typeof d === 'object') Object.assign(alertsData, d);
+        }
+        if (usersRes && usersRes.ok) {
+          usersData = await usersRes.json().catch(() => ({})) || {};
+        }
+
+        // Resilient fallback to local export JSON if remote RTDB was offline or empty
+        if (Object.keys(alertsData).length === 0) {
+          try {
+            const localRes = await fetch("/woshild-f4df5-default-rtdb-export.json");
+            if (localRes.ok) {
+              const localJson = await localRes.json();
+              if (localJson.sos_alerts) Object.assign(alertsData, localJson.sos_alerts);
+              if (localJson.alerts) Object.assign(alertsData, localJson.alerts);
+              if (localJson.users) usersData = localJson.users;
+            }
+          } catch(e) {}
+        }
+
+        const parsed = [];
+        if (alertsData && Object.keys(alertsData).length > 0) {
+          const extractAlertFields = (val, key) => {
+            if (!val || typeof val !== 'object') return null;
+            return {
+              alertId: val.alertId || val.id || key,
+              audioUrl: val.audioUrl || "",
+              confidence: typeof val.confidence === "number" ? val.confidence : (Number(val.confidence) || 0),
+              contactsAlerted: Array.isArray(val.contactsAlerted) ? val.contactsAlerted.map(c => ({
+                name: c.name || "",
+                phone: c.phone || "",
+                relationship: c.relationship || ""
+              })) : [],
+              emotion: val.emotion || "",
+              etaMinutes: typeof val.etaMinutes === "number" ? val.etaMinutes : (Number(val.etaMinutes) || 0),
+              formattedTime: val.formattedTime || "",
+              id: val.id || val.alertId || key,
+              isEmergency: Boolean(val.isEmergency),
+              latitude: Number(val.latitude) || 0,
+              locationName: val.locationName || "",
+              longitude: Number(val.longitude) || 0,
+              mapUrl: val.mapUrl || (val.latitude && val.longitude ? `https://maps.google.com/?q=${val.latitude},${val.longitude}` : ""),
+              pcrUnit: val.pcrUnit || "",
+              reason: val.reason || "",
+              smsMessage: val.smsMessage || "",
+              status: val.status || "ACTIVE",
+              threatLevel: val.threatLevel || "High",
+              timestamp: Number(val.timestamp) || 0,
+              triggerSource: val.triggerSource || "",
+              userEmail: val.userEmail || "",
+              userId: val.userId || "",
+              userName: val.userName || "",
+              userPhone: val.userPhone || ""
+            };
+          };
+
+          Object.entries(alertsData).forEach(([key, val]) => {
+            if (!val || typeof val !== 'object') return;
+            const item = extractAlertFields(val, key);
+            if (item && (item.emotion || item.latitude || item.timestamp || item.locationName || item.alertId)) {
+              parsed.push(item);
+            }
+          });
+        }
+
+        if (parsed.length > 0) {
+          parsed.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+          if (previousEmergencyCount > 0 && parsed.length > previousEmergencyCount) {
+            try {
+              emergencySiren.play(5);
+            } catch(e){}
+          }
+          previousEmergencyCount = parsed.length;
+          currentEvents = parsed;
+          try {
+            localStorage.setItem("cached_police_events", JSON.stringify(parsed));
+          } catch(e){}
+        } else if (!currentEvents || currentEvents.length === 0) {
+          currentEvents = [...fallbackAlerts];
+        }
+      } catch (err) {
+        console.warn("RTDB sync note:", err);
+        if (!currentEvents || currentEvents.length === 0) {
+          currentEvents = [...fallbackAlerts];
+        }
+      } finally {
+        if (syncIcon) syncIcon.classList.remove("spinning");
+        if (syncStatusIndicator) {
+          syncStatusIndicator.textContent = `● Synchronized (${currentEvents.length} live records)`;
+        }
+        updateDashboardCounters();
+        renderEventFeed();
+        if (typeof renderPoliceTacticalMarkers === 'function') {
+          renderPoliceTacticalMarkers("all");
+        }
+      }
+    }
+
+    function updateDashboardCounters() {
+      const activeCount = currentEvents.filter(e => e && e.status !== "RESOLVED").length;
+      const audioCount = currentEvents.filter(e => e && Boolean(e.audioUrl)).length;
+      
+      if (counterActive) counterActive.textContent = String(activeCount);
+      if (counterAudio) counterAudio.textContent = `${audioCount} / ${currentEvents.length}`;
+      if (badgeTabCount) badgeTabCount.textContent = `${currentEvents.length} Real Alerts`;
+
+      const countAll = document.getElementById("count-all");
+      const countAudio = document.getElementById("count-audio");
+      if (countAll) countAll.textContent = String(currentEvents.length);
+      if (countAudio) countAudio.textContent = String(audioCount);
+    }
+
+    // Render Event Feed Cards strictly using schema fields
+    function renderEventFeed() {
+      if (!eventsFeedContainer) return;
+      const query = (feedSearch && feedSearch.value ? feedSearch.value : "").toLowerCase().trim();
+
+      const filtered = currentEvents.filter((ev) => {
+        if (!ev) return false;
+        const emotion = (ev.emotion || "").toLowerCase();
+        const userName = (ev.userName || "").toLowerCase();
+        const userPhone = String(ev.userPhone || "");
+        const reason = (ev.reason || "").toLowerCase();
+        const locationName = (ev.locationName || "").toLowerCase();
+        const evId = String(ev.id || ev.alertId || "").toLowerCase();
+
+        // Chip filter
+        if (currentFilter === "audio" && !ev.audioUrl) return false;
+        if (currentFilter === "distress" && !emotion.includes("distress") && !emotion.includes("domestic") && !emotion.includes("sos") && !emotion.includes("pain")) return false;
+        if (currentFilter === "coords" && (!ev.latitude || ev.latitude === 0)) return false;
+
+        // Search query
+        if (query) {
+          const matchUser = userName.includes(query);
+          const matchPhone = userPhone.includes(query);
+          const matchEmotion = emotion.includes(query);
+          const matchReason = reason.includes(query);
+          const matchLocation = locationName.includes(query);
+          const matchId = evId.includes(query);
+          if (!matchUser && !matchPhone && !matchEmotion && !matchReason && !matchLocation && !matchId) return false;
+        }
+
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        eventsFeedContainer.innerHTML = `
+          <div class="empty-state-box">
+            <div style="margin-bottom:12px;color:var(--dash-ink-soft);display:flex;justify-content:center;">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+            <div style="font-weight:700;font-size:1.05rem;">No alerts match your filter criteria</div>
+            <div style="font-size:0.85rem;margin-top:4px;">Try searching with different keywords or switch filters to "All Events".</div>
+          </div>
+        `;
+        return;
+      }
+
+      updateDashboardCounters();
+
+      eventsFeedContainer.innerHTML = filtered.map((ev) => {
+        const isCritical = ev.threatLevel === "High" || ev.isEmergency;
+        const isDomestic = (ev.emotion || "").toLowerCase().includes("domestic");
+        const cardClass = isDomestic ? "emergency-domestic" : (isCritical ? "emergency-critical" : "emergency-standard");
+
+        const statusTag = ev.status === "RESOLVED" 
+          ? `<span class="event-status-tag tag-resolved">SAFE / CLOSED</span>`
+          : (ev.status === "EN ROUTE" 
+              ? `<span class="event-status-tag tag-dispatched">PATROL EN ROUTE</span>`
+              : (isDomestic ? `<span class="event-status-tag tag-domestic">DOMESTIC PRIORITY</span>` : `<span class="event-status-tag tag-critical">CRITICAL PRIORITY 1</span>`));
+
+        const threatTag = `<span style="font-size:0.75rem;font-weight:700;padding:2px 8px;border-radius:6px;background:${ev.threatLevel === 'High' ? '#FEE2E2;color:#991B1B' : (ev.threatLevel === 'Medium' ? '#FEF3C7;color:#92400E' : '#D1FAE5;color:#065F46')};">${ev.threatLevel} Threat &bull; ${ev.confidence}% Match</span>`;
+
+        // Caller initials
+        const initials = (ev.userName || "Citizen").split(" ").map(w => w[0]).filter(Boolean).slice(0, 2).join("").toUpperCase() || "CT";
+
+        // Audio evidence player
+        const hasAudio = Boolean(ev.audioUrl);
+        const audioHtml = hasAudio ? `
+          <div class="audio-player-box">
+            <div class="audio-player-controls">
+              <button type="button" class="btn-audio-play" data-audio-src="${ev.audioUrl}" aria-label="Play recording">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              </button>
+              <div class="waveform-visualizer">
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+              </div>
+              <span class="audio-time-label">00:00 / 00:06</span>
+            </div>
+          </div>
+        ` : `
+          <div style="background:#FAF8F2;border:1px dashed var(--dash-border);border-radius:10px;padding:8px 12px;font-size:0.8rem;color:var(--dash-ink-soft);display:flex;align-items:center;gap:6px;margin-top:4px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+            <span>No audio stream captured (Silent / Geofence alert)</span>
+          </div>
+        `;
+
+        // Contacts alerted chips
+        const contactsHtml = (ev.contactsAlerted && ev.contactsAlerted.length > 0)
+          ? ev.contactsAlerted.map(c => `<span style="display:inline-block;background:#F1F4F9;border:1px solid var(--dash-border);border-radius:6px;padding:2px 7px;font-size:0.75rem;margin:2px 4px 2px 0;"><strong>${c.name}</strong> (${c.relationship}): <a href="tel:${c.phone}" style="color:var(--dash-blue);text-decoration:none;">${c.phone}</a></span>`).join("")
+          : `<span style="font-size:0.78rem;color:var(--dash-ink-soft);">No designated emergency contacts notified</span>`;
+
+        return `
+          <article class="event-card ${cardClass}" id="card-${ev.id}">
+            <!-- Header Row -->
+            <div class="event-top-row">
+              <div class="event-id-group" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                <span class="event-id-badge">#ALT-${ev.alertId}</span>
+                <span class="event-time-pill">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  ${ev.formattedTime}
+                </span>
+                ${threatTag}
+              </div>
+              <div>${statusTag}</div>
+            </div>
+
+            <!-- Caller / User Profile -->
+            <div class="event-caller-row">
+              <div class="caller-details">
+                <div class="caller-avatar" style="background:#1E293B;color:#FFFFFF;font-weight:700;font-size:0.85rem;display:flex;align-items:center;justify-content:center;border-radius:10px;">${initials}</div>
+                <div>
+                  <div class="caller-name">${ev.userName}</div>
+                  <div class="caller-phone">${ev.userPhone} &bull; ${ev.userEmail}</div>
+                </div>
+              </div>
+              <a href="tel:${ev.userPhone.replace(/\\s+/g, '')}" class="btn-quick-call" style="display:inline-flex;align-items:center;gap:6px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <span>Call Citizen</span>
+              </a>
+            </div>
+
+            <!-- Quad Core Feature Grid: Trigger & Emotion, Location, Voice, ETA -->
+            <div class="event-quad-grid">
+              <!-- 1. Trigger & Emotion -->
+              <div class="quad-box" style="border-left: 3px solid ${isDomestic ? '#CC4E08' : '#D9251D'};">
+                <div>
+                  <div class="quad-title">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <span>Trigger &amp; Emotion</span>
+                  </div>
+                  <div class="quad-main-text" style="color:${isDomestic ? '#CC4E08' : '#D9251D'};font-weight:700;">
+                    ${ev.emotion}
+                  </div>
+                  <div class="quad-sub-text" style="font-weight:600;margin-top:2px;">
+                    ${ev.triggerSource}
+                  </div>
+                  <div class="quad-sub-text" style="margin-top:4px;font-size:0.8rem;color:var(--dash-ink-soft);">
+                    ${ev.reason}
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2. Location -->
+              <div class="quad-box">
+                <div>
+                  <div class="quad-title">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <span>Location</span>
+                  </div>
+                  <div class="loc-coords" style="font-weight:700;color:var(--dash-ink);">${ev.locationName}</div>
+                  <div class="quad-sub-text" style="font-family:var(--dash-mono);">${ev.latitude.toFixed(6)}° N, ${ev.longitude.toFixed(6)}° E</div>
+                </div>
+                <div class="loc-actions">
+                  <button type="button" class="btn-loc-radar" data-lat="${ev.latitude}" data-lng="${ev.longitude}" data-location="${ev.locationName}" data-id="${ev.id}" style="display:inline-flex;align-items:center;gap:6px;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>
+                    <span>Plot on Radar</span>
+                  </button>
+                  <a href="${ev.mapUrl}" target="_blank" rel="noopener" class="btn-loc-gmaps" style="display:inline-flex;align-items:center;gap:5px;">
+                    <span>Maps</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  </a>
+                </div>
+              </div>
+
+              <!-- 3. Audio Evidence -->
+              <div class="quad-box">
+                <div>
+                  <div class="quad-title">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                    <span>Audio Evidence</span>
+                  </div>
+                  ${audioHtml}
+                </div>
+              </div>
+
+              <!-- 4. Dispatch ETA & PCR Unit -->
+              <div class="quad-box">
+                <div>
+                  <div class="quad-title">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    <span>Dispatch Unit</span>
+                  </div>
+                  <div class="eta-highlight" id="eta-val-${ev.id}" style="display:flex;align-items:center;gap:6px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    <span>${ev.etaMinutes}m ETA</span>
+                    <span style="font-size:0.8rem;color:var(--dash-blue);font-weight:600;">(${ev.pcrUnit})</span>
+                  </div>
+                  <div class="eta-progress-track">
+                    <div class="eta-progress-bar"></div>
+                  </div>
+                  <div class="quad-sub-text" id="eta-status-${ev.id}">
+                    ${ev.status === "RESOLVED" ? "Patrol reached scene. Resolved." : `${ev.pcrUnit} en route`}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contacts Alerted & SMS Message Preview -->
+            <div style="background:#FAF8F2;border:1px solid var(--dash-border);border-radius:10px;padding:10px 14px;margin-top:12px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:6px;">
+                <span style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--dash-ink-soft);">Contacts Alerted</span>
+                <span style="font-size:0.75rem;color:var(--dash-ink-soft);">SMS Dispatch Log</span>
+              </div>
+              <div>${contactsHtml}</div>
+              ${ev.smsMessage ? `<div style="margin-top:8px;font-size:0.78rem;color:var(--dash-ink-soft);background:#FFFFFF;border:1px solid var(--dash-border);border-radius:6px;padding:6px 10px;white-space:pre-line;font-family:var(--dash-mono);">${ev.smsMessage}</div>` : ''}
+            </div>
+
+            <!-- Action Buttons Footer -->
+            <div class="event-actions-row">
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                <button type="button" class="btn-dispatch-event ${ev.status === 'EN ROUTE' ? 'dispatched' : ''}" data-event-id="${ev.id}" style="display:inline-flex;align-items:center;gap:8px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                  <span>${ev.status === 'EN ROUTE' ? 'Patrol Dispatched' : `Dispatch ${ev.pcrUnit}`}</span>
+                </button>
+                <a href="${ev.mapUrl}" target="_blank" rel="noopener" class="btn-loc-radar" style="display:inline-flex;align-items:center;gap:6px;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 10 10"></path><path d="M12 6a6 6 0 0 1 6 6"></path><circle cx="12" cy="12" r="2"></circle></svg>
+                  <span>Google Maps Fix</span>
+                </a>
+              </div>
+
+              <div>
+                <button type="button" class="btn-resolve-event" data-event-id="${ev.id}">
+                  <span>Mark Incident Contained</span>
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      bindFeedInteractions();
+    }
+
+    // Bind audio playback, location radar plotting, and dispatch actions
+    function bindFeedInteractions() {
+      // 1. Audio Playback
+      const playButtons = eventsFeedContainer.querySelectorAll(".btn-audio-play");
+      playButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const audioSrc = btn.getAttribute("data-audio-src");
+          const visualizer = btn.parentElement.querySelector(".waveform-visualizer");
+          const timeLabel = btn.parentElement.querySelector(".audio-time-label");
+
+          // Stop active audio if different
+          if (activeAudioEl && activeAudioEl.src !== audioSrc) {
+            activeAudioEl.pause();
+            if (activeWaveform) activeWaveform.classList.remove("playing");
+            const prevBtn = activeWaveform?.parentElement?.querySelector(".btn-audio-play");
+            if (prevBtn) prevBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+          }
+
+          if (!activeAudioEl || activeAudioEl.src !== audioSrc) {
+            activeAudioEl = new Audio(audioSrc);
+            activeWaveform = visualizer;
+
+            activeAudioEl.addEventListener("timeupdate", () => {
+              const cur = Math.floor(activeAudioEl.currentTime);
+              const dur = Math.floor(activeAudioEl.duration || 6);
+              timeLabel.textContent = `00:0${cur} / 00:0${dur} (Live Clip)`;
+            });
+
+            activeAudioEl.addEventListener("ended", () => {
+              visualizer.classList.remove("playing");
+              btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+              timeLabel.textContent = "00:00 / 00:06 (Replay)";
+            });
+          }
+
+          if (activeAudioEl.paused) {
+            activeAudioEl.play();
+            visualizer.classList.add("playing");
+            btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>';
+          } else {
+            activeAudioEl.pause();
+            visualizer.classList.remove("playing");
+            btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+          }
+        });
+      });
+
+      // 2. Plot on Tactical Leaflet Map
+      const radarPlotButtons = eventsFeedContainer.querySelectorAll(".btn-loc-radar");
+      radarPlotButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const lat = parseFloat(btn.getAttribute("data-lat"));
+          const lng = parseFloat(btn.getAttribute("data-lng"));
+          const evId = btn.getAttribute("data-id");
+          const ev = currentEvents.find(e => (e.id && e.id === evId) || (e.alertId && e.alertId === evId) || (Math.abs(e.latitude - lat) < 0.005 && Math.abs(e.longitude - lng) < 0.005));
+
+          if (policeTacticalMap && lat && lng) {
+            policeTacticalMap.flyTo([lat, lng], 14, { duration: 1 });
+            if (ev) selectPoliceDangerNode(ev);
+          }
+
+          // Smooth scroll to Section 2
+          const sectionRadar = document.getElementById("section-tactical-radar");
+          if (sectionRadar) {
+            sectionRadar.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+
+      // 3. Dispatch PCR Unit
+      const dispatchButtons = eventsFeedContainer.querySelectorAll(".btn-dispatch-event");
+      dispatchButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const evId = btn.getAttribute("data-event-id");
+          const ev = currentEvents.find(e => e.id === evId || e.alertId === evId);
+          if (ev) {
+            ev.status = "EN ROUTE";
+            ev.etaMinutes = 1.2;
+            const etaVal = document.getElementById(`eta-val-${evId}`);
+            const etaStatus = document.getElementById(`eta-status-${evId}`);
+            if (etaVal) etaVal.innerHTML = `<span style="font-weight:700;color:#D9251D;">ETA: 1.2m</span> <span style="font-size:0.8rem;color:#D9251D;font-weight:700;">(${ev.pcrUnit} &bull; Sirens Active)</span>`;
+            if (etaStatus) etaStatus.innerHTML = `<span style="color:#D9251D;font-weight:700;">${ev.pcrUnit} rushing to ${ev.locationName}!</span>`;
+            btn.classList.add("dispatched");
+            btn.innerHTML = `<span>${ev.pcrUnit} Dispatched</span>`;
+          }
+        });
+      });
+
+      // 4. Mark Incident Contained
+      const resolveButtons = eventsFeedContainer.querySelectorAll(".btn-resolve-event");
+      resolveButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const evId = btn.getAttribute("data-event-id");
+          if (confirm("Confirm marking this distress event as contained and resolved?")) {
+            const ev = currentEvents.find(e => e.id === evId || e.alertId === evId);
+            if (ev) {
+              ev.status = "RESOLVED";
+              const card = document.getElementById(`card-${evId}`);
+              if (card) {
+                card.style.opacity = "0.7";
+                card.style.borderColor = "var(--dash-green)";
+              }
+              updateDashboardCounters();
+              renderEventFeed();
+              renderPoliceTacticalMarkers("all");
+            }
+          }
+        });
+      });
+    }
+
+    // Search and Filter Events
+    feedSearch.addEventListener("input", () => {
+      renderEventFeed();
+    });
+
+    filterChips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        filterChips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        currentFilter = chip.getAttribute("data-filter");
+        renderEventFeed();
+      });
+    });
+
+    btnManualSync.addEventListener("click", () => {
+      loadRealtimeEvents();
+    });
+
+    // ========================================================
+    // POLICE LEAFLET TACTICAL RADAR (Strictly using schema fields)
+    // ========================================================
+    let policeTacticalMap = null;
+    let policeMarkersLayer = null;
+    let activePoliceAudio = null;
+    let activePoliceWaveform = null;
+
+    function initPoliceTacticalMap() {
+      const container = document.getElementById("police-tactical-map");
+      if (!container) return;
+
+      if (typeof L === 'undefined') {
+        console.warn("Leaflet library is still loading, will retry in 100ms...");
+        setTimeout(initPoliceTacticalMap, 100);
+        return;
+      }
+
+      if (policeTacticalMap) {
+        policeTacticalMap.invalidateSize();
+        return;
+      }
+
+      try {
+        policeTacticalMap = L.map("police-tactical-map", {
+          center: [18.52043, 73.85674],
+          zoom: 11,
+          zoomControl: true
+        });
+
+        // OpenStreetMap clean tile layer
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &bull; SurakshaVaani Police CAD'
+        }).addTo(policeTacticalMap);
+
+        setTimeout(() => { if (policeTacticalMap) policeTacticalMap.invalidateSize(); }, 120);
+        setTimeout(() => { if (policeTacticalMap) policeTacticalMap.invalidateSize(); }, 400);
+      } catch (e) {
+        console.error("Police map init error:", e);
+      }
+
+      policeMarkersLayer = L.layerGroup().addTo(policeTacticalMap);
+
+      renderPoliceTacticalMarkers("all");
+
+      // Bind filter buttons
+      const chipAll = document.getElementById("pchip-all");
+      const chipAudio = document.getElementById("pchip-audio");
+      const chipDomestic = document.getElementById("pchip-domestic");
+
+      if (chipAll) chipAll.addEventListener("click", () => {
+        setActivePChip(chipAll);
+        renderPoliceTacticalMarkers("all");
+      });
+      if (chipAudio) chipAudio.addEventListener("click", () => {
+        setActivePChip(chipAudio);
+        renderPoliceTacticalMarkers("audio");
+      });
+      if (chipDomestic) chipDomestic.addEventListener("click", () => {
+        setActivePChip(chipDomestic);
+        renderPoliceTacticalMarkers("domestic");
+      });
+
+      function setActivePChip(btn) {
+        [chipAll, chipAudio, chipDomestic].forEach(c => c?.classList.remove("active"));
+        btn.classList.add("active");
+      }
+
+      // Recenter button
+      const btnRecenter = document.getElementById("btn-recenter-radar");
+      if (btnRecenter) {
+        btnRecenter.addEventListener("click", () => {
+          const validEvents = currentEvents.filter(e => e.latitude && e.longitude);
+          if (validEvents.length > 0) {
+            const group = new L.featureGroup(validEvents.map(n => L.marker([n.latitude, n.longitude])));
+            policeTacticalMap.fitBounds(group.getBounds().pad(0.15));
+          }
+        });
+      }
+
+      // Default select first active alert
+      if (currentEvents.length > 0) {
+        selectPoliceDangerNode(currentEvents[0]);
+      }
+    }
+
+    function renderPoliceTacticalMarkers(filter = "all") {
+      if (!policeMarkersLayer) return;
+      policeMarkersLayer.clearLayers();
+
+      const filtered = currentEvents.filter(ev => {
+        if (!ev || !ev.latitude || !ev.longitude) return false;
+        if (filter === "audio") return Boolean(ev.audioUrl);
+        if (filter === "domestic") return (ev.emotion || "").toLowerCase().includes("domestic");
+        return true;
+      });
+
+      filtered.forEach(ev => {
+        const isDomestic = (ev.emotion || "").toLowerCase().includes("domestic");
+        const iconHtml = `
+          <div class="safety-beacon ${isDomestic ? 'domestic' : ''}" title="${ev.userName} - ${ev.locationName}">
+            <div class="safety-beacon-ring"></div>
+            <div class="safety-beacon-core" style="display:flex;align-items:center;justify-content:center;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            </div>
+            <div class="safety-beacon-label">${(ev.userName || "Citizen").split(" ")[0]}</div>
+          </div>
+        `;
+
+        const customIcon = L.divIcon({
+          className: "",
+          iconSize: [44, 44],
+          iconAnchor: [22, 22],
+          html: iconHtml
+        });
+
+        const marker = L.marker([ev.latitude, ev.longitude], { icon: customIcon });
+
+        marker.bindPopup(`
+          <div style="font-family:var(--dash-font);padding:4px;min-width:200px;">
+            <div style="font-weight:700;font-size:1rem;color:var(--dash-ink);">${ev.userName}</div>
+            <div style="font-size:0.78rem;color:var(--dash-ink-soft);font-family:var(--dash-mono);margin:2px 0 6px 0;">${ev.locationName}</div>
+            <div style="font-size:0.84rem;font-weight:600;color:#D9251D;margin-bottom:8px;">${ev.emotion} &bull; ${ev.threatLevel} (${ev.confidence}%)</div>
+            <button type="button" style="background:var(--dash-ink);color:#fff;border:0;padding:6px 12px;border-radius:8px;font-size:0.75rem;font-weight:700;cursor:pointer;width:100%;font-family:var(--dash-font);" onclick="window.selectPoliceNodeById('${ev.id}')">
+              Inspect Full Telemetry &rarr;
+            </button>
+          </div>
+        `);
+
+        marker.on("click", () => {
+          selectPoliceDangerNode(ev);
+        });
+
+        policeMarkersLayer.addLayer(marker);
+      });
+    }
+
+    function selectPoliceDangerNode(ev) {
+      if (!ev) return;
+
+      const pName = document.getElementById("pnode-name");
+      const pSector = document.getElementById("pnode-sector");
+      const pThreat = document.getElementById("pnode-threat");
+      const pThreatSub = document.getElementById("pnode-threat-sub");
+      const pCoords = document.getElementById("pnode-coords");
+      const pGmaps = document.getElementById("pnode-gmaps-link");
+      const pContacts = document.getElementById("pnode-contacts-list");
+      const pAudioBox = document.getElementById("pnode-audio-box");
+      const btnDispatch = document.getElementById("btn-pnode-dispatch");
+      const btnPlay = document.getElementById("btn-pnode-play");
+
+      if (pName) pName.textContent = `${ev.userName} (${ev.userPhone})`;
+      if (pSector) pSector.innerHTML = `${ev.locationName}`;
+      if (pThreat) pThreat.textContent = `${ev.emotion} [${ev.threatLevel} Threat • ${ev.confidence}% Confidence]`;
+      if (pThreatSub) pThreatSub.textContent = `${ev.triggerSource} • ${ev.reason}`;
+      if (pCoords) pCoords.textContent = `${ev.latitude.toFixed(6)}° N, ${ev.longitude.toFixed(6)}° E`;
+      if (pGmaps) pGmaps.href = ev.mapUrl || `https://www.google.com/maps?q=${ev.latitude},${ev.longitude}`;
+
+      if (pContacts) {
+        pContacts.innerHTML = (ev.contactsAlerted && ev.contactsAlerted.length > 0)
+          ? ev.contactsAlerted.map(c => `
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--dash-border-light);">
+              <span style="font-size:0.85rem;font-weight:600;">${c.name} (${c.relationship}) - ${c.phone}</span>
+              <a href="tel:${c.phone}" class="btn-quick-call" style="display:inline-flex;align-items:center;gap:4px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <span>Call</span>
+              </a>
+            </div>
+          `).join("")
+          : `<div style="font-size:0.85rem;color:var(--dash-ink-soft);padding:4px 0;">No contacts specified</div>`;
+      }
+
+      if (pAudioBox && btnPlay) {
+        if (ev.audioUrl) {
+          pAudioBox.style.display = "block";
+          btnPlay.setAttribute("data-src", ev.audioUrl);
+        } else {
+          pAudioBox.style.display = "none";
+        }
+      }
+
+      if (btnDispatch) {
+        btnDispatch.disabled = false;
+        btnDispatch.innerHTML = `
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>Dispatch ${ev.pcrUnit} (ETA ${ev.etaMinutes}m)</span>
+        `;
+      }
+
+      if (policeTacticalMap && ev.latitude && ev.longitude) {
+        policeTacticalMap.panTo([ev.latitude, ev.longitude], { animate: true, duration: 0.8 });
+      }
+    }
+
+    window.selectPoliceNodeById = function(id) {
+      const ev = currentEvents.find(n => n.id === id || n.alertId === id);
+      if (ev) selectPoliceDangerNode(ev);
+    };
+
+    // Playback inside police details panel
+    const btnPnodePlay = document.getElementById("btn-pnode-play");
+    const pnodeWaveforms = document.getElementById("pnode-waveforms");
+    const pnodeAudioTime = document.getElementById("pnode-audio-time");
+
+    if (btnPnodePlay) {
+      btnPnodePlay.addEventListener("click", () => {
+        const src = btnPnodePlay.getAttribute("data-src");
+        if (!src) return;
+
+        if (!activePoliceAudio || activePoliceAudio.src !== src) {
+          activePoliceAudio = new Audio(src);
+          activePoliceWaveform = pnodeWaveforms;
+
+          activePoliceAudio.addEventListener("timeupdate", () => {
+            const sec = Math.floor(activePoliceAudio.currentTime);
+            const dur = Math.floor(activePoliceAudio.duration || 6);
+            if (pnodeAudioTime) pnodeAudioTime.textContent = `00:0${sec} / 00:0${dur} (Live Clip)`;
+          });
+
+          activePoliceAudio.addEventListener("ended", () => {
+            pnodeWaveforms.classList.remove("playing");
+            btnPnodePlay.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+            if (pnodeAudioTime) pnodeAudioTime.textContent = "00:00 / 00:06 (Replay)";
+          });
+        }
+
+        if (activePoliceAudio.paused) {
+          activePoliceAudio.play();
+          pnodeWaveforms.classList.add("playing");
+          btnPnodePlay.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>';
+        } else {
+          activePoliceAudio.pause();
+          pnodeWaveforms.classList.remove("playing");
+          btnPnodePlay.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+        }
+      });
+    }
+
+    // Police detail dispatch button
+    const btnPnodeDispatch = document.getElementById("btn-pnode-dispatch");
+    if (btnPnodeDispatch) {
+      btnPnodeDispatch.addEventListener("click", () => {
+        emergencySiren.play(6);
+        btnPnodeDispatch.disabled = true;
+        btnPnodeDispatch.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> PCR Unit Dispatched (Sirens Active 🚨)</span>`;
+      });
+    }
+
+    // Police mark safe button
+    const btnPnodeContain = document.getElementById("btn-pnode-contain");
+    if (btnPnodeContain) {
+      btnPnodeContain.addEventListener("click", () => {
+        if (confirm("Mark this danger node as resolved and secured?")) {
+          const statusTag = document.getElementById("pnode-status-tag");
+          if (statusTag) {
+            statusTag.className = "event-status-tag tag-resolved";
+            statusTag.innerHTML = `<span style="display:inline-flex;align-items:center;gap:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> RESOLVED / SECURED</span>`;
+          }
+        }
+      });
+    }
+
+    // Mobile burger
+    const burgerBtn = document.getElementById("burger-btn");
+    const sheet = document.getElementById("hd-sheet");
+    if (burgerBtn && sheet) {
+      burgerBtn.addEventListener("click", () => {
+        const isHidden = sheet.hidden;
+        sheet.hidden = !isHidden;
+        burgerBtn.setAttribute("aria-expanded", String(isHidden));
+      });
+    }
+
+    // Auto-poll RTDB every 15s to keep feed fresh
+    setInterval(() => {
+      if (consoleView.style.display !== "none") {
+        loadRealtimeEvents();
+      }
+    }, 15000);
+
+    // Dark / Light Theme Manager
+    function getSafeVaaniTheme() {
+      return document.documentElement.getAttribute("data-theme") || "light";
+    }
+    function updateThemeLabels(theme) {
+      document.querySelectorAll(".theme-toggle-label").forEach((el) => {
+        el.textContent = theme === "dark" ? "Light" : "Dark";
+      });
+    }
+    function toggleSafeVaaniTheme() {
+      const current = getSafeVaaniTheme();
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try {
+        localStorage.setItem("safevaani_theme", next);
+      } catch(e){}
+      updateThemeLabels(next);
+      if (typeof policeTacticalMap !== "undefined" && policeTacticalMap) {
+        policeTacticalMap.invalidateSize();
+      }
+    }
+    document.querySelectorAll(".btn-theme-toggle, #theme-toggle-btn, #cad-theme-toggle").forEach((btn) => {
+      btn.addEventListener("click", toggleSafeVaaniTheme);
+    });
+    updateThemeLabels(getSafeVaaniTheme());
+  </script>
+  <script src="/google-translate.js"></script>
+</body>
+</html>

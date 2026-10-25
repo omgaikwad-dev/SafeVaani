@@ -1,0 +1,1166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_night_plan.xml — SafeVaani NightShift Navigator
+    THEME 1 · PROBLEM 1: "The City That Sleeps While You Work"
+    Complete End-to-End Redesign:
+    - Live Corridor Telemetry HUD (Lighting, Patrols, Night Transit, 24/7 Havens)
+    - 1-Tap Persona Quick Presets (Nurse 02:15 AM, Guard 03:00 AM, Factory 04:00 AM, Delivery 02:30 AM)
+    - 4-Tier Explicit Uncertainty Matrix (KNOWN, PROBABLE, OUTDATED, UNKNOWN)
+    - Multi-Modal Route Steps with Dynamic Contingency
+    - Live Audio Escort & Check-In Action Dock
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/woshield_bg"
+    tools:context=".NightPlanActivity">
+
+    <!-- Scrollable content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="84dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ── Top Bar (Warm Yellow Brand Accent) ─────────────────────── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/safevaani_yellow"
+                android:elevation="3dp"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/btnNightPlanBack"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="Back"
+                    android:focusable="true"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_arrow_back"
+                    app:tint="@color/deep_purple" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.01"
+                        android:text="🌙 SafeVaani NightShift"
+                        android:textColor="@color/deep_purple"
+                        android:textSize="17sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:id="@+id/viewEngineIndicator"
+                            android:layout_width="7dp"
+                            android:layout_height="7dp"
+                            android:layout_marginEnd="6dp"
+                            android:background="@color/confidence_known" />
+
+                        <TextView
+                            android:id="@+id/tvEngineStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:letterSpacing="0.06"
+                            android:text="ENGINE ACTIVE • 2:15 AM MESH"
+                            android:textAllCaps="true"
+                            android:textColor="@color/deep_purple"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Emergency SOS button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEmergencySOS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:fontFamily="sans-serif-black"
+                    android:letterSpacing="0.04"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="0dp"
+                    android:text="🚨 SOS"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:backgroundTint="@color/night_red"
+                    app:cornerRadius="19dp"
+                    app:elevation="2dp" />
+            </LinearLayout>
+
+            <!-- ── Live Night Telemetry HUD Card ─────────────────────────── -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="14dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/subtle_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.08"
+                            android:text="LIVE NIGHT CORRIDOR TELEMETRY"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="PUNE MESH • REAL-TIME"
+                            android:textColor="@color/safe_green"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <!-- Telemetry 4-Pill Grid -->
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:alignmentMode="alignMargins"
+                        android:columnCount="2"
+                        android:useDefaultMargins="true">
+
+                        <!-- Telemetry 1: Streetlight illumination -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:background="@drawable/rounded_corner"
+                            android:backgroundTint="@color/light_lavender"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:text="💡 94% Lit"
+                                android:textColor="@color/deep_purple"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:fontFamily="sans-serif"
+                                android:text="Sensor-verified lighting"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <!-- Telemetry 2: Active PCR Patrols -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:background="@drawable/rounded_corner"
+                            android:backgroundTint="@color/light_lavender"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:text="🚓 3 PCR Patrols"
+                                android:textColor="@color/deep_purple"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:fontFamily="sans-serif"
+                                android:text="Active within 2.5 km"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <!-- Telemetry 3: Night Public Transit -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:background="@drawable/rounded_corner"
+                            android:backgroundTint="@color/light_lavender"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:text="🚌 Route 42 Bus"
+                                android:textColor="@color/deep_purple"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:fontFamily="sans-serif"
+                                android:text="Departs in 18 min"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <!-- Telemetry 4: 24/7 Verified Safe Stops -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:background="@drawable/rounded_corner"
+                            android:backgroundTint="@color/light_lavender"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:text="💊 4 Safe Havens"
+                                android:textColor="@color/deep_purple"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:fontFamily="sans-serif"
+                                android:text="24/7 Pharmacy &amp; ER"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+                    </GridLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ── Quick Persona Presets (Theme 1 · Problem 1) ─────────────── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:letterSpacing="0.06"
+                    android:text="1-TAP SHIFT PRESETS (02:00 - 05:00 AM)"
+                    android:textColor="@color/deep_purple"
+                    android:textSize="11sp" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!-- Preset 1: ICU Nurse -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/presetNurse"
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="1dp"
+                            app:strokeColor="@color/safevaani_yellow"
+                            app:strokeWidth="1.5dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-black"
+                                    android:text="🏥 ICU Nurse"
+                                    android:textColor="@color/deep_purple"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:text="02:15 AM Shift End"
+                                    android:textColor="@color/primary_orange"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="sans-serif"
+                                    android:text="Hadapsar Corridor"
+                                    android:textColor="@color/text_secondary"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Preset 2: Security Guard -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/presetGuard"
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="1dp"
+                            app:strokeColor="@color/subtle_border"
+                            app:strokeWidth="1dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-black"
+                                    android:text="🛡️ Night Guard"
+                                    android:textColor="@color/deep_purple"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:text="03:00 AM Shift End"
+                                    android:textColor="@color/primary_orange"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="sans-serif"
+                                    android:text="Swargate Patrol"
+                                    android:textColor="@color/text_secondary"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Preset 3: Factory Worker -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/presetFactory"
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="1dp"
+                            app:strokeColor="@color/subtle_border"
+                            app:strokeWidth="1dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-black"
+                                    android:text="🏭 Factory Shift"
+                                    android:textColor="@color/deep_purple"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:text="04:00 AM Shift End"
+                                    android:textColor="@color/primary_orange"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="sans-serif"
+                                    android:text="Chakan Highway"
+                                    android:textColor="@color/text_secondary"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Preset 4: Delivery Partner -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/presetDelivery"
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="1dp"
+                            app:strokeColor="@color/subtle_border"
+                            app:strokeWidth="1dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-black"
+                                    android:text="🛵 Delivery Pro"
+                                    android:textColor="@color/deep_purple"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:text="02:30 AM Shift End"
+                                    android:textColor="@color/primary_orange"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="sans-serif"
+                                    android:text="Kothrud Corridors"
+                                    android:textColor="@color/text_secondary"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+            <!-- ── Shift Input Form Section ───────────────────────────────── -->
+            <LinearLayout
+                android:id="@+id/layoutInputSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Tonight's Context card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="1dp"
+                    app:strokeColor="@color/subtle_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="18dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.08"
+                            android:text="TONIGHT'S SHIFT COMMUTE DETAILS"
+                            android:textColor="@color/primary_orange"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="14dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Enter when your shift ends and where you need to travel."
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+
+                        <!-- Shift End Time -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:hint="Shift End Time (e.g. 02:15 AM)"
+                            app:boxStrokeColor="@color/primary_orange"
+                            app:hintTextColor="@color/text_secondary">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etShiftEnd"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-medium"
+                                android:inputType="time"
+                                android:textColor="@color/text_primary" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Destination -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:hint="Home Address / Destination"
+                            app:boxStrokeColor="@color/primary_orange"
+                            app:hintTextColor="@color/text_secondary">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etDestination"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-medium"
+                                android:inputType="textPostalAddress"
+                                android:textColor="@color/text_primary" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Worker Type Text -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:hint="Role / Shift Type (e.g. ICU Nurse, Security)"
+                            app:boxStrokeColor="@color/primary_orange"
+                            app:hintTextColor="@color/text_secondary">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etWorkerType"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="@color/text_primary" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Worker type chips -->
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipWorkerType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            app:singleSelection="true" />
+
+                        <!-- Generate Plan button -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnGeneratePlan"
+                            android:layout_width="match_parent"
+                            android:layout_height="54dp"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.04"
+                            android:text="🧠 GENERATE NIGHT PLAN (02:15 AM MESH)"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"
+                            app:backgroundTint="@color/primary_orange"
+                            app:cornerRadius="12dp"
+                            app:elevation="2dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ── Real-World Agent Thinking HUD (Shown while generating) ── -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/layoutAgentThinking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="3dp"
+                    app:strokeColor="@color/primary_orange"
+                    app:strokeWidth="1.5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="18dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ProgressBar
+                                android:layout_width="26dp"
+                                android:layout_height="26dp"
+                                android:indeterminateTint="@color/primary_orange" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-black"
+                                    android:letterSpacing="0.04"
+                                    android:text="AGENT IS THINKING..."
+                                    android:textColor="@color/primary_orange"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvThinkingStep"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:text="Scanning 100 night stations &amp; Ratrani corridors..."
+                                    android:textColor="@color/deep_purple"
+                                    android:textSize="13sp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tvThinkingPct"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:text="40%"
+                                android:textColor="@color/primary_orange"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <ProgressBar
+                            android:id="@+id/progressThinking"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="6dp"
+                            android:layout_marginTop="14dp"
+                            android:max="100"
+                            android:progress="40"
+                            android:progressBackgroundTint="@color/border_dim"
+                            android:progressTint="@color/primary_orange" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Continuous GPS tracking • Evaluating nearest public transport &amp; 24/7 services from dataset."
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 4-Tier Uncertainty Matrix Explainer -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="1dp"
+                    app:strokeColor="@color/subtle_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.08"
+                            android:text="4-TIER UNCERTAINTY MATRIX (NO FALSE CONFIDENCE)"
+                            android:textColor="@color/deep_purple"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Nighttime city data is volatile. SafeVaani explicitly labels data reliability:"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="6dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/badge_rounded"
+                                android:backgroundTint="@color/confidence_known_bg"
+                                android:fontFamily="sans-serif-bold"
+                                android:padding="6dp"
+                                android:text="🟢 KNOWN\nLive GPS &amp; PCR"
+                                android:textColor="@color/confidence_known"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="6dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/badge_rounded"
+                                android:backgroundTint="@color/confidence_probable_bg"
+                                android:fontFamily="sans-serif-bold"
+                                android:padding="6dp"
+                                android:text="🟡 PROBABLE\n30-Day Pattern"
+                                android:textColor="@color/confidence_probable"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="6dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/badge_rounded"
+                                android:backgroundTint="@color/confidence_outdated_bg"
+                                android:fontFamily="sans-serif-bold"
+                                android:padding="6dp"
+                                android:text="🟠 OUTDATED\nStale &gt;2 Hours"
+                                android:textColor="@color/confidence_outdated"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/badge_rounded"
+                                android:backgroundTint="@color/confidence_unknown_bg"
+                                android:fontFamily="sans-serif-bold"
+                                android:padding="6dp"
+                                android:text="🔴 UNKNOWN\nContingency ON"
+                                android:textColor="@color/confidence_unknown"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- ── Plan Container (Shown After Generation) ────────────────── -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardPlanContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/subtle_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <!-- Plan Header Hero Banner -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_corner"
+                        android:backgroundTint="@color/safevaani_yellow"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvPlanStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:letterSpacing="0.08"
+                                android:text="● 2:15 AM PLAN ACTIVE"
+                                android:textColor="@color/deep_purple"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/tvAiProviderBadge"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:layout_marginBottom="2dp"
+                                android:fontFamily="sans-serif-bold"
+                                android:text="🤖 ChatGPT 4o-mini AI Engine"
+                                android:textColor="@color/primary_orange"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/tvEstimatedArrival"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:text="ETA: 02:48 AM"
+                                android:textColor="@color/deep_purple"
+                                android:textSize="24sp" />
+
+                            <TextView
+                                android:id="@+id/tvPlanTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="33 min commute • 94% lighted corridor"
+                                android:textColor="@color/midnight_slate"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!-- Confidence Score Pill -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_corner"
+                            android:backgroundTint="@color/white"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="8dp">
+
+                            <TextView
+                                android:id="@+id/tvConfidencePct"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:text="88%"
+                                android:textColor="@color/primary_orange"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-bold"
+                                android:text="VERIFIED"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="9sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Confidence Progress Bar -->
+                    <ProgressBar
+                        android:id="@+id/progressConfidence"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="6dp"
+                        android:layout_marginTop="12dp"
+                        android:max="100"
+                        android:progress="88"
+                        android:progressBackgroundTint="@color/border_dim"
+                        android:progressTint="@color/primary_orange" />
+
+                    <!-- Live countdown updater -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvNextUpdate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Live refresh every 3 minutes"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="CONTINUOUS MONITORING"
+                            android:textColor="@color/safe_green"
+                            android:textSize="9sp" />
+                    </LinearLayout>
+
+                    <!-- Offline Warning Banner -->
+                    <LinearLayout
+                        android:id="@+id/layoutOfflineWarning"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:background="@drawable/rounded_corner"
+                        android:backgroundTint="@color/confidence_outdated_bg"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⏰ "
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tvOfflineNote"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="@color/confidence_outdated"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <!-- ── Interactive Offline Vector Safe Corridor Map ── -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardOfflineMapContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="260dp"
+                        android:layout_marginBottom="14dp"
+                        app:cardBackgroundColor="@color/midnight_slate"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp"
+                        app:strokeColor="@color/safe_green"
+                        app:strokeWidth="1dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <!-- Offline Canvas Map View -->
+                            <com.example.woshield.OfflineNightMapView
+                                android:id="@+id/offlineNightMapView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <!-- Header Bar inside Map -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|start"
+                                android:layout_margin="10dp"
+                                android:background="@drawable/rounded_corner"
+                                android:backgroundTint="#D9000000"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="5dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:text="🗺️ OFFLINE VECTOR MAP • 100 SEED POIS"
+                                    android:textColor="@color/safe_green"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+
+                            <!-- Gesture Hint inside Map -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|start"
+                                android:layout_margin="8dp"
+                                android:background="@drawable/rounded_corner"
+                                android:backgroundTint="#B3000000"
+                                android:fontFamily="sans-serif"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="3dp"
+                                android:text="Pinch to zoom • Drag to pan • Tap pin for details"
+                                android:textColor="#B0BEC5"
+                                android:textSize="9sp" />
+                        </FrameLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Multi-Tier Plan Steps List -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvPlanItems"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+
+                    <!-- Journey Command Actions Dock -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical">
+
+                        <!-- Primary 1: Navigate Full Route in Google Maps -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnNavigateMainRoute"
+                            android:layout_width="match_parent"
+                            android:layout_height="54dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.04"
+                            android:text="🧭 START NAVIGATION IN GOOGLE MAPS"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"
+                            app:backgroundTint="@color/safe_green"
+                            app:cornerRadius="12dp"
+                            app:elevation="3dp"
+                            app:icon="@drawable/ic_navigation"
+                            app:iconGravity="textStart"
+                            app:iconTint="@color/white" />
+
+                        <!-- Primary 2: Start Audio Escort & Monitoring -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnStartJourney"
+                            android:layout_width="match_parent"
+                            android:layout_height="54dp"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.04"
+                            android:text="🚶 START AUDIO ESCORT &amp; ROUTE MONITORING"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"
+                            app:backgroundTint="@color/primary_orange"
+                            app:cornerRadius="12dp"
+                            app:elevation="2dp" />
+
+                        <!-- Check-in Button -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/btnCheckIn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:visibility="gone"
+                            app:cardBackgroundColor="@color/confidence_known_bg"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="0dp"
+                            app:strokeColor="@color/safe_green"
+                            app:strokeWidth="1.5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:gravity="center"
+                                android:padding="14dp"
+                                android:text="✓ I'M SAFE — CONFIRM CHECK-IN"
+                                android:textColor="@color/safe_green"
+                                android:textSize="14sp" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Change Shift / Re-plan button -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnEditPlan"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="← Change Shift Time / Destination"
+                            android:textColor="@color/deep_purple"
+                            android:textSize="12sp"
+                            app:backgroundTint="@color/light_lavender"
+                            app:cornerRadius="10dp"
+                            app:strokeColor="@color/subtle_border"
+                            app:strokeWidth="1dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ── Engine Info Footer ─────────────────────────────────────── -->
+            <TextView
+                android:id="@+id/tvEngineStatusDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="SafeVaani Real-Time Mesh connected. Feeds refresh every 3 min with 4-tier uncertainty matrix."
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Navigation (Matching SafeVaani Brand) -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/safevaani_yellow"
+        app:elevation="8dp"
+        app:itemIconTint="@color/bottom_nav_tint"
+        app:itemTextColor="@color/bottom_nav_tint"
+        app:menu="@menu/bottom_nav_menu" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

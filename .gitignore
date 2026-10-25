@@ -1,0 +1,9 @@
+.DS_Store
+Thumbs.db
+original_orbii.html
+*.log
+.gradle/
+**/build/
+local.properties
+.idea/
+*.iml

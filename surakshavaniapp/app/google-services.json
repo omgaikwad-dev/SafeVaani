@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "25988634025",
+    "project_id": "attention-b0e42",
+    "storage_bucket": "attention-b0e42.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25988634025:android:a2e21c79be2a74fcabe0b8",
+        "android_client_info": {
+          "package_name": "com.attentionfirewall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25988634025-7oit4ooef624t76jn18p2mjhfs0cqtba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLuLbyetW6evFdFPFIiOMmD2NpTZHVhdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "25988634025-7oit4ooef624t76jn18p2mjhfs0cqtba.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25988634025:android:bf67965b37f56c87abe0b8",
+        "android_client_info": {
+          "package_name": "com.example.woshield"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25988634025-7oit4ooef624t76jn18p2mjhfs0cqtba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLuLbyetW6evFdFPFIiOMmD2NpTZHVhdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "25988634025-7oit4ooef624t76jn18p2mjhfs0cqtba.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

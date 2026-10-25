@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_splash.xml — SafeVaani Splash / Flash Screen
+    Theme 1 · Problem 1: "The City That Sleeps While You Work"
+    Authentic SafeVaani Design System: #FDDB10, #F8F3E8, #FFFFFF, #1F2236, #CC4E08
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/woshield_bg"
+    tools:context=".SplashActivity">
+
+    <!-- Top decorative accent bar -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/safevaani_yellow" />
+
+    <!-- Center Branding Container -->
+    <LinearLayout
+        android:id="@+id/layout_splash_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="32dp">
+
+        <!-- App Logo Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_splash_logo"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="32dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/subtle_border"
+            app:strokeWidth="1.5dp">
+
+            <ImageView
+                android:id="@+id/splash_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/app_name"
+                android:padding="16dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/applogo" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Brand Name -->
+        <TextView
+            android:id="@+id/tv_splash_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif-black"
+            android:letterSpacing="0.02"
+            android:text="@string/splash_app_title"
+            android:textColor="@color/deep_purple"
+            android:textSize="34sp" />
+
+        <!-- Engine Pill Badge -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardBackgroundColor="@color/safevaani_yellow"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/subtle_border"
+            app:strokeWidth="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:letterSpacing="0.06"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="5dp"
+                android:text="@string/splash_badge"
+                android:textColor="@color/deep_purple"
+                android:textSize="11sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Tagline (Theme 1 · Problem 1) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="@string/splash_tagline"
+            android:textColor="@color/midnight_slate"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:text="24/7 Shift Worker Navigation • Safe Corridors • Live Havens"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- Bottom Status & Loader -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="36dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp">
+
+        <ProgressBar
+            android:id="@+id/progress_splash"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:indeterminateTint="@color/primary_orange" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.04"
+            android:text="@string/splash_footer"
+            android:textColor="@color/text_secondary"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+</RelativeLayout>

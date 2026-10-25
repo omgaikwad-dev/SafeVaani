@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ========================================================= -->
+    <!-- SAFEVAANI SIGNATURE COLOR SYSTEM (Matches Website Palette) -->
+    <!-- ========================================================= -->
+
+    <!-- Primary Brand Colors -->
+    <color name="primary_yellow">#FDDB10</color>
+    <color name="safevaani_yellow">#FDDB10</color>
+    <color name="primary_orange">#CC4E08</color>
+    <color name="primary_orange_hover">#B34306</color>
+    <color name="primary">#CC4E08</color>
+    <color name="primary_variant">#B34306</color>
+    <color name="button_color">#CC4E08</color>
+    <color name="button_text_color">#FFFFFF</color>
+    <color name="royal_violet">#CC4E08</color>
+    <color name="deep_purple">#1F2236</color>
+    <color name="vibrant_purple">#CC4E08</color>
+    <color name="theme1">#FDDB10</color>
+    <color name="theme2">#CC4E08</color>
+    <color name="dark_purple">#1F2236</color>
+    <color name="secondary">#3F7DDE</color>
+    <color name="night_cyan">#3F7DDE</color>
+    <color name="night_cyan_dim">#203F7DDE</color>
+    <color name="night_amber">#FDDB10</color>
+    <color name="night_amber_dim">#30FDDB10</color>
+
+    <!-- ========================================================= -->
+    <!-- SURFACE & BACKGROUND TOKENS                               -->
+    <!-- ========================================================= -->
+    <!-- Website signature cream canvas (#F8F3E8) -->
+    <color name="woshield_bg">#F8F3E8</color>
+    <color name="warm_ivory">#F8F3E8</color>
+    <color name="night_ink">#F8F3E8</color>
+    <color name="night_ink_deep">#F0E7D4</color>
+    <color name="night_ink_mid">#FDDB10</color>
+    <color name="night_ink_card">#FFFFFF</color>
+
+    <!-- Card surfaces (Pure White) -->
+    <color name="surface_card">#FFFFFF</color>
+    <color name="woshield_card_bg">#FFFFFF</color>
+    <color name="bottom_nav_bg">#FDDB10</color>
+    <color name="bottom_nav_tint">#1F2236</color>
+
+    <!-- Borders (Warm linen borders) -->
+    <color name="subtle_border">#E6DDC9</color>
+    <color name="card_stroke">#E6DDC9</color>
+    <color name="border_dim">#EFE8D8</color>
+
+    <!-- Soft surfaces / Chips -->
+    <color name="soft_violet">#F0E7D4</color>
+    <color name="soft_violet_surface">#F0E7D4</color>
+    <color name="light_lavender">#FFF3CD</color>
+    <color name="disabled_surface">#EFE8D8</color>
+
+    <!-- ========================================================= -->
+    <!-- TEXT TOKENS                                               -->
+    <!-- ========================================================= -->
+    <color name="text_primary">#1F2236</color>
+    <color name="midnight_slate">#1F2236</color>
+    <color name="theme3">#1F2236</color>
+    <color name="text_secondary">#565A70</color>
+    <color name="secondary_slate">#565A70</color>
+    <color name="text_muted">#565A70</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#565A70</color>
+    <color name="light_gray">#F0E7D4</color>
+    <color name="dark_gray">#565A70</color>
+    <color name="black_transparent">#88000000</color>
+    <color name="scrim_overlay">#66000000</color>
+    <color name="white_translucent">#EEFFFFFF</color>
+
+    <!-- ========================================================= -->
+    <!-- CONFIDENCE & SAFETY STATUS TOKENS (Decision Engine)       -->
+    <!-- ========================================================= -->
+    <!-- KNOWN — Verified live data (Green) -->
+    <color name="safe_green">#2F9E5B</color>
+    <color name="status_safe">#2F9E5B</color>
+    <color name="success_green">#2F9E5B</color>
+    <color name="confidence_known">#155724</color>
+    <color name="confidence_known_bg">#D4EDDA</color>
+    <color name="night_green">#2F9E5B</color>
+    <color name="night_green_dim">#202F9E5B</color>
+    <color name="status_safe_bg">#D4EDDA</color>
+
+    <!-- PROBABLE — Pattern-inferred (Amber/Yellow) -->
+    <color name="warning_orange">#CC4E08</color>
+    <color name="status_warning">#856404</color>
+    <color name="status_warning_bg">#FFF3CD</color>
+    <color name="confidence_probable">#856404</color>
+    <color name="confidence_probable_bg">#FFF3CD</color>
+
+    <!-- OUTDATED — Stale data / Alert (Coral / Red) -->
+    <color name="critical_red">#CC4E08</color>
+    <color name="danger_color">#CC4E08</color>
+    <color name="error_red">#CC4E08</color>
+    <color name="status_emergency">#CC4E08</color>
+    <color name="red">#CC4E08</color>
+    <color name="status_emergency_bg">#F8D7DA</color>
+    <color name="status_emergency_dark">#B34306</color>
+    <color name="sos_pulse_color">#44CC4E08</color>
+    <color name="confidence_outdated">#721C24</color>
+    <color name="confidence_outdated_bg">#F8D7DA</color>
+    <color name="night_red">#CC4E08</color>
+    <color name="night_red_dim">#25CC4E08</color>
+
+    <!-- UNKNOWN — Missing data (Neutral Gray) -->
+    <color name="confidence_unknown">#383D41</color>
+    <color name="confidence_unknown_bg">#E2E3E5</color>
+    <color name="night_purple">#565A70</color>
+    <color name="night_purple_dim">#20565A70</color>
+
+    <!-- Info Blue -->
+    <color name="info_blue">#3F7DDE</color>
+</resources>

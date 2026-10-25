@@ -1,0 +1,65 @@
+<resources>
+    <!-- App Identity: SafeVaani (Theme 1 · Problem 1) -->
+    <string name="app_name">SafeVaani</string>
+    <string name="app_subtitle">Night-Time Decision Engine for Shift Workers</string>
+    <string name="woshield_subtitle">The City That Sleeps While You Work</string>
+    <string name="splash_app_title">SafeVaani</string>
+    <string name="splash_badge">🌙 NIGHT-TIME DECISION ENGINE</string>
+    <string name="splash_tagline">The City That Sleeps While You Work</string>
+    <string name="splash_footer">Always-On Protection • Safe Night Corridors</string>
+    <string name="title_activity_maps">City Safety Map</string>
+    <string name="title_activity_night_plan">Night Plan</string>
+
+    <!-- Facebook (keep for auth) -->
+    <string name="facebook_app_id">YOUR_FACEBOOK_APP_ID</string>
+    <string name="facebook_client_token">YOUR_FACEBOOK_CLIENT_TOKEN</string>
+
+    <!-- Night Plan strings -->
+    <string name="btn_generate_plan">Generate Night Plan</string>
+    <string name="btn_update_plan">Update Plan</string>
+    <string name="shift_end_hint">Shift End Time (e.g. 02:15 AM)</string>
+    <string name="destination_hint">Home Address or Destination</string>
+    <string name="plan_generating">Generating safest plan…</string>
+    <string name="plan_ready">Plan Ready — ETA calculated</string>
+    <string name="plan_updating">Updating plan with latest data…</string>
+    <string name="plan_offline_mode">Offline Mode — using cached patterns</string>
+
+    <!-- Confidence Level labels -->
+    <string name="confidence_known">KNOWN</string>
+    <string name="confidence_probable">PROBABLE</string>
+    <string name="confidence_outdated">OUTDATED</string>
+    <string name="confidence_unknown">UNKNOWN</string>
+
+    <!-- Confidence descriptions -->
+    <string name="confidence_known_desc">Live verified data — act on this with full confidence</string>
+    <string name="confidence_probable_desc">Pattern-inferred — likely but not guaranteed</string>
+    <string name="confidence_outdated_desc">Stale data — plan contingencies</string>
+    <string name="confidence_unknown_desc">No data available — verified alternatives shown</string>
+
+    <!-- Engine Status -->
+    <string name="engine_active">Engine Active</string>
+    <string name="engine_offline">Engine — Offline Mode</string>
+    <string name="engine_active_desc">Real-time data feeds connected. Plan is continuously updating.</string>
+    <string name="engine_offline_desc">Live feeds unavailable. Using 30-day historical patterns. Labels show data age.</string>
+
+    <!-- SOS / Emergency -->
+    <string name="sos_tap_hold_hint">Tap: Quick SOS • Hold 2s: Record + Alert</string>
+    <string name="emergency_sos_sent">Emergency SOS dispatched to contacts</string>
+    <string name="offline_sos_label">Offline SOS</string>
+
+    <!-- Journey strings -->
+    <string name="check_in_label">Journey Check-In</string>
+    <string name="check_in_safe">Mark Safe Arrival</string>
+    <string name="check_in_missed">Missed Check-In — Alerting Contacts</string>
+    <string name="journey_started">Journey Monitoring Started</string>
+    <string name="journey_arrived">Safe Arrival Confirmed ✓</string>
+
+    <!-- Misc -->
+    <string name="buzzle_option">Alarm &amp; Timer</string>
+    <string name="btn_check_incident_zones">Check Incident Zones</string>
+    <string name="monitoring_active">Journey Monitoring Active</string>
+    <string name="monitoring_inactive">Monitoring Inactive</string>
+    <string name="monitoring_active_desc">Night plan is being monitored. Check-in reminders active. Emergency contacts on standby.</string>
+    <string name="monitoring_inactive_desc">Journey monitoring is paused. Activate to enable automatic check-ins and guardian alerts.</string>
+    <string name="worker_type_hint">I am a: (Guard, Nurse, Factory Worker…)</string>
+</resources>

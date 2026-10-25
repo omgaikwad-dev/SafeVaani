@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_logout"
+        android:title="Log Out"
+        android:icon="@drawable/logout_icon"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/action_profile"
+        android:title="Profile"
+        android:icon="@drawable/profile_icon"
+        android:orderInCategory="200"
+
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/action_family_dashboard"
+        android:title="Family Dashboard"
+        android:icon="@drawable/ic_family_group"
+        android:orderInCategory="250"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/action_privacy_center"
+        android:title="Privacy &amp; Security Center"
+        android:icon="@drawable/ic_shield_lock"
+        android:orderInCategory="275"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/action_emergency_contact"
+        android:title="Set Emergency Contact"
+        android:icon="@drawable/emergency_contact"
+        android:orderInCategory="300"
+        android:showAsAction="never" />
+</menu>

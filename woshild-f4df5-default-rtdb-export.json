@@ -1,0 +1,2566 @@
+{
+  "alerts": {
+    "-P4ae6kBBLuM1JRlH2gA": {
+      "alertId": "-P4ae6kBBLuM1JRlH2gA",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792723679/idg6hy8ncdvqyuibm3z9.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "me"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 2.1,
+      "formattedTime": "Oct 23, 2026 | 08:17 am",
+      "id": "-P4ae6kBBLuM1JRlH2gA",
+      "isEmergency": true,
+      "latitude": 19.6133123,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1850968,
+      "mapUrl": "https://maps.google.com/?q=19.6133123,74.1850968",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6133123,74.1850968\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792723679/idg6hy8ncdvqyuibm3z9.mp4",
+      "status": "ACTIVE",
+      "threatLevel": "High",
+      "timestamp": 1792724105375,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "+91 9529811731"
+    },
+    "-P4atY920hi-VXLcrlOa": {
+      "alertId": "-P4atY920hi-VXLcrlOa",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792727722/b4awqqvweqdgwqhp1fl3.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 09:25 am",
+      "id": "-P4atY920hi-VXLcrlOa",
+      "isEmergency": true,
+      "latitude": 19.6131142,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1860269,
+      "mapUrl": "https://maps.google.com/?q=19.6131142,74.1860269",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6131142,74.1860269\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792727722/b4awqqvweqdgwqhp1fl3.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792727722783,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4b18Tr-hC425yrz3rJ": {
+      "alertId": "-P4b18Tr-hC425yrz3rJ",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792729978/ac8uziixfbj9pubww8qd.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 10:02 am",
+      "id": "-P4b18Tr-hC425yrz3rJ",
+      "isEmergency": true,
+      "latitude": 19.6141158,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.184337,
+      "mapUrl": "https://maps.google.com/?q=19.6141158,74.184337",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6141158,74.184337\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792729978/ac8uziixfbj9pubww8qd.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792729977178,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4b1QtzLkCBXwzBIRKX": {
+      "alertId": "-P4b1QtzLkCBXwzBIRKX",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792730053/ir2b5241d5dn1x2k6re5.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 10:04 am",
+      "id": "-P4b1QtzLkCBXwzBIRKX",
+      "isEmergency": true,
+      "latitude": 19.6141118,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1843575,
+      "mapUrl": "https://maps.google.com/?q=19.6141118,74.1843575",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6141118,74.1843575\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792730053/ir2b5241d5dn1x2k6re5.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792730052811,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4b55jNAxI7A8jLUXTl": {
+      "alertId": "-P4b55jNAxI7A8jLUXTl",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792731011/ipsfobh4o1yzor36bcqm.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 10:20 am",
+      "id": "-P4b55jNAxI7A8jLUXTl",
+      "isEmergency": true,
+      "latitude": 19.6140795,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1846663,
+      "mapUrl": "https://maps.google.com/?q=19.6140795,74.1846663",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6140795,74.1846663\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792731011/ipsfobh4o1yzor36bcqm.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792731015014,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4b8PlxUK5dn21JuyC1": {
+      "alertId": "-P4b8PlxUK5dn21JuyC1",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792731883/qul3w4dpiyad2pcw6lfi.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 10:34 am",
+      "id": "-P4b8PlxUK5dn21JuyC1",
+      "isEmergency": true,
+      "latitude": 19.6141442,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1845117,
+      "mapUrl": "https://maps.google.com/?q=19.6141442,74.1845117",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6141442,74.1845117\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792731883/qul3w4dpiyad2pcw6lfi.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792731883742,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bDfiupObcBc7YOsLq": {
+      "alertId": "-P4bDfiupObcBc7YOsLq",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733263/ywgurmyzswlhu2fiisdy.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 10:57 am",
+      "id": "-P4bDfiupObcBc7YOsLq",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733263/ywgurmyzswlhu2fiisdy.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792733263859,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bE4UL4ZtTfAXcophm": {
+      "alertId": "-P4bE4UL4ZtTfAXcophm",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733369/wepumsivenhncz5pu01x.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 10:59 am",
+      "id": "-P4bE4UL4ZtTfAXcophm",
+      "isEmergency": true,
+      "latitude": 19.6140606,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1842456,
+      "mapUrl": "https://maps.google.com/?q=19.6140606,74.1842456",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6140606,74.1842456\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733369/wepumsivenhncz5pu01x.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792733369266,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bEIQjk3AdAm7TswHe": {
+      "alertId": "-P4bEIQjk3AdAm7TswHe",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733426/uxutxl2lzwzbsuwqrbni.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:00 am",
+      "id": "-P4bEIQjk3AdAm7TswHe",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733426/uxutxl2lzwzbsuwqrbni.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792733426411,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bIMlAabAi8hr7eqpU": {
+      "alertId": "-P4bIMlAabAi8hr7eqpU",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792734491/p8mlznpdycsnvfknncrh.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:18 am",
+      "id": "-P4bIMlAabAi8hr7eqpU",
+      "isEmergency": true,
+      "latitude": 19.6141593,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1842843,
+      "mapUrl": "https://maps.google.com/?q=19.6141593,74.1842843",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6141593,74.1842843\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792734491/p8mlznpdycsnvfknncrh.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792734492891,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bM-2ooQDKDlmqCIb1": {
+      "alertId": "-P4bM-2ooQDKDlmqCIb1",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735444/hylaf901bvi6lndgmr5r.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:34 am",
+      "id": "-P4bM-2ooQDKDlmqCIb1",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735444/hylaf901bvi6lndgmr5r.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792735445141,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bMFxB1vGw1gRzqiZB": {
+      "alertId": "-P4bMFxB1vGw1gRzqiZB",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735510/numahc5sxid9qns2z9ye.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:35 am",
+      "id": "-P4bMFxB1vGw1gRzqiZB",
+      "isEmergency": true,
+      "latitude": 19.6144773,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1846288,
+      "mapUrl": "https://maps.google.com/?q=19.6144773,74.1846288",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6144773,74.1846288\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735510/numahc5sxid9qns2z9ye.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792735513435,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bNRQp0sbhH9koT_ZK": {
+      "alertId": "-P4bNRQp0sbhH9koT_ZK",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735822/suat92doayszffqmok3g.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:40 am",
+      "id": "-P4bNRQp0sbhH9koT_ZK",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735822/suat92doayszffqmok3g.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792735823489,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bNfvv0qiLFOwbHToM": {
+      "alertId": "-P4bNfvv0qiLFOwbHToM",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735886/tpofozd3r3yr0niewhmw.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:41 am",
+      "id": "-P4bNfvv0qiLFOwbHToM",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735886/tpofozd3r3yr0niewhmw.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792735887004,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bNju6TlZXOYVowVDt": {
+      "alertId": "-P4bNju6TlZXOYVowVDt",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735902/uo9byxfq4ens7phdbndz.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:41 am",
+      "id": "-P4bNju6TlZXOYVowVDt",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735902/uo9byxfq4ens7phdbndz.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792735903299,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bNo_uwTfm4kJf3IJl": {
+      "alertId": "-P4bNo_uwTfm4kJf3IJl",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735921/x4bp4zpfbqwbkih567n8.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:42 am",
+      "id": "-P4bNo_uwTfm4kJf3IJl",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735921/x4bp4zpfbqwbkih567n8.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792735922491,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bO-UVpDwB8ZBE86cA": {
+      "alertId": "-P4bO-UVpDwB8ZBE86cA",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737889/l6vh18inkxdfqifyaxt6.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "AI Emotion Analysis: sad",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:42 am",
+      "id": "-P4bO-UVpDwB8ZBE86cA",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Danger Zone Service (AI Monitoring) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: AI Emotion Analysis: sad\nMy Location: Location unavailable",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792735971240,
+      "triggerSource": "Danger Zone Service (AI Monitoring)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bTKg1r6cHXpRhoOpk": {
+      "alertId": "-P4bTKg1r6cHXpRhoOpk",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737373/nvmlxozjjsvz8nqcmin8.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Emergency Distress (Voice Shield)",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 12:06 pm",
+      "id": "-P4bTKg1r6cHXpRhoOpk",
+      "isEmergency": true,
+      "latitude": 19.6142002,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1838605,
+      "mapUrl": "https://maps.google.com/?q=19.6142002,74.1838605",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Emergency Distress (Voice Shield)\nLocation: Sangamner, Maharashtra\nMap: https://maps.google.com/?q=19.614200,74.183861",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792737367252,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bTp3Op9GpkMw9sFaQ": {
+      "alertId": "-P4bTp3Op9GpkMw9sFaQ",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737499/ybvovltdyvau31962v8q.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Emergency Distress (Voice Shield)",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 12:08 pm",
+      "id": "-P4bTp3Op9GpkMw9sFaQ",
+      "isEmergency": true,
+      "latitude": 19.567756256915334,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.21153029771666,
+      "mapUrl": "https://maps.google.com/?q=19.567756256915334,74.21153029771666",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Emergency Distress (Voice Shield)\nLocation: Sangamner, Maharashtra\nMap: https://maps.google.com/?q=19.567756,74.211530",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792737497443,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bU39w2sGqmnrZSD8m": {
+      "alertId": "-P4bU39w2sGqmnrZSD8m",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737572/futoduq4cnmhn0oxmgfu.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Emergency Distress (Voice Shield)",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 12:09 pm",
+      "id": "-P4bU39w2sGqmnrZSD8m",
+      "isEmergency": true,
+      "latitude": 19.567526554596952,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.21170408457337,
+      "mapUrl": "https://maps.google.com/?q=19.567526554596952,74.21170408457337",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Emergency Distress (Voice Shield)\nLocation: Sangamner, Maharashtra\nMap: https://maps.google.com/?q=19.567527,74.211704",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792737559303,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bUA61QO22Ahkhi8X-": {
+      "alertId": "-P4bUA61QO22Ahkhi8X-",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737586/dxt7niohotlwevnsbcdk.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 12:09 pm",
+      "id": "-P4bUA61QO22Ahkhi8X-",
+      "isEmergency": true,
+      "latitude": 19.614084,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1844497,
+      "mapUrl": "https://maps.google.com/?q=19.614084,74.1844497",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.614084,74.1844497\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737586/dxt7niohotlwevnsbcdk.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792737586680,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bUQ9lm3cBPoQVBtVQ": {
+      "alertId": "-P4bUQ9lm3cBPoQVBtVQ",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737889/l6vh18inkxdfqifyaxt6.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Emergency Distress (Voice Shield)",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 12:10 pm",
+      "id": "-P4bUQ9lm3cBPoQVBtVQ",
+      "isEmergency": true,
+      "latitude": 19.6136738,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1850968,
+      "mapUrl": "https://maps.google.com/?q=19.6136738,74.1850968",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Emergency Distress (Voice Shield)\nLocation: Sangamner, Maharashtra\nMap: https://maps.google.com/?q=19.613674,74.185097",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792737652671,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bUwaqBmropaIbp9jT": {
+      "alertId": "-P4bUwaqBmropaIbp9jT",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737889/l6vh18inkxdfqifyaxt6.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Distress (Auto-Fallback)",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 12:13 pm",
+      "id": "-P4bUwaqBmropaIbp9jT",
+      "isEmergency": true,
+      "latitude": 19.6136738,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1850968,
+      "mapUrl": "https://maps.google.com/?q=19.6136738,74.1850968",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Distress (Auto-Fallback)\nMy Location: https://maps.google.com/?q=19.6136738,74.1850968",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792737789502,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bVKDh-vqM6Qc5A82J": {
+      "alertId": "-P4bVKDh-vqM6Qc5A82J",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737889/l6vh18inkxdfqifyaxt6.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 12:14 pm",
+      "id": "-P4bVKDh-vqM6Qc5A82J",
+      "isEmergency": true,
+      "latitude": 19.614084,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.18445,
+      "mapUrl": "https://maps.google.com/?q=19.614084,74.18445",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.614084,74.18445\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737889/l6vh18inkxdfqifyaxt6.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792737890347,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    }
+  },
+  "sos_alerts": {
+    "-P4ae6kBBLuM1JRlH2gA": {
+      "alertId": "-P4ae6kBBLuM1JRlH2gA",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792723679/idg6hy8ncdvqyuibm3z9.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "me"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 2.1,
+      "formattedTime": "Oct 23, 2026 | 08:17 am",
+      "id": "-P4ae6kBBLuM1JRlH2gA",
+      "isEmergency": true,
+      "latitude": 19.6133123,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1850968,
+      "mapUrl": "https://maps.google.com/?q=19.6133123,74.1850968",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6133123,74.1850968\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792723679/idg6hy8ncdvqyuibm3z9.mp4",
+      "status": "ACTIVE",
+      "threatLevel": "High",
+      "timestamp": 1792724105375,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "+91 9529811731"
+    },
+    "-P4atY920hi-VXLcrlOa": {
+      "alertId": "-P4atY920hi-VXLcrlOa",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792727722/b4awqqvweqdgwqhp1fl3.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 09:25 am",
+      "id": "-P4atY920hi-VXLcrlOa",
+      "isEmergency": true,
+      "latitude": 19.6131142,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1860269,
+      "mapUrl": "https://maps.google.com/?q=19.6131142,74.1860269",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6131142,74.1860269\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792727722/b4awqqvweqdgwqhp1fl3.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792727722783,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4b18Tr-hC425yrz3rJ": {
+      "alertId": "-P4b18Tr-hC425yrz3rJ",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792729978/ac8uziixfbj9pubww8qd.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 10:02 am",
+      "id": "-P4b18Tr-hC425yrz3rJ",
+      "isEmergency": true,
+      "latitude": 19.6141158,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.184337,
+      "mapUrl": "https://maps.google.com/?q=19.6141158,74.184337",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6141158,74.184337\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792729978/ac8uziixfbj9pubww8qd.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792729977178,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4b1QtzLkCBXwzBIRKX": {
+      "alertId": "-P4b1QtzLkCBXwzBIRKX",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792730053/ir2b5241d5dn1x2k6re5.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 10:04 am",
+      "id": "-P4b1QtzLkCBXwzBIRKX",
+      "isEmergency": true,
+      "latitude": 19.6141118,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1843575,
+      "mapUrl": "https://maps.google.com/?q=19.6141118,74.1843575",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6141118,74.1843575\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792730053/ir2b5241d5dn1x2k6re5.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792730052811,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4b55jNAxI7A8jLUXTl": {
+      "alertId": "-P4b55jNAxI7A8jLUXTl",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792731011/ipsfobh4o1yzor36bcqm.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 10:20 am",
+      "id": "-P4b55jNAxI7A8jLUXTl",
+      "isEmergency": true,
+      "latitude": 19.6140795,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1846663,
+      "mapUrl": "https://maps.google.com/?q=19.6140795,74.1846663",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6140795,74.1846663\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792731011/ipsfobh4o1yzor36bcqm.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792731015014,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4b8PlxUK5dn21JuyC1": {
+      "alertId": "-P4b8PlxUK5dn21JuyC1",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792731883/qul3w4dpiyad2pcw6lfi.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 10:34 am",
+      "id": "-P4b8PlxUK5dn21JuyC1",
+      "isEmergency": true,
+      "latitude": 19.6141442,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1845117,
+      "mapUrl": "https://maps.google.com/?q=19.6141442,74.1845117",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6141442,74.1845117\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792731883/qul3w4dpiyad2pcw6lfi.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792731883742,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bDfiupObcBc7YOsLq": {
+      "alertId": "-P4bDfiupObcBc7YOsLq",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733263/ywgurmyzswlhu2fiisdy.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 10:57 am",
+      "id": "-P4bDfiupObcBc7YOsLq",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733263/ywgurmyzswlhu2fiisdy.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792733263859,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bE4UL4ZtTfAXcophm": {
+      "alertId": "-P4bE4UL4ZtTfAXcophm",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733369/wepumsivenhncz5pu01x.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 10:59 am",
+      "id": "-P4bE4UL4ZtTfAXcophm",
+      "isEmergency": true,
+      "latitude": 19.6140606,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1842456,
+      "mapUrl": "https://maps.google.com/?q=19.6140606,74.1842456",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6140606,74.1842456\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733369/wepumsivenhncz5pu01x.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792733369266,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bEIQjk3AdAm7TswHe": {
+      "alertId": "-P4bEIQjk3AdAm7TswHe",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733426/uxutxl2lzwzbsuwqrbni.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:00 am",
+      "id": "-P4bEIQjk3AdAm7TswHe",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733426/uxutxl2lzwzbsuwqrbni.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792733426411,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bIMlAabAi8hr7eqpU": {
+      "alertId": "-P4bIMlAabAi8hr7eqpU",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792734491/p8mlznpdycsnvfknncrh.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:18 am",
+      "id": "-P4bIMlAabAi8hr7eqpU",
+      "isEmergency": true,
+      "latitude": 19.6141593,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1842843,
+      "mapUrl": "https://maps.google.com/?q=19.6141593,74.1842843",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6141593,74.1842843\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792734491/p8mlznpdycsnvfknncrh.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792734492891,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bM-2ooQDKDlmqCIb1": {
+      "alertId": "-P4bM-2ooQDKDlmqCIb1",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735444/hylaf901bvi6lndgmr5r.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:34 am",
+      "id": "-P4bM-2ooQDKDlmqCIb1",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735444/hylaf901bvi6lndgmr5r.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792735445141,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bMFxB1vGw1gRzqiZB": {
+      "alertId": "-P4bMFxB1vGw1gRzqiZB",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735510/numahc5sxid9qns2z9ye.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:35 am",
+      "id": "-P4bMFxB1vGw1gRzqiZB",
+      "isEmergency": true,
+      "latitude": 19.6144773,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1846288,
+      "mapUrl": "https://maps.google.com/?q=19.6144773,74.1846288",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6144773,74.1846288\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735510/numahc5sxid9qns2z9ye.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792735513435,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bNRQp0sbhH9koT_ZK": {
+      "alertId": "-P4bNRQp0sbhH9koT_ZK",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735822/suat92doayszffqmok3g.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:40 am",
+      "id": "-P4bNRQp0sbhH9koT_ZK",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735822/suat92doayszffqmok3g.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792735823489,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bNfvv0qiLFOwbHToM": {
+      "alertId": "-P4bNfvv0qiLFOwbHToM",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735886/tpofozd3r3yr0niewhmw.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:41 am",
+      "id": "-P4bNfvv0qiLFOwbHToM",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735886/tpofozd3r3yr0niewhmw.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792735887004,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bNju6TlZXOYVowVDt": {
+      "alertId": "-P4bNju6TlZXOYVowVDt",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735902/uo9byxfq4ens7phdbndz.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:41 am",
+      "id": "-P4bNju6TlZXOYVowVDt",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735902/uo9byxfq4ens7phdbndz.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792735903299,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bNo_uwTfm4kJf3IJl": {
+      "alertId": "-P4bNo_uwTfm4kJf3IJl",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735921/x4bp4zpfbqwbkih567n8.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:42 am",
+      "id": "-P4bNo_uwTfm4kJf3IJl",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735921/x4bp4zpfbqwbkih567n8.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792735922491,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bO-UVpDwB8ZBE86cA": {
+      "alertId": "-P4bO-UVpDwB8ZBE86cA",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737889/l6vh18inkxdfqifyaxt6.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "AI Emotion Analysis: sad",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 11:42 am",
+      "id": "-P4bO-UVpDwB8ZBE86cA",
+      "isEmergency": true,
+      "latitude": 19.613674,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.185097,
+      "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Danger Zone Service (AI Monitoring) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: AI Emotion Analysis: sad\nMy Location: Location unavailable",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792735971240,
+      "triggerSource": "Danger Zone Service (AI Monitoring)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bTKg1r6cHXpRhoOpk": {
+      "alertId": "-P4bTKg1r6cHXpRhoOpk",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737373/nvmlxozjjsvz8nqcmin8.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Emergency Distress (Voice Shield)",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 12:06 pm",
+      "id": "-P4bTKg1r6cHXpRhoOpk",
+      "isEmergency": true,
+      "latitude": 19.6142002,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1838605,
+      "mapUrl": "https://maps.google.com/?q=19.6142002,74.1838605",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Emergency Distress (Voice Shield)\nLocation: Sangamner, Maharashtra\nMap: https://maps.google.com/?q=19.614200,74.183861",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792737367252,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bTp3Op9GpkMw9sFaQ": {
+      "alertId": "-P4bTp3Op9GpkMw9sFaQ",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737499/ybvovltdyvau31962v8q.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Emergency Distress (Voice Shield)",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 12:08 pm",
+      "id": "-P4bTp3Op9GpkMw9sFaQ",
+      "isEmergency": true,
+      "latitude": 19.567756256915334,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.21153029771666,
+      "mapUrl": "https://maps.google.com/?q=19.567756256915334,74.21153029771666",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Emergency Distress (Voice Shield)\nLocation: Sangamner, Maharashtra\nMap: https://maps.google.com/?q=19.567756,74.211530",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792737497443,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bU39w2sGqmnrZSD8m": {
+      "alertId": "-P4bU39w2sGqmnrZSD8m",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737572/futoduq4cnmhn0oxmgfu.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Emergency Distress (Voice Shield)",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 12:09 pm",
+      "id": "-P4bU39w2sGqmnrZSD8m",
+      "isEmergency": true,
+      "latitude": 19.567526554596952,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.21170408457337,
+      "mapUrl": "https://maps.google.com/?q=19.567526554596952,74.21170408457337",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Emergency Distress (Voice Shield)\nLocation: Sangamner, Maharashtra\nMap: https://maps.google.com/?q=19.567527,74.211704",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792737559303,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bUA61QO22Ahkhi8X-": {
+      "alertId": "-P4bUA61QO22Ahkhi8X-",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737586/dxt7niohotlwevnsbcdk.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 12:09 pm",
+      "id": "-P4bUA61QO22Ahkhi8X-",
+      "isEmergency": true,
+      "latitude": 19.614084,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1844497,
+      "mapUrl": "https://maps.google.com/?q=19.614084,74.1844497",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.614084,74.1844497\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737586/dxt7niohotlwevnsbcdk.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792737586680,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bUQ9lm3cBPoQVBtVQ": {
+      "alertId": "-P4bUQ9lm3cBPoQVBtVQ",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737889/l6vh18inkxdfqifyaxt6.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Emergency Distress (Voice Shield)",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 12:10 pm",
+      "id": "-P4bUQ9lm3cBPoQVBtVQ",
+      "isEmergency": true,
+      "latitude": 19.6136738,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1850968,
+      "mapUrl": "https://maps.google.com/?q=19.6136738,74.1850968",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Emergency Distress (Voice Shield)\nLocation: Sangamner, Maharashtra\nMap: https://maps.google.com/?q=19.613674,74.185097",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792737652671,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bUwaqBmropaIbp9jT": {
+      "alertId": "-P4bUwaqBmropaIbp9jT",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737889/l6vh18inkxdfqifyaxt6.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Distress (Auto-Fallback)",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 12:13 pm",
+      "id": "-P4bUwaqBmropaIbp9jT",
+      "isEmergency": true,
+      "latitude": 19.6136738,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.1850968,
+      "mapUrl": "https://maps.google.com/?q=19.6136738,74.1850968",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Distress (Auto-Fallback)\nMy Location: https://maps.google.com/?q=19.6136738,74.1850968",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792737789502,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    },
+    "-P4bVKDh-vqM6Qc5A82J": {
+      "alertId": "-P4bVKDh-vqM6Qc5A82J",
+      "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737889/l6vh18inkxdfqifyaxt6.mp4",
+      "confidence": 98.4,
+      "contactsAlerted": [
+        {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      ],
+      "emotion": "Voice SOS",
+      "etaMinutes": 1.8,
+      "formattedTime": "Oct 23, 2026 | 12:14 pm",
+      "id": "-P4bVKDh-vqM6Qc5A82J",
+      "isEmergency": true,
+      "latitude": 19.614084,
+      "locationName": "Sangamner / Akole Region, Maharashtra",
+      "longitude": 74.18445,
+      "mapUrl": "https://maps.google.com/?q=19.614084,74.18445",
+      "pcrUnit": "PCR Van #07",
+      "reason": "Manual Voice Shield (SOS Button) \u2022 Emergency SMS Dispatched",
+      "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.614084,74.18445\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737889/l6vh18inkxdfqifyaxt6.mp4",
+      "status": "EMERGENCY - SMS Dispatched",
+      "threatLevel": "High",
+      "timestamp": 1792737890347,
+      "triggerSource": "Manual Voice Shield (SOS Button)",
+      "userEmail": "sham@gmail.com",
+      "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "userName": "Sham Dhangar",
+      "userPhone": "9529811731"
+    }
+  },
+  "users": {
+    "child_aarav_sharma": {
+      "batteryLevel": 88,
+      "contacts": {
+        "-P5contactFather": {
+          "name": "Vikram Sharma",
+          "phone": "9820011200",
+          "relationship": "Father"
+        },
+        "-P5contactMother": {
+          "name": "Anita Sharma",
+          "phone": "9820011201",
+          "relationship": "Mother"
+        }
+      },
+      "dangerZoneActive": false,
+      "displayName": "Aarav Sharma",
+      "email": "aarav.sharma@gmail.com",
+      "history": {
+        "-P5histAarav1": {
+          "alertId": "-P5histAarav1",
+          "audioUrl": "",
+          "emotion": "Routine Safe Check-in",
+          "formattedTime": "Oct 23, 2026 | 08:00 am",
+          "id": "-P5histAarav1",
+          "latitude": 18.52043,
+          "longitude": 73.85674,
+          "reason": "Arrived at school safe zone",
+          "status": "Safe Check-in Completed",
+          "timestamp": 1792722905375
+        }
+      },
+      "id": "child_aarav_sharma",
+      "lastLatitude": 18.52043,
+      "lastLongitude": 73.85674,
+      "lastUpdateTimestamp": 1792725575375,
+      "name": "Aarav Sharma",
+      "phone": "9820011223",
+      "role": "member",
+      "safeZone": "Delhi Public School Pune & Home Zone",
+      "uniqueId": "AARAV99"
+    },
+    "child_sneha_patil": {
+      "batteryLevel": 76,
+      "contacts": {
+        "-P5contactMotherSneha": {
+          "name": "Meera Patil",
+          "phone": "9823456780",
+          "relationship": "Mother"
+        }
+      },
+      "dangerZoneActive": true,
+      "displayName": "Sneha Patil",
+      "email": "sneha.patil@gmail.com",
+      "history": {
+        "-P5be3xSnehaKothrud": {
+          "alertId": "-P5be3xSnehaKothrud",
+          "audioUrl": "",
+          "emotion": "Geofence Safe Zone Breach",
+          "formattedTime": "Oct 23, 2026 | 07:55 am",
+          "id": "-P5be3xSnehaKothrud",
+          "latitude": 18.5074,
+          "longitude": 73.8077,
+          "reason": "Exited Fergusson College Campus zone",
+          "status": "ACTIVE",
+          "timestamp": 1792722905375
+        }
+      },
+      "id": "child_sneha_patil",
+      "lastLatitude": 18.5074,
+      "lastLongitude": 73.8077,
+      "lastUpdateTimestamp": 1792725425375,
+      "name": "Sneha Patil",
+      "phone": "9823456789",
+      "role": "member",
+      "safeZone": "Fergusson College Campus Zone",
+      "uniqueId": "SNEHA01"
+    },
+    "officer_vikram_singh": {
+      "badge": "DL-4482",
+      "displayName": "Insp. Vikram Singh",
+      "email": "police@sentinel.gov",
+      "id": "officer_vikram_singh",
+      "lastLogin": 1792725605375,
+      "name": "Insp. Vikram Singh",
+      "role": "police",
+      "station": "Maharashtra Police CAD Emergency Control 112"
+    },
+    "vUyAvPgDTYNzzqt01kNHol5316E3": {
+      "batteryLevel": 92,
+      "contacts": {
+        "-P4ae4A54xPLJtWLT6RW": {
+          "name": "sham",
+          "phone": "9529811731",
+          "relationship": "Self / Family"
+        },
+        "-P4contactSister": {
+          "name": "Pooja Dhangar",
+          "phone": "9822334455",
+          "relationship": "Sister"
+        }
+      },
+      "dangerZoneActive": false,
+      "displayName": "Sham Dhangar",
+      "email": "sham@gmail.com",
+      "history": {
+        "-P4ae6kBBLuM1JRlH2gA": {
+          "alertId": "-P4ae6kBBLuM1JRlH2gA",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792723679/idg6hy8ncdvqyuibm3z9.mp4",
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 08:17 am",
+          "id": "-P4ae6kBBLuM1JRlH2gA",
+          "latitude": 19.6133123,
+          "longitude": 74.1850968,
+          "reason": "Manual Voice Shield (SOS Button)",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792724105375
+        },
+        "-P4atY920hi-VXLcrlOa": {
+          "alertId": "-P4atY920hi-VXLcrlOa",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792727722/b4awqqvweqdgwqhp1fl3.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 09:25 am",
+          "latitude": 19.6131142,
+          "longitude": 74.1860269,
+          "mapUrl": "https://maps.google.com/?q=19.6131142,74.1860269",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6131142,74.1860269\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792727722/b4awqqvweqdgwqhp1fl3.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792727722783,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4b18Tr-hC425yrz3rJ": {
+          "alertId": "-P4b18Tr-hC425yrz3rJ",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792729978/ac8uziixfbj9pubww8qd.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 10:02 am",
+          "latitude": 19.6141158,
+          "longitude": 74.184337,
+          "mapUrl": "https://maps.google.com/?q=19.6141158,74.184337",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6141158,74.184337\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792729978/ac8uziixfbj9pubww8qd.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792729977178,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4b1QtzLkCBXwzBIRKX": {
+          "alertId": "-P4b1QtzLkCBXwzBIRKX",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792730053/ir2b5241d5dn1x2k6re5.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 10:04 am",
+          "latitude": 19.6141118,
+          "longitude": 74.1843575,
+          "mapUrl": "https://maps.google.com/?q=19.6141118,74.1843575",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6141118,74.1843575\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792730053/ir2b5241d5dn1x2k6re5.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792730052811,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4b55jNAxI7A8jLUXTl": {
+          "alertId": "-P4b55jNAxI7A8jLUXTl",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792731011/ipsfobh4o1yzor36bcqm.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 10:20 am",
+          "latitude": 19.6140795,
+          "longitude": 74.1846663,
+          "mapUrl": "https://maps.google.com/?q=19.6140795,74.1846663",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6140795,74.1846663\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792731011/ipsfobh4o1yzor36bcqm.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792731015014,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4b8PlxUK5dn21JuyC1": {
+          "alertId": "-P4b8PlxUK5dn21JuyC1",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792731883/qul3w4dpiyad2pcw6lfi.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 10:34 am",
+          "latitude": 19.6141442,
+          "longitude": 74.1845117,
+          "mapUrl": "https://maps.google.com/?q=19.6141442,74.1845117",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6141442,74.1845117\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792731883/qul3w4dpiyad2pcw6lfi.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792731883742,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bDfiupObcBc7YOsLq": {
+          "alertId": "-P4bDfiupObcBc7YOsLq",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733263/ywgurmyzswlhu2fiisdy.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 10:57 am",
+          "latitude": 0,
+          "longitude": 0,
+          "mapUrl": "Location unavailable",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733263/ywgurmyzswlhu2fiisdy.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792733263859,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bE4UL4ZtTfAXcophm": {
+          "alertId": "-P4bE4UL4ZtTfAXcophm",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733369/wepumsivenhncz5pu01x.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 10:59 am",
+          "latitude": 19.6140606,
+          "longitude": 74.1842456,
+          "mapUrl": "https://maps.google.com/?q=19.6140606,74.1842456",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6140606,74.1842456\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733369/wepumsivenhncz5pu01x.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792733369266,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bEIQjk3AdAm7TswHe": {
+          "alertId": "-P4bEIQjk3AdAm7TswHe",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733426/uxutxl2lzwzbsuwqrbni.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 11:00 am",
+          "latitude": 0,
+          "longitude": 0,
+          "mapUrl": "Location unavailable",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792733426/uxutxl2lzwzbsuwqrbni.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792733426411,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bIMlAabAi8hr7eqpU": {
+          "alertId": "-P4bIMlAabAi8hr7eqpU",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792734491/p8mlznpdycsnvfknncrh.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 11:18 am",
+          "latitude": 19.6141593,
+          "longitude": 74.1842843,
+          "mapUrl": "https://maps.google.com/?q=19.6141593,74.1842843",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6141593,74.1842843\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792734491/p8mlznpdycsnvfknncrh.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792734492891,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bM-2ooQDKDlmqCIb1": {
+          "alertId": "-P4bM-2ooQDKDlmqCIb1",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735444/hylaf901bvi6lndgmr5r.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 11:34 am",
+          "latitude": 0,
+          "longitude": 0,
+          "mapUrl": "Location unavailable",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735444/hylaf901bvi6lndgmr5r.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792735445141,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bMFxB1vGw1gRzqiZB": {
+          "alertId": "-P4bMFxB1vGw1gRzqiZB",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735510/numahc5sxid9qns2z9ye.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 11:35 am",
+          "latitude": 19.6144773,
+          "longitude": 74.1846288,
+          "mapUrl": "https://maps.google.com/?q=19.6144773,74.1846288",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.6144773,74.1846288\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735510/numahc5sxid9qns2z9ye.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792735513435,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bNRQp0sbhH9koT_ZK": {
+          "alertId": "-P4bNRQp0sbhH9koT_ZK",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735822/suat92doayszffqmok3g.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 11:40 am",
+          "latitude": 0,
+          "longitude": 0,
+          "mapUrl": "Location unavailable",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735822/suat92doayszffqmok3g.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792735823489,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bNfvv0qiLFOwbHToM": {
+          "alertId": "-P4bNfvv0qiLFOwbHToM",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735886/tpofozd3r3yr0niewhmw.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 11:41 am",
+          "latitude": 0,
+          "longitude": 0,
+          "mapUrl": "Location unavailable",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735886/tpofozd3r3yr0niewhmw.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792735887004,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bNju6TlZXOYVowVDt": {
+          "alertId": "-P4bNju6TlZXOYVowVDt",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735902/uo9byxfq4ens7phdbndz.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 11:41 am",
+          "latitude": 0,
+          "longitude": 0,
+          "mapUrl": "Location unavailable",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735902/uo9byxfq4ens7phdbndz.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792735903299,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bNo_uwTfm4kJf3IJl": {
+          "alertId": "-P4bNo_uwTfm4kJf3IJl",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735921/x4bp4zpfbqwbkih567n8.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 11:42 am",
+          "latitude": 0,
+          "longitude": 0,
+          "mapUrl": "Location unavailable",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: Location unavailable\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792735921/x4bp4zpfbqwbkih567n8.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792735922491,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bO-UVpDwB8ZBE86cA": {
+          "alertId": "-P4bO-UVpDwB8ZBE86cA",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "AI Emotion Analysis: sad",
+          "formattedTime": "Oct 23, 2026 | 11:42 am",
+          "latitude": 0,
+          "longitude": 0,
+          "mapUrl": "Location unavailable",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: AI Emotion Analysis: sad\nMy Location: Location unavailable",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792735971240,
+          "triggerSource": "Danger Zone Service (AI Monitoring)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bTKg1r6cHXpRhoOpk": {
+          "alertId": "-P4bTKg1r6cHXpRhoOpk",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737373/nvmlxozjjsvz8nqcmin8.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Emergency Distress (Voice Shield)",
+          "formattedTime": "Oct 23, 2026 | 12:06 pm",
+          "latitude": 19.6142002,
+          "longitude": 74.1838605,
+          "mapUrl": "https://maps.google.com/?q=19.614200,74.183861",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Emergency Distress (Voice Shield)\nLocation: Sangamner, Maharashtra\nMap: https://maps.google.com/?q=19.614200,74.183861",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792737367252,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bTp3Op9GpkMw9sFaQ": {
+          "alertId": "-P4bTp3Op9GpkMw9sFaQ",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737499/ybvovltdyvau31962v8q.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Emergency Distress (Voice Shield)",
+          "formattedTime": "Oct 23, 2026 | 12:08 pm",
+          "latitude": 19.567756256915334,
+          "longitude": 74.21153029771666,
+          "mapUrl": "https://maps.google.com/?q=19.567756,74.211530",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Emergency Distress (Voice Shield)\nLocation: Sangamner, Maharashtra\nMap: https://maps.google.com/?q=19.567756,74.211530",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792737497443,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bU39w2sGqmnrZSD8m": {
+          "alertId": "-P4bU39w2sGqmnrZSD8m",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737572/futoduq4cnmhn0oxmgfu.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Emergency Distress (Voice Shield)",
+          "formattedTime": "Oct 23, 2026 | 12:09 pm",
+          "latitude": 19.567526554596952,
+          "longitude": 74.21170408457337,
+          "mapUrl": "https://maps.google.com/?q=19.567527,74.211704",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Emergency Distress (Voice Shield)\nLocation: Sangamner, Maharashtra\nMap: https://maps.google.com/?q=19.567527,74.211704",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792737559303,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bUA61QO22Ahkhi8X-": {
+          "alertId": "-P4bUA61QO22Ahkhi8X-",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737586/dxt7niohotlwevnsbcdk.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 12:09 pm",
+          "latitude": 19.614084,
+          "longitude": 74.1844497,
+          "mapUrl": "https://maps.google.com/?q=19.614084,74.1844497",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.614084,74.1844497\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737586/dxt7niohotlwevnsbcdk.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792737586680,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bUQ9lm3cBPoQVBtVQ": {
+          "alertId": "-P4bUQ9lm3cBPoQVBtVQ",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Emergency Distress (Voice Shield)",
+          "formattedTime": "Oct 23, 2026 | 12:10 pm",
+          "latitude": 19.6136738,
+          "longitude": 74.1850968,
+          "mapUrl": "https://maps.google.com/?q=19.613674,74.185097",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Emergency Distress (Voice Shield)\nLocation: Sangamner, Maharashtra\nMap: https://maps.google.com/?q=19.613674,74.185097",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792737652671,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bUwaqBmropaIbp9jT": {
+          "alertId": "-P4bUwaqBmropaIbp9jT",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Distress (Auto-Fallback)",
+          "formattedTime": "Oct 23, 2026 | 12:13 pm",
+          "latitude": 19.6136738,
+          "longitude": 74.1850968,
+          "mapUrl": "https://maps.google.com/?q=19.6136738,74.1850968",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Distress (Auto-Fallback)\nMy Location: https://maps.google.com/?q=19.6136738,74.1850968",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792737789502,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        },
+        "-P4bVKDh-vqM6Qc5A82J": {
+          "alertId": "-P4bVKDh-vqM6Qc5A82J",
+          "audioUrl": "https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737889/l6vh18inkxdfqifyaxt6.mp4",
+          "contactsAlerted": [
+            {
+              "name": "sham",
+              "phone": "9529811731",
+              "relationship": "Self / Family"
+            },
+            {
+              "name": "Pooja Dhangar",
+              "phone": "9822334455",
+              "relationship": "Sister"
+            }
+          ],
+          "emotion": "Voice SOS",
+          "formattedTime": "Oct 23, 2026 | 12:14 pm",
+          "latitude": 19.614084,
+          "longitude": 74.18445,
+          "mapUrl": "https://maps.google.com/?q=19.614084,74.18445",
+          "smsMessage": "\ud83d\udea8 SURAKSHAVAANI EMERGENCY \ud83d\udea8\nHelp needed! Status: Voice SOS\nMy Location: https://maps.google.com/?q=19.614084,74.18445\n\n\ud83c\udfa4 Voice Evidence Link: https://res.cloudinary.com/dbbzoslvi/video/upload/v1792737889/l6vh18inkxdfqifyaxt6.mp4",
+          "status": "EMERGENCY - SMS Dispatched",
+          "timestamp": 1792737890347,
+          "triggerSource": "Manual Voice Shield (SOS Button)",
+          "userEmail": "sham@gmail.com",
+          "userId": "vUyAvPgDTYNzzqt01kNHol5316E3",
+          "userName": "Sham Dhangar",
+          "userPhone": "9529811731"
+        }
+      },
+      "id": "vUyAvPgDTYNzzqt01kNHol5316E3",
+      "lastLatitude": 19.6133123,
+      "lastLongitude": 74.1850968,
+      "lastUpdateTimestamp": 1792725485375,
+      "name": "Sham Dhangar",
+      "phone": "9529811731",
+      "role": "member",
+      "safeZone": "Sangamner Campus & City Center",
+      "uniqueId": "SHAM01"
+    }
+  }
+}
