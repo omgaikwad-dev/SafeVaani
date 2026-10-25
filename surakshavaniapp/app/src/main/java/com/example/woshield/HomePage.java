@@ -110,11 +110,6 @@ public class HomePage extends AppCompatActivity {
     private MaterialCardView cardQuickPlan;
     private TextView tvCurrentTime, tvShiftContext, tvLastPlanSummary;
     private TextView tvEngineStatus, tvConfidenceLevel;
-    private WebView webViewHomeMap;
-    private View overlayHomeMapClick;
-    private MaterialCardView cardHomeLeafletMap;
-    private FusedLocationProviderClient homeLocationClient;
-    private LocationCallback homeLocationCallback;
 
     // ── Journey Monitoring ────────────────────────────────────────────────────
     private MaterialCardView cardJourneyStatus;
@@ -252,12 +247,6 @@ public class HomePage extends AppCompatActivity {
         tvEngineStatus   = findViewById(R.id.tv_engine_status);
         tvConfidenceLevel = findViewById(R.id.tv_confidence_level);
 
-        webViewHomeMap      = findViewById(R.id.web_view_home_map);
-        overlayHomeMapClick = findViewById(R.id.overlay_home_map_click);
-        cardHomeLeafletMap  = findViewById(R.id.card_home_leaflet_map);
-        setupHomeLeafletMap();
-        setupHomeLocation();
-
         // SOS
         btnEmergency = findViewById(R.id.btn_Emergency_send);
         tvSosStatus  = findViewById(R.id.tv_sos_status);
@@ -382,8 +371,6 @@ public class HomePage extends AppCompatActivity {
                 startActivity(new Intent(this, NightPlanActivity.class));
 
         if (btnNightPlan != null) btnNightPlan.setOnClickListener(openNightMapDirectly);
-        if (overlayHomeMapClick != null) overlayHomeMapClick.setOnClickListener(openNightMapDirectly);
-        if (cardHomeLeafletMap != null) cardHomeLeafletMap.setOnClickListener(openNightMapDirectly);
         if (tvLastPlanSummary != null) tvLastPlanSummary.setOnClickListener(openNightMapDirectly);
 
         View cardSafetyStatus = findViewById(R.id.card_safety_status);
@@ -1096,12 +1083,6 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (homeLocationClient != null && homeLocationCallback != null) {
-            homeLocationClient.removeLocationUpdates(homeLocationCallback);
-        }
-        if (webViewHomeMap != null) {
-            webViewHomeMap.destroy();
-        }
         if (userRef != null && userProfileListener != null) {
             userRef.removeEventListener(userProfileListener);
         }
@@ -1116,45 +1097,4 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
-    private void setupHomeLeafletMap() {
-        if (webViewHomeMap == null) return;
-        WebSettings ws = webViewHomeMap.getSettings();
-        ws.setJavaScriptEnabled(true);
-        ws.setDomStorageEnabled(true);
-        ws.setAllowFileAccess(true);
-        ws.setAllowContentAccess(true);
-        ws.setGeolocationEnabled(true);
-        webViewHomeMap.setWebViewClient(new WebViewClient());
-        webViewHomeMap.loadUrl("file:///android_asset/nightshift_leaflet_map.html");
-    }
-
-    private void setupHomeLocation() {
-        homeLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        homeLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                Location loc = locationResult.getLastLocation();
-                if (loc != null && webViewHomeMap != null) {
-                    String js = String.format(java.util.Locale.US, "window.setLiveCoordinates(%f, %f, true);",
-                            loc.getLatitude(), loc.getLongitude());
-                    webViewHomeMap.evaluateJavascript(js, null);
-                }
-            }
-        };
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            LocationRequest req = new LocationRequest.Builder(Priority.PRIORITY_BALANCED_POWER_ACCURACY, 5000)
-                    .setMinUpdateIntervalMillis(2500)
-                    .build();
-            homeLocationClient.requestLocationUpdates(req, homeLocationCallback, Looper.getMainLooper());
-            homeLocationClient.getLastLocation().addOnSuccessListener(this, loc -> {
-                if (loc != null && webViewHomeMap != null) {
-                    String js = String.format(java.util.Locale.US, "window.setLiveCoordinates(%f, %f, true);",
-                            loc.getLatitude(), loc.getLongitude());
-                    webViewHomeMap.evaluateJavascript(js, null);
-                }
-            });
-        }
-    }
 }

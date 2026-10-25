@@ -456,75 +456,73 @@
                             </com.google.android.material.card.MaterialCardView>
                         </LinearLayout>
 
-                        <!-- Live Leaflet Safety Radar in this section -->
+                        <!-- NightShift Navigator Action Card (Direct tap opens the full Radar Map page) -->
                         <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/card_home_leaflet_map"
-                            android:layout_width="match_parent"
-                            android:layout_height="175dp"
-                            android:layout_marginTop="10dp"
-                            app:cardCornerRadius="14dp"
-                            app:cardElevation="0dp"
-                            app:strokeColor="@color/safe_green"
-                            app:strokeWidth="1.2dp">
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <WebView
-                                    android:id="@+id/web_view_home_map"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent" />
-
-                                <View
-                                    android:id="@+id/overlay_home_map_click"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="?android:attr/selectableItemBackground"
-                                    android:clickable="true"
-                                    android:focusable="true" />
-                            </FrameLayout>
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <!-- Summary & Action Prompt -->
-                        <LinearLayout
+                            android:id="@+id/btn_night_plan"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:background="@drawable/rounded_corner"
-                            android:backgroundTint="@color/white"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:paddingHorizontal="12dp"
-                            android:paddingVertical="10dp">
+                            android:layout_marginTop="12dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            app:cardBackgroundColor="@color/deep_purple"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="2dp"
+                            app:strokeColor="@color/subtle_border"
+                            app:strokeWidth="1dp">
 
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:contentDescription="Plan"
-                                android:src="@drawable/ic_navigation"
-                                app:tint="@color/primary_orange" />
-
-                            <TextView
-                                android:id="@+id/tv_last_plan_summary"
-                                android:layout_width="0dp"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_weight="1"
-                                android:ellipsize="end"
-                                android:fontFamily="sans-serif-bold"
-                                android:maxLines="1"
-                                android:text="Tap to open full Leaflet Night Navigation Radar →"
-                                android:textColor="@color/deep_purple"
-                                android:textSize="12sp" />
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="14dp"
+                                android:paddingVertical="12dp">
 
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:contentDescription="Forward"
-                                android:src="@drawable/ic_chevron_right"
-                                app:tint="@color/primary_orange" />
-                        </LinearLayout>
+                                <ImageView
+                                    android:layout_width="38dp"
+                                    android:layout_height="38dp"
+                                    android:background="@drawable/rounded_corner"
+                                    android:backgroundTint="#25FFFFFF"
+                                    android:contentDescription="Radar Navigation"
+                                    android:padding="8dp"
+                                    android:src="@drawable/ic_navigation"
+                                    app:tint="@color/primary_orange" />
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="12dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-black"
+                                        android:text="Open Live Radar Map"
+                                        android:textColor="@color/white"
+                                        android:textSize="14sp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_last_plan_summary"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="2dp"
+                                        android:fontFamily="sans-serif"
+                                        android:text="Tap to view live GPS radar, danger zones &amp; safe havens →"
+                                        android:textColor="#E0E0E0"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:contentDescription="Forward"
+                                    android:src="@drawable/ic_chevron_right"
+                                    app:tint="@color/primary_orange" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
                     </LinearLayout>
 
                     <View
