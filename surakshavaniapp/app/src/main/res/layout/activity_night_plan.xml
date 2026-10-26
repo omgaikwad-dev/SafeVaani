@@ -15,6 +15,7 @@
 
     <!-- Scrollable content -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollNightPlan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -108,12 +109,301 @@
                     app:elevation="2dp" />
             </LinearLayout>
 
+            <!-- ── SHIFT COMMUTE DETAILS FORM (TIME & HOME LOCATION) ────── -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardCommuteForm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="14dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/safevaani_yellow"
+                app:strokeWidth="1.5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.06"
+                        android:text="🌙 TONIGHT'S SHIFT COMMUTE PLAN"
+                        android:textColor="@color/primary_orange"
+                        android:textSize="11.5sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="12dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Enter when your shift ends and your home destination to compute the safest illuminated route."
+                        android:textColor="@color/text_secondary"
+                        android:textSize="11.5sp" />
+
+                    <!-- 1-Tap Quick Shift Presets -->
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:scrollbars="none">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <!-- Preset 1: ICU Nurse -->
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/presetNurse"
+                                android:layout_width="145dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                app:cardBackgroundColor="@color/light_lavender"
+                                app:cardCornerRadius="12dp"
+                                app:cardElevation="0dp"
+                                app:strokeColor="@color/safevaani_yellow"
+                                app:strokeWidth="1dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-black"
+                                        android:text="🏥 ICU Nurse"
+                                        android:textColor="@color/deep_purple"
+                                        android:textSize="11.5sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-bold"
+                                        android:text="02:15 AM End"
+                                        android:textColor="@color/primary_orange"
+                                        android:textSize="10sp" />
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <!-- Preset 2: BPO Tech -->
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/presetBpo"
+                                android:layout_width="145dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardCornerRadius="12dp"
+                                app:cardElevation="0dp"
+                                app:strokeColor="@color/subtle_border"
+                                app:strokeWidth="1dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-black"
+                                        android:text="💻 BPO / Tech"
+                                        android:textColor="@color/deep_purple"
+                                        android:textSize="11.5sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-bold"
+                                        android:text="03:30 AM End"
+                                        android:textColor="@color/text_secondary"
+                                        android:textSize="10sp" />
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <!-- Preset 3: Security Guard -->
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/presetSecurity"
+                                android:layout_width="145dp"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:focusable="true"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardCornerRadius="12dp"
+                                app:cardElevation="0dp"
+                                app:strokeColor="@color/subtle_border"
+                                app:strokeWidth="1dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-black"
+                                        android:text="🛡️ Security Guard"
+                                        android:textColor="@color/deep_purple"
+                                        android:textSize="11.5sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-bold"
+                                        android:text="05:00 AM End"
+                                        android:textColor="@color/text_secondary"
+                                        android:textSize="10sp" />
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
+                    </HorizontalScrollView>
+
+                    <!-- Shift End Time Input -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:hint="Shift End Time (e.g. 02:15 AM)"
+                        app:boxStrokeColor="@color/primary_orange"
+                        app:hintTextColor="@color/text_secondary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etShiftEnd"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="02:15 AM"
+                            android:textColor="@color/text_primary"
+                            android:textSize="13.5sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Home Destination Address Input -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:hint="Home Address / Destination"
+                        app:boxStrokeColor="@color/primary_orange"
+                        app:hintTextColor="@color/text_secondary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDestination"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Gayatri Nagar, Nagpur"
+                            android:textColor="@color/text_primary"
+                            android:textSize="13.5sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Shift Role / Worker Type Input -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="14dp"
+                        android:hint="Shift Role / Workplace Type"
+                        app:boxStrokeColor="@color/primary_orange"
+                        app:hintTextColor="@color/text_secondary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etWorkerType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="ICU Nurse (Healthcare)"
+                            android:textColor="@color/text_primary"
+                            android:textSize="13.5sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Button: Plan Safe Night Route -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGeneratePlan"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.03"
+                        android:text="🧭 DRAW SAFE ROUTE TO HOME"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        app:backgroundTint="@color/primary_orange"
+                        app:cornerRadius="12dp"
+                        app:elevation="2dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ── Real-World Agent Thinking HUD (Shown while generating) ── -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layoutAgentThinking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/primary_orange"
+                app:strokeWidth="1.5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ProgressBar
+                            android:id="@+id/pbThinking"
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="10dp" />
+
+                        <TextView
+                            android:id="@+id/tvThinkingStep"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Computing safest illuminated corridor avoiding hazard pockets..."
+                            android:textColor="@color/primary_orange"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- ── HERO: Interactive Leaflet Safety Radar Map ─────────────────── -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardLeafletMap"
                 android:layout_width="match_parent"
                 android:layout_height="380dp"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="14dp"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/midnight_slate"
                 app:cardCornerRadius="18dp"
                 app:cardElevation="3dp"
@@ -169,6 +459,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="12dp"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
@@ -231,6 +522,63 @@
                         android:text="Steers cleanly around Canal Unlit Underpass &amp; Bypass Freight Cut. Verified continuous lighting with 4 staffed Safe Havens along your route."
                         android:textColor="@color/text_secondary"
                         android:textSize="12sp" />
+
+                    <!-- Google Maps Destination Link Pill -->
+                    <LinearLayout
+                        android:id="@+id/layoutDestinationMapLink"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rounded_corner"
+                        android:backgroundTint="#F0FDF4"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="🗺️"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:text="RESOLVED ADDRESS MAP LINK"
+                                android:textColor="@color/safe_green"
+                                android:textSize="9sp" />
+
+                            <TextView
+                                android:id="@+id/tvResolvedAddressMapLink"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:fontFamily="sans-serif-medium"
+                                android:maxLines="1"
+                                android:text="Tap to open live navigation route on Google Maps"
+                                android:textColor="@color/deep_purple"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:text="MAP ↗"
+                            android:textColor="@color/safe_green"
+                            android:textSize="10.5sp" />
+                    </LinearLayout>
 
                     <!-- Metrics Row: Distance, ETA, Lighting -->
                     <LinearLayout
@@ -357,21 +705,105 @@
                             android:layout_marginStart="6dp"
                             android:layout_weight="1"
                             android:fontFamily="sans-serif-bold"
-                            android:text="🚶 Walk With Me"
+                            android:text="🛑 End Journey Timer"
                             android:textColor="@color/white"
                             android:textSize="12sp"
                             app:backgroundTint="@color/deep_purple"
                             app:cornerRadius="10dp" />
                     </LinearLayout>
+
+                    <!-- Active Journey Safety Watchdog Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardJourneyWatchdog"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="#0D10B981"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#10B981"
+                        app:strokeWidth="1.5dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="⏱️"
+                                    android:textSize="18sp" />
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-black"
+                                        android:text="JOURNEY SAFETY ESCORT ACTIVE"
+                                        android:textColor="#065F46"
+                                        android:textSize="10.5sp" />
+
+                                    <TextView
+                                        android:id="@+id/tvWatchdogTargetTime"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-bold"
+                                        android:text="Expected Arrival: --:--"
+                                        android:textColor="#047857"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btnWatchdogIAmSafe"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="38dp"
+                                    android:insetTop="0dp"
+                                    android:insetBottom="0dp"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:text="I Am Safe ✓"
+                                    android:textColor="@color/white"
+                                    android:textSize="11sp"
+                                    app:backgroundTint="#10B981"
+                                    app:cornerRadius="8dp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tvWatchdogCountdown"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="⚠️ Time remaining: 00:00 • Tap 'I Am Safe' when you reach. If deadline expires, SOS alerts saved contacts with 5s voice evidence."
+                                android:textColor="#047857"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- ── Live Verified Safe Havens on Route ──────────────────────── -->
             <LinearLayout
+                android:id="@+id/layoutSafeHavensSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:orientation="vertical"
+                android:visibility="gone"
                 android:paddingHorizontal="16dp">
 
                 <TextView
@@ -534,10 +966,12 @@
 
             <!-- ── Live Night Telemetry HUD Card ─────────────────────────── -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardTelemetrySection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="14dp"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="1dp"
@@ -699,18 +1133,20 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Step by Step Safety Guidance -->
+            <!-- ── ROAD MAP: TURN-BY-TURN ROUTE INSTRUCTIONS ──────────────── -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardRoadMapContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="14dp"
                 android:layout_marginBottom="16dp"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
-                app:strokeColor="@color/subtle_border"
-                app:strokeWidth="1dp">
+                app:cardElevation="2dp"
+                app:strokeColor="@color/safevaani_yellow"
+                app:strokeWidth="1.5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -718,24 +1154,52 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-black"
-                        android:letterSpacing="0.04"
-                        android:text="🚶 NIGHT-TIME DECISION PROTOCOL"
-                        android:textColor="@color/deep_purple"
-                        android:textSize="12sp" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.04"
+                            android:text="🗺️ SAFE ROUTE ROAD MAP"
+                            android:textColor="@color/deep_purple"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tvRoadMapBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_corner"
+                            android:backgroundTint="@color/status_safe_bg"
+                            android:fontFamily="sans-serif-bold"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="3dp"
+                            android:text="TURN-BY-TURN MESH"
+                            android:textColor="@color/safe_green"
+                            android:textSize="10sp" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="12dp"
                         android:fontFamily="sans-serif"
-                        android:lineSpacingExtra="3dp"
-                        android:text="1. Stay on well-lit North Ambazari / Central arterial in Nagpur.\n2. Do NOT take the Cotton Market underpass shortcut (unlit, 0% CCTV).\n3. Medical Square 24/7 Chemist is at 1.1 km mark with security guard.\n4. Sitabuldi Police CAD post is at 1.8 km mark for immediate refuge."
-                        android:textColor="@color/midnight_slate"
-                        android:textSize="12sp" />
+                        android:text="Turn-by-turn road navigation timeline avoiding dark alleys &amp; hazard pockets."
+                        android:textColor="@color/text_secondary"
+                        android:textSize="11.5sp" />
+
+                    <!-- Turn-by-Turn Road Map Stepper RecyclerView -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvRoadMap"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnCheckIn"

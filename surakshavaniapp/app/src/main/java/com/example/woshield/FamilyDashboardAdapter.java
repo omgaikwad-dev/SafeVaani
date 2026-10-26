@@ -25,6 +25,7 @@ public class FamilyDashboardAdapter extends RecyclerView.Adapter<FamilyDashboard
     public interface OnMemberActionListener {
         void onMemberClick(FamilyMember member);
         void onRevokeAccess(FamilyMember member);
+        void onRemoveMember(FamilyMember member, int position);
     }
 
     private final List<FamilyMember> memberList;
@@ -132,6 +133,13 @@ public class FamilyDashboardAdapter extends RecyclerView.Adapter<FamilyDashboard
         }
 
         // 4. Action buttons
+        holder.btnRemoveMember.setOnClickListener(v -> {
+            int pos = holder.getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION && listener != null) {
+                listener.onRemoveMember(member, pos);
+            }
+        });
+
         holder.btnCallMember.setOnClickListener(v -> {
             if (member.getPhone() != null && !member.getPhone().isEmpty()) {
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + member.getPhone()));
@@ -197,7 +205,7 @@ public class FamilyDashboardAdapter extends RecyclerView.Adapter<FamilyDashboard
         TextView tvMemberName, tvMemberEmail, badgeSafetyStatus, tvStatusDetails;
         LinearLayout layoutRoutineInfo, layoutLocationSection;
         TextView tvRoutineTitle, tvExpectedArrival, tvLocationLabel, tvLocationTime, tvStaleWarning;
-        MaterialButton btnCallMember, btnViewMap;
+        MaterialButton btnRemoveMember, btnCallMember, btnViewMap;
 
         public MemberViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -217,6 +225,7 @@ public class FamilyDashboardAdapter extends RecyclerView.Adapter<FamilyDashboard
             tvLocationTime = itemView.findViewById(R.id.tv_location_time);
             tvStaleWarning = itemView.findViewById(R.id.tv_stale_warning);
 
+            btnRemoveMember = itemView.findViewById(R.id.btn_remove_member);
             btnCallMember = itemView.findViewById(R.id.btn_call_member);
             btnViewMap = itemView.findViewById(R.id.btn_view_map);
         }

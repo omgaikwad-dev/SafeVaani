@@ -54,22 +54,20 @@ public class EmergencyContactActivity extends AppCompatActivity implements Conta
         rvContacts.setAdapter(adapter);
 
         btnSaveContact.setOnClickListener(v -> {
-            String name = etEmergencyName.getText().toString().trim();
-            String number = etEmergencyContact.getText().toString().trim();
+            String name = etEmergencyName.getText() != null ? etEmergencyName.getText().toString().trim() : "";
+            String number = etEmergencyContact.getText() != null ? etEmergencyContact.getText().toString().trim() : "";
 
-            if (name.isEmpty() || number.isEmpty() || !number.matches("\\d{10}")) {
-                Toast.makeText(this, "Enter valid name and 10-digit contact", Toast.LENGTH_SHORT).show();
+            if (name.isEmpty() || number.isEmpty() || number.length() < 7) {
+                Toast.makeText(this, "Enter valid name and mobile number (min 7 digits)", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            String cleanNumber = number.replaceAll("[^0-9+]", "");
+
             if (editingPosition == -1) {
-                // New Contact - using OTP verification for security
-                generatedOtp = String.valueOf(1000 + new Random().nextInt(9000));
-                Toast.makeText(this, "OTP sent: " + generatedOtp, Toast.LENGTH_LONG).show();
-                showOtpDialog(name, number);
+                addNewContact(name, cleanNumber);
             } else {
-                // Updating existing contact - skip OTP for simple edits
-                updateContact(editingPosition, name, number);
+                updateContact(editingPosition, name, cleanNumber);
             }
         });
     }

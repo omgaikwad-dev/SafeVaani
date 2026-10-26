@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="4dp"
+    android:paddingVertical="1dp">
+
+    <!-- Timeline Column (Road Nodes & Connecting Line) -->
+    <LinearLayout
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <!-- Top connecting road line -->
+        <View
+            android:id="@+id/viewRoadLineTop"
+            android:layout_width="3dp"
+            android:layout_height="14dp"
+            android:background="@color/safe_green" />
+
+        <!-- Road Step Node Indicator -->
+        <FrameLayout
+            android:id="@+id/frameNode"
+            android:layout_width="36dp"
+            android:layout_height="36dp">
+
+            <View
+                android:id="@+id/viewNodeBg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_circle_node" />
+
+            <TextView
+                android:id="@+id/tvStepIcon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="🟢"
+                android:textSize="17sp" />
+        </FrameLayout>
+
+        <!-- Bottom connecting road line -->
+        <View
+            android:id="@+id/viewRoadLineBottom"
+            android:layout_width="3dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/safe_green" />
+    </LinearLayout>
+
+    <!-- Card with Turn-by-Turn Road Details -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardStepDetails"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="12dp"
+        android:layout_weight="1"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="14dp"
+        app:cardElevation="1dp"
+        app:strokeColor="@color/subtle_border"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <!-- Header Row: Step Tag + Distance -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvStepSeq"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:letterSpacing="0.06"
+                    android:text="START POINT • DEPARTURE"
+                    android:textColor="@color/primary_orange"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tvStepDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="0.0 KM • 0 MIN"
+                    android:textColor="@color/deep_purple"
+                    android:textSize="10.5sp" />
+            </LinearLayout>
+
+            <!-- Road / Street Name -->
+            <TextView
+                android:id="@+id/tvRoadName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="North Ambazari 4-Lane Arterial"
+                android:textColor="@color/deep_purple"
+                android:textSize="13.5sp" />
+
+            <!-- Turn Direction & Instruction -->
+            <TextView
+                android:id="@+id/tvStepInstruction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="2dp"
+                android:text="Head northeast on the 100% streetlit arterial corridor. Verified continuous LED illumination."
+                android:textColor="@color/text_secondary"
+                android:textSize="11.5sp" />
+
+            <!-- Safety Badges & Google Maps Navigate Button Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvSafetyBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corner"
+                    android:backgroundTint="@color/status_safe_bg"
+                    android:fontFamily="sans-serif-bold"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="3dp"
+                    android:text="✓ 100% ILLUMINATED"
+                    android:textColor="@color/safe_green"
+                    android:textSize="9.5sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnNavigateStep"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="0dp"
+                    android:text="🧭 Maps"
+                    android:textColor="@color/white"
+                    android:textSize="10.5sp"
+                    app:backgroundTint="@color/deep_purple"
+                    app:cornerRadius="8dp"
+                    app:elevation="0dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

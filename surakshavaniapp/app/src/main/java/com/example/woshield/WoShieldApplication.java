@@ -24,6 +24,12 @@ public class WoShieldApplication extends Application implements OnMapsSdkInitial
         } catch (Exception e) {
             android.util.Log.w("WoShieldApplication", "Failed initializing emergency auto-sync listener", e);
         }
+
+        try {
+            OfflineMeshSosManager.startMeshReceiver(this);
+        } catch (Exception e) {
+            android.util.Log.w("WoShieldApplication", "Failed starting offline mesh receiver", e);
+        }
     }
 
     @Override

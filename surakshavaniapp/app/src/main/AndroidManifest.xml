@@ -29,6 +29,21 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <!-- Offline P2P Mesh: Wi-Fi Multicast & Subnet Broadcast (Zero Password) -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+
+    <!-- Offline P2P Mesh: Bluetooth & BLE (Zero Password / Zero Pairing) -->
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" tools:targetApi="s" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" />
+    <uses-feature android:name="android.hardware.wifi" android:required="false" />
+
     <queries>
         <package android:name="com.whatsapp" />
         <package android:name="com.google.android.apps.maps" />
@@ -77,6 +92,15 @@
         <activity
             android:name=".DangerZoneApprovalActivity"
             android:exported="false" />
+        <!-- Offline Mesh Nearby SOS Alert Activity -->
+        <activity
+            android:name=".NearbySosAlertActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:theme="@style/Theme.EmpowHer" />
+
         <!-- NightShift Navigator new activity -->
         <activity
             android:name=".NightPlanActivity"

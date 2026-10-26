@@ -1,8 +1,18 @@
 package com.example.woshield;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -287,12 +297,90 @@ public class NightOwlMathematicalRouter {
     /**
      * Resolves destination coordinates by matching user input text with seed records or default clusters.
      */
-    private static double[] resolveDestinationCoordinates(Context context, String dest, double userLat, double userLng, List<NightOwlRecord> records) {
+    public static double[] fetchOnlineNominatimCoordinates(String query) {
+        if (query == null || query.trim().isEmpty()) return null;
+        try {
+            String encoded = URLEncoder.encode(query.trim(), "UTF-8");
+            String urlStr = "https://nominatim.openstreetmap.org/search?format=json&q=" + encoded + "&limit=1&countrycodes=in&addressdetails=1";
+            URL url = new URL(urlStr);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("User-Agent", "SafeVaani-NightPlan/1.0 (Android)");
+            conn.setConnectTimeout(3000);
+            conn.setReadTimeout(3000);
+
+            int code = conn.getResponseCode();
+            if (code == 200) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                reader.close();
+
+                JSONArray arr = new JSONArray(sb.toString());
+                if (arr.length() > 0) {
+                    JSONObject obj = arr.getJSONObject(0);
+                    double lat = obj.getDouble("lat");
+                    double lon = obj.getDouble("lon");
+                    if (lat > 8.0 && lat < 38.0 && lon > 68.0 && lon < 98.0) {
+                        Log.d(TAG, "Nominatim geocoded '" + query + "' -> " + lat + ", " + lon);
+                        return new double[]{lat, lon};
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "Nominatim geocode query '" + query + "' note: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public static double[] resolveDestinationCoordinates(Context context, String dest, double userLat, double userLng, List<NightOwlRecord> records) {
         if (dest == null || dest.trim().isEmpty()) {
-            return new double[]{userLat + 0.03, userLng + 0.03};
+            return new double[]{userLat + 0.015, userLng + 0.012};
+        }
+        String query = dest.toLowerCase(Locale.ROOT).trim();
+
+        // 1. Direct explicit coordinates "lat, lng"
+        if (query.contains(",")) {
+            String[] parts = query.split(",");
+            if (parts.length >= 2) {
+                try {
+                    double lat = Double.parseDouble(parts[0].trim());
+                    double lng = Double.parseDouble(parts[1].trim());
+                    if (lat > 8.0 && lat < 38.0 && lng > 68.0 && lng < 98.0) {
+                        return new double[]{lat, lng};
+                    }
+                } catch (Exception ignored) {}
+            }
         }
 
-        // 1. Try Offline Semantic Search Engine (Regex + Cosine Similarity + Structured Filters + Distance)
+        // 2. High-Precision Online Nominatim OpenStreetMap Geocoding
+        double[] onlineCoords = fetchOnlineNominatimCoordinates(dest);
+        if (onlineCoords != null) {
+            return onlineCoords;
+        }
+
+        // 3. Android Native Geocoder
+        try {
+            if (context != null && Geocoder.isPresent()) {
+                Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+                List<Address> addresses = geocoder.getFromLocationName(dest, 1);
+                if (addresses != null && !addresses.isEmpty()) {
+                    double gLat = addresses.get(0).getLatitude();
+                    double gLng = addresses.get(0).getLongitude();
+                    if (gLat > 8.0 && gLat < 38.0 && gLng > 68.0 && gLng < 98.0) {
+                        Log.d(TAG, "Android Geocoder resolved '" + dest + "' -> " + gLat + ", " + gLng);
+                        return new double[]{gLat, gLng};
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "Android Geocoder lookup note: " + e.getMessage());
+        }
+
+        // 4. Offline Semantic Search Engine (CSV index)
         try {
             if (context != null) {
                 List<OfflineSemanticSearchEngine.SearchResult> semanticMatches =
@@ -307,33 +395,35 @@ public class NightOwlMathematicalRouter {
             Log.w(TAG, "resolveDestinationCoordinates: Semantic search failed, falling back to heuristics: " + e.getMessage());
         }
 
-        String query = dest.toLowerCase().trim();
+        // 5. Curated Pune Localities & Landmarks
+        if (query.contains("pune station") || query.contains("pune railway")) return new double[]{18.5289, 73.8743};
+        if (query.contains("hinjawadi") || query.contains("hinjewadi")) return new double[]{18.5913, 73.7389};
+        if (query.contains("kothrud")) return new double[]{18.5074, 73.8077};
+        if (query.contains("swargate")) return new double[]{18.5018, 73.8636};
+        if (query.contains("shivajinagar")) return new double[]{18.5327, 73.8496};
+        if (query.contains("hadapsar") || query.contains("magarpatta") || query.contains("amanora")) return new double[]{18.5089, 73.9260};
+        if (query.contains("viman nagar") || query.contains("vimannagar")) return new double[]{18.5679, 73.9143};
+        if (query.contains("kalyani nagar")) return new double[]{18.5463, 73.9033};
+        if (query.contains("koregaon park")) return new double[]{18.5362, 73.8940};
+        if (query.contains("baner")) return new double[]{18.5590, 73.7868};
+        if (query.contains("balewadi")) return new double[]{18.5750, 73.7710};
+        if (query.contains("wakad")) return new double[]{18.5990, 73.7625};
+        if (query.contains("pimple saudagar") || query.contains("pimple")) return new double[]{18.5987, 73.7978};
+        if (query.contains("aundh")) return new double[]{18.5580, 73.8075};
+        if (query.contains("katraj") || query.contains("dhankawadi")) return new double[]{18.4529, 73.8586};
+        if (query.contains("pimpri")) return new double[]{18.6220, 73.8050};
+        if (query.contains("chinchwad")) return new double[]{18.6298, 73.7997};
+        if (query.contains("kharadi")) return new double[]{18.5515, 73.9398};
+        if (query.contains("yerwada") || query.contains("yerawada")) return new double[]{18.5524, 73.8870};
+        if (query.contains("camp") || query.contains("mg road")) return new double[]{18.5126, 73.8792};
+        if (query.contains("deccan") || query.contains("fc road") || query.contains("jm road")) return new double[]{18.5186, 73.8415};
+        if (query.contains("warje") || query.contains("karve nagar") || query.contains("sinhagad")) return new double[]{18.4878, 73.8152};
+        if (query.contains("bhosari") || query.contains("nigdi") || query.contains("moshi")) return new double[]{18.6548, 73.7749};
+        if (query.contains("chakan")) return new double[]{18.7600, 73.8500};
+        if (query.contains("pune")) return new double[]{18.5204, 73.8567};
 
-        // Check if query contains explicit coordinates "lat, lng"
-        if (query.contains(",")) {
-            String[] parts = query.split(",");
-            if (parts.length >= 2) {
-                try {
-                    double lat = Double.parseDouble(parts[0].trim());
-                    double lng = Double.parseDouble(parts[1].trim());
-                    if (lat > 10.0 && lat < 35.0 && lng > 65.0 && lng < 95.0) {
-                        return new double[]{lat, lng};
-                    }
-                } catch (Exception ignored) {}
-            }
-        }
-
-        // Search in 100 CSV seed records by area or name
-        for (NightOwlRecord r : records) {
-            String area = r.areaOrLocation.toLowerCase();
-            String name = r.name.toLowerCase();
-            if (query.contains(area) || area.contains(query) || query.contains(name) || name.contains(query)) {
-                return new double[]{r.latitude, r.longitude};
-            }
-        }
-
-        // Known city landmark hubs in Nagpur
-        if (query.contains("nagpur station") || query.contains("railway") || query.contains("station")) return new double[]{21.1524, 79.0889};
+        // 6. Curated Nagpur Localities & Landmarks
+        if (query.contains("nagpur station") || query.contains("nagpur railway")) return new double[]{21.1524, 79.0889};
         if (query.contains("sitabuldi")) return new double[]{21.14139, 79.08248};
         if (query.contains("mihan")) return new double[]{21.0493, 79.0478};
         if (query.contains("hingna")) return new double[]{21.1050, 78.9990};
@@ -342,9 +432,37 @@ public class NightOwlMathematicalRouter {
         if (query.contains("it park") || query.contains("gayatri nagar")) return new double[]{21.1255, 79.0515};
         if (query.contains("medical square")) return new double[]{21.1290, 79.0850};
         if (query.contains("civil lines")) return new double[]{21.1539, 79.0790};
+        if (query.contains("ambazari")) return new double[]{21.1306, 79.0475};
+        if (query.contains("sadar")) return new double[]{21.1620, 79.0810};
+        if (query.contains("cotton market")) return new double[]{21.1442, 79.0915};
+        if (query.contains("nagpur")) return new double[]{21.1458, 79.0882};
 
-        // Fallback: estimate 3.8 km along northeast vector from user position
-        return new double[]{userLat + 0.025, userLng + 0.028};
+        // 7. Curated Mumbai Localities & Landmarks
+        if (query.contains("bandra")) return new double[]{19.0596, 72.8295};
+        if (query.contains("andheri")) return new double[]{19.1136, 72.8697};
+        if (query.contains("powai")) return new double[]{19.1176, 72.9060};
+        if (query.contains("thane")) return new double[]{19.2183, 72.9781};
+        if (query.contains("navi mumbai") || query.contains("vashi")) return new double[]{19.0770, 72.9986};
+        if (query.contains("mumbai") || query.contains("cst")) return new double[]{18.9401, 72.8354};
+
+        // 8. Other Indian Metros
+        if (query.contains("delhi")) return new double[]{28.6139, 77.2090};
+        if (query.contains("bengaluru") || query.contains("bangalore")) return new double[]{12.9716, 77.5946};
+        if (query.contains("hyderabad")) return new double[]{17.3850, 78.4867};
+
+        // 9. Search directly in CSV seed records
+        if (records != null) {
+            for (NightOwlRecord r : records) {
+                String area = r.areaOrLocation.toLowerCase(Locale.ROOT);
+                String name = r.name.toLowerCase(Locale.ROOT);
+                if (query.contains(area) || area.contains(query) || query.contains(name) || name.contains(query)) {
+                    return new double[]{r.latitude, r.longitude};
+                }
+            }
+        }
+
+        // 10. Fallback: estimate 3.5 km along northeast vector from user position
+        return new double[]{userLat + 0.022, userLng + 0.018};
     }
 
     /**

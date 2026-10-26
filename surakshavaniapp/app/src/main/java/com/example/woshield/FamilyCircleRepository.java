@@ -371,17 +371,23 @@ public class FamilyCircleRepository {
         newMember.setLocationTimestamp(System.currentTimeMillis());
 
         final FamilyMember finalMember = newMember;
-        rootRef.child(NODE_USER_WARDS).child(myUid).child(memberUid).setValue(finalMember)
-                .addOnSuccessListener(aVoid -> {
-                    // Also mirror to circle_members for bidirectional privacy center compatibility
-                    rootRef.child(NODE_CIRCLE_MEMBERS).child(myUid).child(memberUid).setValue(finalMember);
-                    Log.d(TAG, "Direct circle member added successfully: " + memberUid);
-                    if (callback != null) callback.onSuccess(finalMember);
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Failed adding direct circle member to remote database", e);
-                    // Return the instantiated member so offline/demo sessions continue seamlessly
-                    if (callback != null) callback.onSuccess(finalMember);
-                });
+        // Asynchronously sync to Firebase Realtime Database
+        try {
+            rootRef.child(NODE_USER_WARDS).child(myUid).child(memberUid).setValue(finalMember)
+                    .addOnSuccessListener(aVoid -> {
+                        rootRef.child(NODE_CIRCLE_MEMBERS).child(myUid).child(memberUid).setValue(finalMember);
+                        Log.d(TAG, "Direct circle member synced to remote database: " + memberUid);
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.w(TAG, "Notice: Direct circle member saved locally; remote sync error: " + e.getMessage());
+                    });
+        } catch (Exception e) {
+            Log.w(TAG, "Notice: Remote database sync exception: " + e.getMessage());
+        }
+
+        // Return immediately so local UI updates without lag
+        if (callback != null) {
+            callback.onSuccess(finalMember);
+        }
     }
 }

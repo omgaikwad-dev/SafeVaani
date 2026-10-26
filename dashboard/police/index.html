@@ -1751,16 +1751,16 @@
 
       <!-- Section Navigation Anchors -->
       <nav class="cad-section-tabs" aria-label="Police Dashboard Sections">
-        <a href="#section-event-history" class="cad-tab-link active" id="tab-nav-history">
+        <a href="#section-tactical-radar" class="cad-tab-link active" id="tab-nav-radar">
           <span class="tab-pulse-dot"></span>
-          <span>Recent Incident Feed</span>
-          <span class="tab-badge" id="badge-tab-count">11 Alerts</span>
-        </a>
-        <a href="#section-tactical-radar" class="cad-tab-link" id="tab-nav-radar">
           <span>Tactical Radar &amp; Map</span>
         </a>
         <a href="#section-dispatch-log" class="cad-tab-link" id="tab-nav-log">
           <span>CAD Log &amp; Audit</span>
+        </a>
+        <a href="#section-event-history" class="cad-tab-link" id="tab-nav-history">
+          <span>Recent Incident Feed</span>
+          <span class="tab-badge" id="badge-tab-count">11 Alerts</span>
         </a>
       </nav>
 
@@ -1801,55 +1801,7 @@
       </div>
 
       <!-- ========================================================
-           SECTION 1: RECENT EVENT HISTORY (REALTIME FIREBASE STREAM)
-      ======================================================== -->
-      <section class="section-wrap" id="section-event-history">
-        <div class="section-header-box">
-          <div class="section-title-wrap">
-            <h2 class="section-heading" style="display:flex;align-items:center;gap:10px;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D9251D" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-              <span>Recent Incident Feed</span>
-              <span style="font-size:0.85rem;font-family:var(--font-mono);font-weight:400;color:var(--dash-ink-soft);" id="sync-status-indicator">
-                (Syncing...)
-              </span>
-            </h2>
-          </div>
-
-          <div style="display:flex;align-items:center;gap:10px;">
-            <button type="button" class="btn-sync-rtdb" id="btn-manual-sync">
-              <svg class="sync-icon" id="sync-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-              <span>Refresh Stream</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Filter & Search Controls -->
-        <div class="feed-controls-bar">
-          <div class="feed-search-wrap">
-            <svg style="position:absolute;left:11px;top:10px;color:var(--dash-ink-soft);" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" id="feed-search" class="feed-search-input" placeholder="Search by incident ID, caller, phone, distress marker...">
-          </div>
-
-          <div class="feed-filter-chips">
-            <button type="button" class="filter-chip active" data-filter="all">All Events (<span id="count-all">11</span>)</button>
-            <button type="button" class="filter-chip" data-filter="audio">With Voice Recording (<span id="count-audio">9</span>)</button>
-            <button type="button" class="filter-chip" data-filter="distress">Distress / Domestic</button>
-            <button type="button" class="filter-chip" data-filter="coords">GPS Fixed</button>
-          </div>
-        </div>
-
-        <!-- Dynamic Events Stream Container -->
-        <div class="events-feed-list" id="events-feed-container">
-          <!-- Populated dynamically by Firebase RTDB -->
-          <div class="empty-state-box">
-            <div style="font-size:1.8rem;margin-bottom:8px;">⏳</div>
-            <div style="font-weight:700;font-size:1.05rem;">Fetching live distress alerts...</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================================
-           SECTION 2: LIVE TACTICAL RADAR & LEAFLET MAP
+           SECTION 1: LIVE TACTICAL RADAR & LEAFLET MAP (ON TOP)
       ======================================================== -->
       <section class="section-wrap" id="section-tactical-radar">
         <div class="section-header-box">
@@ -1968,7 +1920,7 @@
       </section>
 
       <!-- ========================================================
-           SECTION 3: CAD INCIDENT LOG & AUDIT
+           SECTION 2: CAD INCIDENT LOG & AUDIT (RIGHT UNDER MAP)
       ======================================================== -->
       <section class="section-wrap" id="section-dispatch-log">
         <div class="section-header-box">
@@ -2028,6 +1980,54 @@
         </div>
       </section>
 
+      <!-- ========================================================
+           SECTION 3: RECENT EVENT HISTORY (REALTIME FIREBASE STREAM)
+      ======================================================== -->
+      <section class="section-wrap" id="section-event-history">
+        <div class="section-header-box">
+          <div class="section-title-wrap">
+            <h2 class="section-heading" style="display:flex;align-items:center;gap:10px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D9251D" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <span>Recent Incident Feed</span>
+              <span style="font-size:0.85rem;font-family:var(--font-mono);font-weight:400;color:var(--dash-ink-soft);" id="sync-status-indicator">
+                (Syncing...)
+              </span>
+            </h2>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:10px;">
+            <button type="button" class="btn-sync-rtdb" id="btn-manual-sync">
+              <svg class="sync-icon" id="sync-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              <span>Refresh Stream</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="feed-controls-bar">
+          <div class="feed-search-wrap">
+            <svg style="position:absolute;left:11px;top:10px;color:var(--dash-ink-soft);" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="feed-search" class="feed-search-input" placeholder="Search by incident ID, caller, phone, distress marker...">
+          </div>
+
+          <div class="feed-filter-chips">
+            <button type="button" class="filter-chip active" data-filter="all">All Events (<span id="count-all">11</span>)</button>
+            <button type="button" class="filter-chip" data-filter="audio">With Voice Recording (<span id="count-audio">9</span>)</button>
+            <button type="button" class="filter-chip" data-filter="distress">Distress / Domestic</button>
+            <button type="button" class="filter-chip" data-filter="coords">GPS Fixed</button>
+          </div>
+        </div>
+
+        <!-- Dynamic Events Stream Container -->
+        <div class="events-feed-list" id="events-feed-container">
+          <!-- Populated dynamically by Firebase RTDB -->
+          <div class="empty-state-box">
+            <div style="font-size:1.8rem;margin-bottom:8px;">⏳</div>
+            <div style="font-weight:700;font-size:1.05rem;">Fetching live distress alerts...</div>
+          </div>
+        </div>
+      </section>
+
       <!-- Return link -->
       <div style="text-align:center;margin-top:36px;margin-bottom:12px;">
         <a href="/dashboard/" class="btn-return-hub">
@@ -2067,6 +2067,7 @@
     // ========================================================
     const RTDB_ALERTS_URL = "https://attention-b0e42-default-rtdb.firebaseio.com/alerts.json";
     const RTDB_SOS_ALERTS_URL = "https://attention-b0e42-default-rtdb.firebaseio.com/sos_alerts.json";
+    const RTDB_EMERGENCY_LOGS_URL = "https://attention-b0e42-default-rtdb.firebaseio.com/emergency_logs.json";
     const RTDB_USERS_URL = "https://attention-b0e42-default-rtdb.firebaseio.com/users.json";
 
     // Baseline data strictly using verified real RTDB alert records (No demo/Ananya data)
@@ -2245,6 +2246,7 @@
 
       startPatrolAnimation();
       updateDashboardCounters();
+      renderCADLogs();
       renderEventFeed();
       loadRealtimeEvents();
       setTimeout(() => {
@@ -2270,9 +2272,17 @@
       openCADConsole("insp.vikram@delhipolice.gov.in", "PCR-DELHI-ZONE4");
     }
 
-    // Always ensure counters and feed are populated immediately with baseline data
+    // Always ensure counters, logs and feed are populated immediately with baseline data
     updateDashboardCounters();
+    renderCADLogs();
     renderEventFeed();
+
+    // Auto-poll live alerts every 5 seconds so police dashboard stays real-time
+    setInterval(() => {
+      if (document.documentElement.classList.contains("police-session-active")) {
+        loadRealtimeEvents();
+      }
+    }, 5000);
 
     const btnAutofill = document.getElementById("btn-autofill-police");
     if (btnAutofill) {
@@ -2452,9 +2462,10 @@
             .catch(() => { clearTimeout(timer); return null; });
         };
 
-        const [alertsRes, sosAlertsRes, usersRes] = await Promise.all([
+        const [alertsRes, sosAlertsRes, emergencyLogsRes, usersRes] = await Promise.all([
           fetchTimeout(RTDB_ALERTS_URL),
           fetchTimeout(RTDB_SOS_ALERTS_URL),
+          fetchTimeout(RTDB_EMERGENCY_LOGS_URL),
           fetchTimeout(RTDB_USERS_URL)
         ]);
 
@@ -2464,6 +2475,10 @@
         }
         if (sosAlertsRes && sosAlertsRes.ok) {
           const d = await sosAlertsRes.json().catch(() => null);
+          if (d && typeof d === 'object') Object.assign(alertsData, d);
+        }
+        if (emergencyLogsRes && emergencyLogsRes.ok) {
+          const d = await emergencyLogsRes.json().catch(() => null);
           if (d && typeof d === 'object') Object.assign(alertsData, d);
         }
         if (usersRes && usersRes.ok) {
@@ -2509,7 +2524,9 @@
               latitude: Number(val.latitude) || 0,
               locationName: val.locationName || "",
               longitude: Number(val.longitude) || 0,
-              mapUrl: val.mapUrl || (val.latitude && val.longitude ? `https://maps.google.com/?q=${val.latitude},${val.longitude}` : ""),
+              mapUrl: (val.latitude && val.longitude)
+                ? `https://www.google.com/maps/search/?api=1&query=${Number(val.latitude).toFixed(6)},${Number(val.longitude).toFixed(6)}`
+                : (val.mapUrl || ""),
               pcrUnit: val.pcrUnit || "",
               reason: val.reason || "",
               smsMessage: val.smsMessage || "",
@@ -2524,11 +2541,23 @@
             };
           };
 
+          // Recursively extract alerts handling both flat and nested {userId: {alertId: data}} schemas
           Object.entries(alertsData).forEach(([key, val]) => {
             if (!val || typeof val !== 'object') return;
-            const item = extractAlertFields(val, key);
-            if (item && (item.emotion || item.latitude || item.timestamp || item.locationName || item.alertId)) {
-              parsed.push(item);
+            if (val.latitude !== undefined || val.alertId || val.status || val.id) {
+              const item = extractAlertFields(val, key);
+              if (item && (item.emotion || item.latitude || item.timestamp || item.locationName || item.alertId)) {
+                parsed.push(item);
+              }
+            } else {
+              Object.entries(val).forEach(([subKey, subVal]) => {
+                if (subVal && typeof subVal === 'object') {
+                  const subItem = extractAlertFields(subVal, subKey);
+                  if (subItem && (subItem.emotion || subItem.latitude || subItem.timestamp || subItem.locationName || subItem.alertId)) {
+                    parsed.push(subItem);
+                  }
+                }
+              });
             }
           });
         }
@@ -2559,6 +2588,7 @@
           syncStatusIndicator.textContent = `● Synchronized (${currentEvents.length} live records)`;
         }
         updateDashboardCounters();
+        renderCADLogs();
         renderEventFeed();
         if (typeof renderPoliceTacticalMarkers === 'function') {
           renderPoliceTacticalMarkers("all");
@@ -2578,6 +2608,48 @@
       const countAudio = document.getElementById("count-audio");
       if (countAll) countAll.textContent = String(currentEvents.length);
       if (countAudio) countAudio.textContent = String(audioCount);
+    }
+
+    // Render CAD Dispatch Audit & Incident Log table rows
+    function renderCADLogs() {
+      const tbody = document.getElementById("cad-log-table-body");
+      if (!tbody) return;
+      if (!currentEvents || currentEvents.length === 0) return;
+
+      tbody.innerHTML = currentEvents.map((ev) => {
+        const isCritical = ev.threatLevel === "High" || ev.isEmergency;
+        const isDomestic = (ev.emotion || "").toLowerCase().includes("domestic");
+        let statusBadge = `<span class="event-status-tag tag-critical">ACTIVE SOS</span>`;
+        if (ev.status === "RESOLVED") {
+          statusBadge = `<span class="event-status-tag tag-resolved">SAFE / CLOSED</span>`;
+        } else if (ev.status === "EN ROUTE") {
+          statusBadge = `<span class="event-status-tag tag-dispatched">EN ROUTE</span>`;
+        } else if (isDomestic) {
+          statusBadge = `<span class="event-status-tag tag-domestic">INVESTIGATING</span>`;
+        }
+
+        const coords = (ev.latitude && ev.longitude)
+          ? `${Number(ev.latitude).toFixed(4)}° N, ${Number(ev.longitude).toFixed(4)}° E`
+          : "GPS Pending";
+
+        const pcrUnit = ev.pcrUnit || "PCR Van #07";
+        const callerName = ev.userName || "Citizen";
+        const callerPhone = ev.userPhone || "";
+        const threatColor = isCritical ? "#D9251D" : (isDomestic ? "#CC4E08" : "var(--dash-ink)");
+        const timeDisplay = ev.formattedTime || (ev.timestamp ? new Date(ev.timestamp).toLocaleTimeString() : "Live");
+
+        return `
+          <tr onclick="window.selectPoliceNodeById('${ev.id || ev.alertId}')" style="cursor:pointer;" title="Click to view and center on Tactical Map">
+            <td style="font-family:var(--font-mono);font-weight:700;">#${ev.alertId || ev.id}</td>
+            <td>${timeDisplay}</td>
+            <td><strong>${callerName}</strong> ${callerPhone ? `<span style="font-size:0.8rem;color:var(--dash-ink-soft);">(${callerPhone})</span>` : ''}</td>
+            <td style="color:${threatColor};font-weight:700;">${ev.emotion || "Voice SOS"} [${ev.threatLevel || "High"}]</td>
+            <td style="font-family:var(--font-mono);font-size:0.82rem;">${coords}</td>
+            <td>${pcrUnit}</td>
+            <td>${statusBadge}</td>
+          </tr>
+        `;
+      }).join("");
     }
 
     // Render Event Feed Cards strictly using schema fields
@@ -2663,6 +2735,13 @@
                 <div class="wave-bar"></div>
               </div>
               <span class="audio-time-label">00:00 / 00:06</span>
+            </div>
+            <div style="margin-top:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <a href="${ev.audioUrl}" target="_blank" rel="noopener" style="font-size:0.75rem;font-weight:700;color:var(--dash-blue);text-decoration:none;display:inline-flex;align-items:center;gap:4px;background:rgba(63,125,222,0.1);padding:3px 8px;border-radius:6px;border:1px solid rgba(63,125,222,0.25);">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                <span>Voice Evidence Link</span>
+              </a>
+              <span style="font-size:0.72rem;color:var(--dash-ink-soft);">Recorded on-device</span>
             </div>
           </div>
         ` : `
@@ -2915,6 +2994,7 @@
             if (etaStatus) etaStatus.innerHTML = `<span style="color:#D9251D;font-weight:700;">${ev.pcrUnit} rushing to ${ev.locationName}!</span>`;
             btn.classList.add("dispatched");
             btn.innerHTML = `<span>${ev.pcrUnit} Dispatched</span>`;
+            renderCADLogs();
           }
         });
       });
@@ -2934,6 +3014,7 @@
                 card.style.borderColor = "var(--dash-green)";
               }
               updateDashboardCounters();
+              renderCADLogs();
               renderEventFeed();
               renderPoliceTacticalMarkers("all");
             }
@@ -3188,8 +3269,28 @@
 
     window.selectPoliceNodeById = function(id) {
       const ev = currentEvents.find(n => n.id === id || n.alertId === id);
-      if (ev) selectPoliceDangerNode(ev);
+      if (ev) {
+        selectPoliceDangerNode(ev);
+        const mapSection = document.getElementById("section-tactical-radar");
+        if (mapSection) {
+          mapSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        if (policeTacticalMap) {
+          setTimeout(() => policeTacticalMap.invalidateSize(), 200);
+        }
+      }
     };
+
+    // Smooth navigation tabs switching
+    document.querySelectorAll(".cad-tab-link").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".cad-tab-link").forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        if (tab.getAttribute("href") === "#section-tactical-radar" && policeTacticalMap) {
+          setTimeout(() => policeTacticalMap.invalidateSize(), 150);
+        }
+      });
+    });
 
     // Playback inside police details panel
     const btnPnodePlay = document.getElementById("btn-pnode-play");

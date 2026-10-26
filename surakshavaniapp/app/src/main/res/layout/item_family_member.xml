@@ -198,10 +198,21 @@
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_remove_member"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remove"
+                android:textColor="@color/error_red"
+                app:icon="@drawable/ic_delete"
+                app:iconTint="@color/error_red" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_call_member"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:text="Call"
                 android:textColor="@color/deep_purple"
                 app:icon="@drawable/ic_phone"

@@ -74,6 +74,13 @@ public class OfflineEmergencyManager {
         // Send SMS to registered emergency contacts (works offline via GSM network)
         sendEmergencySms(appContext, log);
 
+        // Broadcast to nearby devices via Wi-Fi and Bluetooth Offline Mesh (Zero password / Zero pairing)
+        try {
+            OfflineMeshSosManager.broadcastSosAlert(appContext, log);
+        } catch (Exception e) {
+            Log.w(TAG, "Offline mesh broadcast error: " + e.getMessage());
+        }
+
         if (isOnline(appContext)) {
             pushLogToFirebase(appContext, log, () -> {
                 // Remove from offline queue after successful upload
@@ -142,7 +149,9 @@ public class OfflineEmergencyManager {
         }
         log.timestamp = String.valueOf(log.timestampEpoch);
         log.formattedTime = new SimpleDateFormat("MMM dd, yyyy | hh:mm a", Locale.getDefault()).format(new Date(log.timestampEpoch));
-        log.mapUrl = (log.latitude != 0 && log.longitude != 0) ? "https://maps.google.com/?q=" + log.latitude + "," + log.longitude : "";
+        log.mapUrl = (log.latitude != 0 && log.longitude != 0)
+                ? String.format(Locale.US, "https://www.google.com/maps/search/?api=1&query=%.6f,%.6f", log.latitude, log.longitude)
+                : "";
     }
 
     /**
@@ -168,7 +177,19 @@ public class OfflineEmergencyManager {
                             userUpdate.put("lastSpeedKmh", log.speedKmh);
                             userUpdate.put("dangerZoneActive", true);
                             userUpdate.put("lastAlertTimestamp", log.timestampEpoch);
+                            userUpdate.put("safetyStatus", "sos_active");
                             db.child("users").child(log.userId).updateChildren(userUpdate);
+
+                            // Also broadcast to each guardian's alerts so their dashboard lights up
+                            if (log.contactsAlerted != null) {
+                                for (Map<String, String> c : log.contactsAlerted) {
+                                    String cUid = c.get("uid");
+                                    if (cUid != null && !cUid.isEmpty()) {
+                                        db.child("alerts").child(cUid).child(log.alertId).setValue(alertMap);
+                                        db.child("user_wards").child(cUid).child(log.userId).child("safetyStatus").setValue("sos_active");
+                                    }
+                                }
+                            }
                         }
                         // 3. Global emergency_logs
                         db.child("emergency_logs").child(log.alertId).setValue(alertMap);
@@ -223,48 +244,104 @@ public class OfflineEmergencyManager {
     }
 
     /**
-     * Sends emergency SMS broadcast to registered contacts.
+     * Sends emergency SMS broadcast to registered contacts and guardians.
      */
     private static void sendEmergencySms(Context context, SOSLog log) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String contactsJson = prefs.getString("emergency_contacts", "[]");
+        String wardsJson = prefs.getString("cached_family_wards", "[]");
 
-        String smsText = String.format(Locale.getDefault(),
-                "🚨 SAFEVAANI EMERGENCY 🚨\n%s: Distress detected!\nLocation: %s\nHeading: %s (%.1f km/h)\nEvidence: Captured on-device.\nPlease dispatch help!",
-                log.userName != null ? log.userName : "Citizen",
-                log.mapUrl,
-                log.direction != null ? log.direction : "North",
-                log.speedKmh);
+        String mapUrl = (log.latitude != 0 && log.longitude != 0)
+                ? String.format(Locale.US, "https://www.google.com/maps/search/?api=1&query=%.6f,%.6f", log.latitude, log.longitude)
+                : (log.mapUrl != null && !log.mapUrl.isEmpty() ? log.mapUrl : "Location unavailable");
+        log.mapUrl = mapUrl;
 
+        StringBuilder sb = new StringBuilder();
+        sb.append("🚨 SURAKSHAVAANI EMERGENCY SOS 🚨\n");
+        sb.append(log.userName != null ? log.userName : "Citizen").append(": Distress detected!\n");
+        sb.append("Status: ").append(log.triggerSource != null ? log.triggerSource : "Voice SOS").append("\n\n");
+        sb.append("📍 Live Location:\n").append(mapUrl).append("\n\n");
+
+        if (log.audioUrl != null && (log.audioUrl.startsWith("http://") || log.audioUrl.startsWith("https://"))) {
+            sb.append("🎤 Voice Evidence Link:\n").append(log.audioUrl).append("\n\n");
+        }
+
+        sb.append("Heading: ").append(log.direction != null ? log.direction : "North");
+        if (log.speedKmh > 0) {
+            sb.append(String.format(Locale.US, " (%.1f km/h)", log.speedKmh));
+        }
+        sb.append("\nPlease dispatch police/guardians immediately!");
+
+        String smsText = sb.toString();
         log.smsMessage = smsText;
 
         try {
-            JSONArray array = new JSONArray(contactsJson);
             SmsManager smsManager = SmsManager.getDefault();
             List<Map<String, String>> alertedList = new ArrayList<>();
+            Map<String, Boolean> notifiedPhones = new HashMap<>();
 
+            // 1. Alert contacts from emergency_contacts
+            JSONArray array = new JSONArray(contactsJson);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject c = array.getJSONObject(i);
-                String number = c.optString("number", c.optString("phone", ""));
-                String name = c.optString("name", "Contact");
-                String relation = c.optString("relation", c.optString("relationship", "Family"));
+                String rawNumber = c.optString("number", c.optString("phone", ""));
+                String cleanNumber = rawNumber.replaceAll("[^0-9+]", "");
+                String name = c.optString("name", "Guardian");
+                String relation = c.optString("relation", c.optString("relationship", "Guardian"));
+                String uid = c.optString("uid", "");
 
-                if (!number.isEmpty()) {
+                if (!cleanNumber.isEmpty() && !notifiedPhones.containsKey(cleanNumber)) {
+                    notifiedPhones.put(cleanNumber, true);
                     try {
                         ArrayList<String> parts = smsManager.divideMessage(smsText);
-                        smsManager.sendMultipartTextMessage(number, null, parts, null, null);
-                        Log.d(TAG, "Emergency SMS dispatched to: " + number);
+                        smsManager.sendMultipartTextMessage(cleanNumber, null, parts, null, null);
+                        Log.d(TAG, "Emergency SMS dispatched to: " + cleanNumber + " (" + name + ")");
                     } catch (Exception ex) {
-                        Log.w(TAG, "SMS dispatch error for " + number, ex);
+                        Log.w(TAG, "SMS dispatch error for " + cleanNumber, ex);
                     }
 
                     Map<String, String> contactMap = new HashMap<>();
                     contactMap.put("name", name);
-                    contactMap.put("phone", number);
+                    contactMap.put("phone", cleanNumber);
                     contactMap.put("relationship", relation);
+                    contactMap.put("uid", uid);
                     alertedList.add(contactMap);
                 }
             }
+
+            // 2. Also alert contacts from cached_family_wards
+            try {
+                JSONArray wardsArr = new JSONArray(wardsJson);
+                for (int i = 0; i < wardsArr.length(); i++) {
+                    JSONObject w = wardsArr.getJSONObject(i);
+                    String rawNumber = w.optString("phone", "");
+                    String cleanNumber = rawNumber.replaceAll("[^0-9+]", "");
+                    String name = w.optString("name", "Guardian");
+                    String relation = w.optString("relation", "Guardian");
+                    String uid = w.optString("uid", "");
+
+                    if (!cleanNumber.isEmpty() && !notifiedPhones.containsKey(cleanNumber)) {
+                        notifiedPhones.put(cleanNumber, true);
+                        try {
+                            ArrayList<String> parts = smsManager.divideMessage(smsText);
+                            smsManager.sendMultipartTextMessage(cleanNumber, null, parts, null, null);
+                            Log.d(TAG, "Emergency SMS dispatched to guardian: " + cleanNumber + " (" + name + ")");
+                        } catch (Exception ex) {
+                            Log.w(TAG, "SMS dispatch error for guardian " + cleanNumber, ex);
+                        }
+
+                        Map<String, String> contactMap = new HashMap<>();
+                        contactMap.put("name", name);
+                        contactMap.put("phone", cleanNumber);
+                        contactMap.put("relationship", relation);
+                        contactMap.put("uid", uid);
+                        alertedList.add(contactMap);
+                    }
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "Notice checking cached_family_wards for SMS", e);
+            }
+
             log.contactsAlerted = alertedList;
         } catch (Exception e) {
             Log.e(TAG, "Failed reading emergency contacts for SMS", e);

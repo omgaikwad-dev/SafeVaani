@@ -74,27 +74,45 @@ public class OfflineSemanticSearchEngine {
     // Known Locality Anchors (Pune & Nagpur)
     private static final Map<String, double[]> KNOWN_LOCALITIES = new HashMap<>();
     static {
-        // Pune Localities
+        // Pune Localities & Landmarks
         KNOWN_LOCALITIES.put("hadapsar", new double[]{18.5018, 73.9260});
+        KNOWN_LOCALITIES.put("magarpatta", new double[]{18.5089, 73.9260});
+        KNOWN_LOCALITIES.put("amanora", new double[]{18.5089, 73.9260});
         KNOWN_LOCALITIES.put("swargate", new double[]{18.5018, 73.8636});
         KNOWN_LOCALITIES.put("kothrud", new double[]{18.5074, 73.8077});
         KNOWN_LOCALITIES.put("shivajinagar", new double[]{18.5327, 73.8496});
         KNOWN_LOCALITIES.put("katraj", new double[]{18.4529, 73.8586});
+        KNOWN_LOCALITIES.put("dhankawadi", new double[]{18.4680, 73.8540});
         KNOWN_LOCALITIES.put("hinjawadi", new double[]{18.5913, 73.7389});
         KNOWN_LOCALITIES.put("hinjewadi", new double[]{18.5913, 73.7389});
         KNOWN_LOCALITIES.put("wakad", new double[]{18.5990, 73.7625});
+        KNOWN_LOCALITIES.put("pimple saudagar", new double[]{18.5987, 73.7978});
         KNOWN_LOCALITIES.put("baner", new double[]{18.5590, 73.7868});
+        KNOWN_LOCALITIES.put("balewadi", new double[]{18.5750, 73.7710});
         KNOWN_LOCALITIES.put("kharadi", new double[]{18.5515, 73.9398});
+        KNOWN_LOCALITIES.put("viman nagar", new double[]{18.5679, 73.9143});
+        KNOWN_LOCALITIES.put("vimannagar", new double[]{18.5679, 73.9143});
+        KNOWN_LOCALITIES.put("kalyani nagar", new double[]{18.5463, 73.9033});
+        KNOWN_LOCALITIES.put("koregaon park", new double[]{18.5362, 73.8940});
+        KNOWN_LOCALITIES.put("aundh", new double[]{18.5580, 73.8075});
         KNOWN_LOCALITIES.put("yerawada", new double[]{18.5524, 73.8870});
+        KNOWN_LOCALITIES.put("yerwada", new double[]{18.5524, 73.8870});
         KNOWN_LOCALITIES.put("camp", new double[]{18.5126, 73.8792});
+        KNOWN_LOCALITIES.put("deccan", new double[]{18.5186, 73.8415});
+        KNOWN_LOCALITIES.put("fc road", new double[]{18.5186, 73.8415});
+        KNOWN_LOCALITIES.put("jm road", new double[]{18.5230, 73.8470});
+        KNOWN_LOCALITIES.put("warje", new double[]{18.4790, 73.8010});
+        KNOWN_LOCALITIES.put("karve nagar", new double[]{18.4878, 73.8152});
         KNOWN_LOCALITIES.put("pimpri", new double[]{18.6220, 73.8050});
         KNOWN_LOCALITIES.put("chinchwad", new double[]{18.6298, 73.7997});
         KNOWN_LOCALITIES.put("pune station", new double[]{18.5289, 73.8743});
+        KNOWN_LOCALITIES.put("pune railway", new double[]{18.5289, 73.8743});
         KNOWN_LOCALITIES.put("erandwane", new double[]{18.5089, 73.8336});
         KNOWN_LOCALITIES.put("rasta peth", new double[]{18.5169, 73.8664});
         KNOWN_LOCALITIES.put("chakan", new double[]{18.7600, 73.8500});
+        KNOWN_LOCALITIES.put("pune", new double[]{18.5204, 73.8567});
 
-        // Nagpur Localities
+        // Nagpur Localities & Landmarks
         KNOWN_LOCALITIES.put("sitabuldi", new double[]{21.14139, 79.08248});
         KNOWN_LOCALITIES.put("dharampeth", new double[]{21.1435, 79.0620});
         KNOWN_LOCALITIES.put("ganeshpeth", new double[]{21.1450, 79.0890});
@@ -103,7 +121,16 @@ public class OfflineSemanticSearchEngine {
         KNOWN_LOCALITIES.put("hingna", new double[]{21.1050, 78.9990});
         KNOWN_LOCALITIES.put("itwari", new double[]{21.1560, 79.1080});
         KNOWN_LOCALITIES.put("ajni", new double[]{21.1280, 79.0830});
-        KNOWN_LOCALITIES.put("nagpur station", new double[]{21.1414, 79.0825});
+        KNOWN_LOCALITIES.put("it park", new double[]{21.1255, 79.0515});
+        KNOWN_LOCALITIES.put("gayatri nagar", new double[]{21.1255, 79.0515});
+        KNOWN_LOCALITIES.put("medical square", new double[]{21.1290, 79.0850});
+        KNOWN_LOCALITIES.put("civil lines", new double[]{21.1539, 79.0790});
+        KNOWN_LOCALITIES.put("ambazari", new double[]{21.1306, 79.0475});
+        KNOWN_LOCALITIES.put("sadar", new double[]{21.1620, 79.0810});
+        KNOWN_LOCALITIES.put("cotton market", new double[]{21.1442, 79.0915});
+        KNOWN_LOCALITIES.put("nagpur station", new double[]{21.1524, 79.0889});
+        KNOWN_LOCALITIES.put("nagpur railway", new double[]{21.1524, 79.0889});
+        KNOWN_LOCALITIES.put("nagpur", new double[]{21.1458, 79.0882});
     }
 
     /**
@@ -249,13 +276,18 @@ public class OfflineSemanticSearchEngine {
             intent.targetCategory = "food";
         }
 
-        // 5. Extract Known Locality Anchors
+        // 5. Extract Known Locality Anchors (check longest keys first to prefer "pune station" over "pune")
+        String matchedLocality = null;
+        int maxLen = 0;
         for (Map.Entry<String, double[]> entry : KNOWN_LOCALITIES.entrySet()) {
-            if (lowerQuery.contains(entry.getKey())) {
-                intent.targetLocality = entry.getKey();
-                intent.targetLocalityCoords = entry.getValue();
-                break;
+            if (lowerQuery.contains(entry.getKey()) && entry.getKey().length() > maxLen) {
+                matchedLocality = entry.getKey();
+                maxLen = entry.getKey().length();
             }
+        }
+        if (matchedLocality != null) {
+            intent.targetLocality = matchedLocality;
+            intent.targetLocalityCoords = KNOWN_LOCALITIES.get(matchedLocality);
         }
 
         // 6. Tokenize for Cosine Similarity
@@ -284,6 +316,16 @@ public class OfflineSemanticSearchEngine {
         res.record = record;
         res.extractedCategory = intent.targetCategory;
         res.extractedLocality = intent.targetLocality;
+
+        // Strict City Coherence Filter: Prevent cross-city leakage (e.g. Pune vs Nagpur)
+        String lowerQuery = intent.rawQuery != null ? intent.rawQuery.toLowerCase(Locale.ROOT) : "";
+        String recCity = record.city != null ? record.city.toLowerCase(Locale.ROOT) : "";
+        if (lowerQuery.contains("pune") && !recCity.contains("pune")) {
+            return null; // Exclude non-Pune records when user specified Pune
+        }
+        if (lowerQuery.contains("nagpur") && !recCity.contains("nagpur")) {
+            return null; // Exclude non-Nagpur records when user specified Nagpur
+        }
 
         // 1. Direct Record ID match (instant highest match)
         if (intent.extractedRecordId != null && intent.extractedRecordId.equalsIgnoreCase(record.recordId)) {

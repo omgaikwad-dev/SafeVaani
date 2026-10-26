@@ -139,7 +139,12 @@ public class FamilyDashboardActivity extends AppCompatActivity {
 
             @Override
             public void onRevokeAccess(FamilyMember member) {
-                confirmRevokeMembership(member);
+                confirmRemoveMember(member);
+            }
+
+            @Override
+            public void onRemoveMember(FamilyMember member, int position) {
+                confirmRemoveMember(member);
             }
         });
         rvFamilyMembers.setLayoutManager(new LinearLayoutManager(this));
@@ -156,12 +161,14 @@ public class FamilyDashboardActivity extends AppCompatActivity {
     }
 
     private void loadDashboardData() {
-        progressDashboard.setVisibility(View.VISIBLE);
         cleanupRealtimeListeners();
         layoutActiveAlertsContainer.removeAllViews();
         layoutActiveAlertsContainer.setVisibility(View.GONE);
 
-        // 1. Fetch pending invitations for me
+        // 1. Instantly load local guardians from SharedPreferences so contacts are immediately visible
+        loadLocalWardsAndContacts();
+
+        // 2. Fetch pending invitations for me
         circleRepository.getPendingInvitationsForMe(new FamilyCircleRepository.RepositoryCallback<List<CircleInvitation>>() {
             @Override
             public void onSuccess(List<CircleInvitation> invites) {
@@ -176,19 +183,19 @@ public class FamilyDashboardActivity extends AppCompatActivity {
             }
         });
 
-        // 2. Fetch authorized protected wards
+        // 3. Query remote Firebase wards in the background and merge
         circleRepository.getMyProtectedWards(new FamilyCircleRepository.RepositoryCallback<List<FamilyMember>>() {
             @Override
             public void onSuccess(List<FamilyMember> wards) {
                 progressDashboard.setVisibility(View.GONE);
                 swipeRefresh.setRefreshing(false);
-                protectedWardsList.clear();
-                protectedWardsList.addAll(wards);
-                adapter.notifyDataSetChanged();
+                if (wards != null && !wards.isEmpty()) {
+                    mergeRemoteWards(wards);
+                }
                 updateUIState();
 
                 // Attach real-time observers to each authorized ward
-                for (FamilyMember ward : wards) {
+                for (FamilyMember ward : protectedWardsList) {
                     attachWardObservers(ward);
                 }
             }
@@ -198,7 +205,6 @@ public class FamilyDashboardActivity extends AppCompatActivity {
                 progressDashboard.setVisibility(View.GONE);
                 swipeRefresh.setRefreshing(false);
                 updateUIState();
-                Toast.makeText(FamilyDashboardActivity.this, "Failed to load circle members: " + errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -418,7 +424,7 @@ public class FamilyDashboardActivity extends AppCompatActivity {
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(dialogView)
-                .setPositiveButton("Add Member", null)
+                .setPositiveButton("Add Guardian", null)
                 .setNegativeButton("Cancel", null)
                 .create();
 
@@ -436,83 +442,264 @@ public class FamilyDashboardActivity extends AppCompatActivity {
                 }
 
                 if (phone.isEmpty() || phone.length() < 7) {
-                    etPhone.setError("Enter a valid mobile number");
+                    etPhone.setError("Enter a valid mobile number (min 7 digits)");
                     etPhone.requestFocus();
                     return;
                 }
 
                 if (relation.isEmpty()) {
-                    relation = "Family Member";
+                    relation = "Guardian";
                 }
 
                 final String finalRelation = relation;
-                progressDashboard.setVisibility(View.VISIBLE);
+                final String cleanPhone = phone.replaceAll("[^0-9+]", "");
+                final String generatedUid = "guardian_" + System.currentTimeMillis();
 
-                circleRepository.addDirectCircleMember(name, finalRelation, phone, new FamilyCircleRepository.RepositoryCallback<FamilyMember>() {
-                    @Override
-                    public void onSuccess(FamilyMember member) {
-                        progressDashboard.setVisibility(View.GONE);
-                        // Add directly to local list if not already present
-                        boolean alreadyPresent = false;
-                        for (FamilyMember m : protectedWardsList) {
-                            if (m.getUid() != null && m.getUid().equals(member.getUid())) {
-                                alreadyPresent = true;
-                                break;
-                            }
-                        }
-                        if (!alreadyPresent) {
-                            protectedWardsList.add(0, member);
-                            adapter.notifyItemInserted(0);
-                            rvFamilyMembers.scrollToPosition(0);
-                            updateUIState();
-                            attachWardObservers(member);
-                        }
+                // 1. Create member and add locally IMMEDIATELY (no network wait)
+                CirclePermissions permissions = new CirclePermissions(true, true, true, true, true, true, true, 0);
+                FamilyMember newMember = new FamilyMember(
+                        generatedUid,
+                        name,
+                        "",
+                        cleanPhone,
+                        permissions
+                );
+                newMember.setRelationship(finalRelation);
+                newMember.setSafetyStatus(FamilyMember.STATUS_SAFE);
+                newMember.setStatusDetails("Protected on Woshield Network");
+                newMember.setSharingActive(true);
+                newMember.setLocationTimestamp(System.currentTimeMillis());
 
-                        // Also save to emergency contacts in SharedPreferences so SOS & Buzzer immediately protect this number
-                        addLocalEmergencyContact(name, finalRelation, phone);
-
-                        Toast.makeText(FamilyDashboardActivity.this, name + " directly added to your circle!", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
+                // Deduplicate in list by phone
+                for (int i = protectedWardsList.size() - 1; i >= 0; i--) {
+                    FamilyMember existing = protectedWardsList.get(i);
+                    if (existing.getPhone() != null && existing.getPhone().equals(cleanPhone)) {
+                        protectedWardsList.remove(i);
                     }
+                }
 
-                    @Override
-                    public void onError(String errorMessage) {
-                        progressDashboard.setVisibility(View.GONE);
-                        Toast.makeText(FamilyDashboardActivity.this, "Failed adding member: " + errorMessage, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                protectedWardsList.add(0, newMember);
+                adapter.notifyDataSetChanged();
+                rvFamilyMembers.scrollToPosition(0);
+                updateUIState();
+                attachWardObservers(newMember);
+
+                // 2. Persist locally to SharedPreferences for SOS alerts and persistence
+                addLocalEmergencyContact(name, finalRelation, cleanPhone, generatedUid);
+                saveLocalWards();
+
+                // 3. Dismiss dialog & show success toast immediately
+                Toast.makeText(FamilyDashboardActivity.this, "✓ " + name + " added as Guardian!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+
+                // 4. Asynchronously sync to Firebase Realtime Database
+                circleRepository.addDirectCircleMember(name, finalRelation, cleanPhone, null);
             });
         });
 
         dialog.show();
     }
 
-    private void addLocalEmergencyContact(String name, String relation, String phone) {
+    private void loadLocalWardsAndContacts() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        List<FamilyMember> loaded = new ArrayList<>();
+
+        // 1. Load from cached_family_wards
+        String cachedJson = prefs.getString("cached_family_wards", "[]");
+        try {
+            JSONArray arr = new JSONArray(cachedJson);
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject obj = arr.getJSONObject(i);
+                FamilyMember m = new FamilyMember(
+                        obj.optString("uid", "member_" + i),
+                        obj.optString("name", "Guardian"),
+                        obj.optString("email", ""),
+                        obj.optString("phone", ""),
+                        new CirclePermissions(true, true, true, true, true, true, true, 0)
+                );
+                m.setRelationship(obj.optString("relation", "Guardian"));
+                m.setSafetyStatus(obj.optString("status", FamilyMember.STATUS_SAFE));
+                m.setStatusDetails(obj.optString("details", "Protected on Woshield Network"));
+                m.setLatitude(obj.optDouble("latitude", 0.0));
+                m.setLongitude(obj.optDouble("longitude", 0.0));
+                m.setSharingActive(true);
+                loaded.add(m);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error loading cached family wards", e);
+        }
+
+        // 2. Also check emergency_contacts to ensure no contact is missing
+        String contactsJson = prefs.getString("emergency_contacts", "[]");
+        try {
+            JSONArray array = new JSONArray(contactsJson);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                String phone = obj.optString("number", obj.optString("phone", ""));
+                String name = obj.optString("name", "Emergency Contact");
+                String relation = obj.optString("relation", "Guardian");
+                String uid = obj.optString("uid", "member_c_" + i);
+
+                boolean alreadyInLoaded = false;
+                for (FamilyMember existing : loaded) {
+                    if (existing.getPhone() != null && existing.getPhone().equals(phone)) {
+                        alreadyInLoaded = true;
+                        break;
+                    }
+                }
+                if (!alreadyInLoaded && !phone.isEmpty()) {
+                    FamilyMember m = new FamilyMember(uid, name, "", phone, new CirclePermissions());
+                    m.setRelationship(relation);
+                    m.setSafetyStatus(FamilyMember.STATUS_SAFE);
+                    m.setStatusDetails("Emergency Safety Contact");
+                    loaded.add(m);
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error loading emergency_contacts into wards", e);
+        }
+
+        protectedWardsList.clear();
+        protectedWardsList.addAll(loaded);
+        if (adapter != null) adapter.notifyDataSetChanged();
+        updateUIState();
+    }
+
+    private void mergeRemoteWards(List<FamilyMember> remoteWards) {
+        for (FamilyMember remote : remoteWards) {
+            boolean exists = false;
+            for (int i = 0; i < protectedWardsList.size(); i++) {
+                FamilyMember local = protectedWardsList.get(i);
+                if ((remote.getUid() != null && remote.getUid().equals(local.getUid())) ||
+                    (remote.getPhone() != null && remote.getPhone().equals(local.getPhone()))) {
+                    // Update live fields
+                    local.setLatitude(remote.getLatitude());
+                    local.setLongitude(remote.getLongitude());
+                    local.setSafetyStatus(remote.getSafetyStatus());
+                    local.setStatusDetails(remote.getStatusDetails());
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                protectedWardsList.add(remote);
+            }
+        }
+        saveLocalWards();
+        adapter.notifyDataSetChanged();
+    }
+
+    private void saveLocalWards() {
+        try {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            JSONArray arr = new JSONArray();
+            for (FamilyMember m : protectedWardsList) {
+                JSONObject obj = new JSONObject();
+                obj.put("uid", m.getUid());
+                obj.put("name", m.getDisplayName());
+                obj.put("phone", m.getPhone());
+                obj.put("email", m.getEmail());
+                obj.put("relation", m.getRelationship());
+                obj.put("status", m.getSafetyStatus());
+                obj.put("details", m.getStatusDetails());
+                obj.put("latitude", m.getLatitude());
+                obj.put("longitude", m.getLongitude());
+                arr.put(obj);
+            }
+            prefs.edit().putString("cached_family_wards", arr.toString()).apply();
+        } catch (Exception e) {
+            Log.e(TAG, "Error saving local wards to prefs", e);
+        }
+    }
+
+    private void addLocalEmergencyContact(String name, String relation, String phone, String uid) {
         try {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             String contactsJson = prefs.getString("emergency_contacts", "[]");
             JSONArray array = new JSONArray(contactsJson);
 
-            boolean exists = false;
+            // Remove any existing entry with the same number to prevent duplicates
+            JSONArray cleanArray = new JSONArray();
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
-                if (phone.equals(obj.optString("number"))) {
-                    exists = true;
-                    break;
+                String num = obj.optString("number", obj.optString("phone", ""));
+                if (!phone.equals(num)) {
+                    cleanArray.put(obj);
                 }
             }
 
-            if (!exists) {
-                JSONObject contact = new JSONObject();
-                String displayName = name + (relation != null && !relation.isEmpty() ? " (" + relation + ")" : "");
-                contact.put("name", displayName);
-                contact.put("number", phone);
-                array.put(contact);
-                prefs.edit().putString("emergency_contacts", array.toString()).apply();
-            }
+            JSONObject contact = new JSONObject();
+            contact.put("name", name);
+            contact.put("number", phone);
+            contact.put("relation", relation);
+            contact.put("uid", uid);
+            cleanArray.put(contact);
+
+            prefs.edit().putString("emergency_contacts", cleanArray.toString()).apply();
         } catch (Exception e) {
             Log.e(TAG, "Error saving local emergency contact", e);
         }
+    }
+
+    private void removeLocalEmergencyContact(String phone, String name) {
+        try {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String contactsJson = prefs.getString("emergency_contacts", "[]");
+            JSONArray array = new JSONArray(contactsJson);
+            JSONArray updated = new JSONArray();
+
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                String num = obj.optString("number", obj.optString("phone", ""));
+                String cName = obj.optString("name", "");
+
+                // Keep only if phone doesn't match and name doesn't match
+                boolean isMatch = (phone != null && !phone.isEmpty() && phone.equals(num)) ||
+                                  (name != null && !name.isEmpty() && name.equalsIgnoreCase(cName));
+                if (!isMatch) {
+                    updated.put(obj);
+                }
+            }
+            prefs.edit().putString("emergency_contacts", updated.toString()).apply();
+        } catch (Exception e) {
+            Log.e(TAG, "Error removing local emergency contact", e);
+        }
+    }
+
+    private void confirmRemoveMember(FamilyMember member) {
+        new AlertDialog.Builder(this)
+                .setTitle("Remove Guardian")
+                .setMessage("Are you sure you want to remove " + member.getDisplayName() + " from your Guardians and Emergency Safety Circle?\n\nThey will no longer receive your SOS alerts.")
+                .setPositiveButton("Remove", (dialog, which) -> {
+                    // 1. Remove from protected list
+                    for (int i = protectedWardsList.size() - 1; i >= 0; i--) {
+                        FamilyMember m = protectedWardsList.get(i);
+                        if ((m.getUid() != null && m.getUid().equals(member.getUid())) ||
+                            (m.getPhone() != null && m.getPhone().equals(member.getPhone()))) {
+                            protectedWardsList.remove(i);
+                        }
+                    }
+
+                    // 2. Remove from emergency contacts & cached wards in SharedPreferences
+                    removeLocalEmergencyContact(member.getPhone(), member.getDisplayName());
+                    saveLocalWards();
+
+                    // 3. Update UI
+                    adapter.notifyDataSetChanged();
+                    updateUIState();
+
+                    // 4. Remote revoke
+                    if (member.getUid() != null) {
+                        circleRepository.revokeMembership(member.getUid(), new FamilyCircleRepository.RepositoryCallback<Void>() {
+                            @Override public void onSuccess(Void result) {}
+                            @Override public void onError(String errorMessage) {}
+                        });
+                    }
+
+                    Toast.makeText(FamilyDashboardActivity.this, member.getDisplayName() + " removed from Guardians", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     /**
@@ -566,7 +753,7 @@ public class FamilyDashboardActivity extends AppCompatActivity {
     }
 
     private void showMemberOptionsDialog(FamilyMember member) {
-        String[] options = {"Open Live Location in Maps", "Call Member", "Revoke Circle Access"};
+        String[] options = {"Open Live Location in Maps", "Call Guardian", "Remove from Guardians"};
         new AlertDialog.Builder(this)
                 .setTitle(member.getDisplayName())
                 .setItems(options, (dialog, which) -> {
@@ -584,31 +771,9 @@ public class FamilyDashboardActivity extends AppCompatActivity {
                             Toast.makeText(this, "Phone number unavailable.", Toast.LENGTH_SHORT).show();
                         }
                     } else if (which == 2) {
-                        confirmRevokeMembership(member);
+                        confirmRemoveMember(member);
                     }
                 })
-                .show();
-    }
-
-    private void confirmRevokeMembership(FamilyMember member) {
-        new AlertDialog.Builder(this)
-                .setTitle("Revoke Access")
-                .setMessage("Are you sure you want to revoke circle access for " + member.getDisplayName() + "? All shared location and status updates will stop immediately.")
-                .setPositiveButton("Revoke", (dialog, which) -> {
-                    circleRepository.revokeMembership(member.getUid(), new FamilyCircleRepository.RepositoryCallback<Void>() {
-                        @Override
-                        public void onSuccess(Void result) {
-                            Toast.makeText(FamilyDashboardActivity.this, "Access Revoked for " + member.getDisplayName(), Toast.LENGTH_LONG).show();
-                            loadDashboardData();
-                        }
-
-                        @Override
-                        public void onError(String errorMessage) {
-                            Toast.makeText(FamilyDashboardActivity.this, "Failed to revoke: " + errorMessage, Toast.LENGTH_LONG).show();
-                        }
-                    });
-                })
-                .setNegativeButton("Cancel", null)
                 .show();
     }
 

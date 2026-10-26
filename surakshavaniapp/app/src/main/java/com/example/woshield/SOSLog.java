@@ -67,6 +67,8 @@ public class SOSLog implements Serializable {
         this.audioUrl = audioUrl != null ? audioUrl : "";
         this.alertId = "ALT-" + (timestampEpoch > 0 ? timestampEpoch : System.currentTimeMillis());
         this.id = this.alertId;
-        this.mapUrl = "https://maps.google.com/?q=" + latitude + "," + longitude;
+        this.mapUrl = (latitude != 0.0 && longitude != 0.0)
+                ? String.format(java.util.Locale.US, "https://www.google.com/maps/search/?api=1&query=%.6f,%.6f", latitude, longitude)
+                : "";
     }
 }

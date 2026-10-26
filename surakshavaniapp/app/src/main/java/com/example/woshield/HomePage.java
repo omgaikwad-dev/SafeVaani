@@ -22,10 +22,13 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.net.wifi.WifiManager;
 import android.location.Location;
 import android.media.MediaRecorder;
 import android.os.Build;
@@ -122,6 +125,20 @@ public class HomePage extends AppCompatActivity {
     private ProgressBar progressSos;
     private boolean isSosProcessing = false;
 
+    // ── Offline SOS Mesh ──────────────────────────────────────────────────────
+    private MaterialCardView cardOfflineMesh;
+    private SwitchMaterial switchOfflineMesh;
+    private TextView tvOfflineMeshStatus;
+    private final OfflineMeshSosManager.NearbySosListener nearbySosListener = alert -> {
+        runOnUiThread(() -> {
+            // Note: Fullscreen NearbySosAlertActivity is dispatched directly by OfflineMeshSosManager.
+            // Here we update the dashboard status badge in place.
+            if (tvOfflineMeshStatus != null) {
+                tvOfflineMeshStatus.setText("🚨 Nearby Distress Alert: " + alert.victimName + " (" + alert.transport + ")");
+            }
+        });
+    };
+
     // ── Quick Actions Grid ────────────────────────────────────────────────────
     private MaterialCardView btnNightPlan, btnCityMap, btnOpenServices,
             btnGuardians, btnCheckIn, btnAICompanion,
@@ -201,6 +218,7 @@ public class HomePage extends AppCompatActivity {
         setupQuickActions();
         setupDecisionEnginePillars();
         setupSOSButton();
+        setupOfflineMeshSwitch();
         setupServiceSwitch();
         setupBottomNavigation();
         requestRequiredPermissions();
@@ -212,12 +230,20 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        OfflineMeshSosManager.registerListener(nearbySosListener);
+        updateOfflineMeshStatusText(OfflineMeshSosManager.isMeshModeEnabled(this));
         updateEmergencyContactsCount();
         updateEngineStatusDisplay();
         loadLivePublicApiData(false);
         if (bottomNavigationView != null) {
             bottomNavigationView.setSelectedItemId(R.id.nav_home);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        OfflineMeshSosManager.unregisterListener(nearbySosListener);
     }
 
     // ── View Initialization ───────────────────────────────────────────────────
@@ -251,6 +277,9 @@ public class HomePage extends AppCompatActivity {
         btnEmergency = findViewById(R.id.btn_Emergency_send);
         tvSosStatus  = findViewById(R.id.tv_sos_status);
         progressSos  = findViewById(R.id.progress_sos);
+        cardOfflineMesh = findViewById(R.id.card_offline_mesh);
+        switchOfflineMesh = findViewById(R.id.switch_offline_mesh);
+        tvOfflineMeshStatus = findViewById(R.id.tv_offline_mesh_status);
 
         // Quick Action buttons (mapped to actual activity_home_page.xml IDs)
         btnCityMap        = findViewById(R.id.btn_maps);
@@ -867,6 +896,72 @@ public class HomePage extends AppCompatActivity {
         });
     }
 
+    private void setupOfflineMeshSwitch() {
+        if (switchOfflineMesh == null) return;
+        boolean enabled = OfflineMeshSosManager.isMeshModeEnabled(this);
+        switchOfflineMesh.setChecked(enabled);
+        updateOfflineMeshStatusText(enabled);
+
+        switchOfflineMesh.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            OfflineMeshSosManager.setMeshModeEnabled(this, isChecked);
+            updateOfflineMeshStatusText(isChecked);
+            if (isChecked) {
+                WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                boolean wifiOff = (wm != null && !wm.isWifiEnabled());
+                BluetoothAdapter bt = BluetoothAdapter.getDefaultAdapter();
+                boolean btOff = (bt != null && !bt.isEnabled());
+
+                if (wifiOff || btOff) {
+                    Toast.makeText(this, "📡 Offline SOS Mesh Enabled: Please allow Wi-Fi & Bluetooth for max reach", Toast.LENGTH_LONG).show();
+                    OfflineMeshSosManager.promptTurnOnHardware(this);
+                } else {
+                    Toast.makeText(this, "📡 Offline SOS Mesh Enabled: Wi-Fi & Bluetooth direct distress alerts active.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Offline SOS Mesh Paused", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        if (cardOfflineMesh != null) {
+            cardOfflineMesh.setOnClickListener(v -> {
+                boolean isMeshOn = OfflineMeshSosManager.isMeshModeEnabled(this);
+                if (!isMeshOn) {
+                    if (switchOfflineMesh != null) switchOfflineMesh.setChecked(true);
+                    return;
+                }
+                WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                boolean wifiOff = (wm != null && !wm.isWifiEnabled());
+                BluetoothAdapter bt = BluetoothAdapter.getDefaultAdapter();
+                boolean btOff = (bt != null && !bt.isEnabled());
+
+                if (wifiOff || btOff) {
+                    OfflineMeshSosManager.promptTurnOnHardware(this);
+                } else {
+                    Toast.makeText(this, "✓ Wi-Fi & Bluetooth are active and listening for emergency mesh broadcasts.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void updateOfflineMeshStatusText(boolean enabled) {
+        if (tvOfflineMeshStatus == null) return;
+        if (enabled) {
+            WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            boolean wifiOff = (wm != null && !wm.isWifiEnabled());
+            BluetoothAdapter bt = BluetoothAdapter.getDefaultAdapter();
+            boolean btOff = (bt != null && !bt.isEnabled());
+
+            if (wifiOff || btOff) {
+                String missing = (wifiOff && btOff) ? "Wi-Fi & Bluetooth OFF" : (wifiOff ? "Wi-Fi is OFF" : "Bluetooth is OFF");
+                tvOfflineMeshStatus.setText("⚠️ " + missing + " • Tap to enable for full Offline Mesh SOS reach");
+            } else {
+                tvOfflineMeshStatus.setText("🟢 Active • Alerts nearby phones via Wi-Fi & Bluetooth (Zero passwords / pairing)");
+            }
+        } else {
+            tvOfflineMeshStatus.setText("⚪ Paused • Local Wi-Fi & Bluetooth mesh alerts disabled");
+        }
+    }
+
     private void triggerQuickSOS() {
         if (isSosProcessing) return;
         isSosProcessing = true;
@@ -882,10 +977,10 @@ public class HomePage extends AppCompatActivity {
                     @Override
                     public void onSuccess(double lat, double lon, int contactsNotified) {
                         runOnUiThread(() -> {
-                            if (tvSosStatus != null) tvSosStatus.setText("SOS Dispatched ✓ (" + contactsNotified + " notified)");
+                            if (tvSosStatus != null) tvSosStatus.setText("SOS Dispatched ✓ (" + contactsNotified + " guardians alerted)");
                             if (progressSos != null) progressSos.setVisibility(View.GONE);
                             isSosProcessing = false;
-                            Toast.makeText(HomePage.this, "🚨 Distress logs & voice evidence sent to Police CAD and Family Circle", Toast.LENGTH_LONG).show();
+                            Toast.makeText(HomePage.this, "🚨 SOS Alert & Live GPS sent to " + contactsNotified + " Guardian contacts and Police CAD!", Toast.LENGTH_LONG).show();
                         });
                     }
 
@@ -1053,6 +1148,18 @@ public class HomePage extends AppCompatActivity {
         for (String p : perms) {
             if (ContextCompat.checkSelfPermission(this, p) != PackageManager.PERMISSION_GRANTED) {
                 needed.add(p);
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            String[] btPerms = {
+                    Manifest.permission.BLUETOOTH_SCAN,
+                    Manifest.permission.BLUETOOTH_ADVERTISE,
+                    Manifest.permission.BLUETOOTH_CONNECT
+            };
+            for (String p : btPerms) {
+                if (ContextCompat.checkSelfPermission(this, p) != PackageManager.PERMISSION_GRANTED) {
+                    needed.add(p);
+                }
             }
         }
         if (!needed.isEmpty()) {

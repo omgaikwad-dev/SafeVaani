@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
@@ -11,8 +13,11 @@ import androidx.core.app.ActivityCompat;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
+import java.util.Locale;
 
 /**
  * Single authoritative helper for Woshield emergency operations.
@@ -23,6 +28,8 @@ import java.io.File;
 public class EmergencyHelper {
     private static final String TAG = "EmergencyHelper";
     private static volatile boolean isSosDispatching = false;
+    private static String lastDispatchedAlertId = "";
+    private static String lastDispatchedUserId = "";
 
     public interface EmergencyCallback {
         void onSuccess(double lat, double lon, int contactsNotified);
@@ -95,11 +102,55 @@ public class EmergencyHelper {
             return;
         }
 
-        // Automatically record 8 seconds of unwanted voice / ambient distress evidence
-        AudioEvidenceRecorder.recordDistressAudio(context, 8000, new AudioEvidenceRecorder.AudioRecordCallback() {
+        // Initialize Cloudinary for public audio hosting
+        try {
+            CloudinaryHelper.init(context.getApplicationContext());
+        } catch (Exception e) {
+            Log.w(TAG, "Cloudinary init exception", e);
+        }
+
+        // Automatically record 4.5 seconds of distress evidence audio
+        AudioEvidenceRecorder.recordDistressAudio(context, 4500, new AudioEvidenceRecorder.AudioRecordCallback() {
             @Override
             public void onRecordingFinished(File audioFile, String audioDataUri) {
-                finalizeAndSendAlert(context, lat, lon, audioDataUri, triggerSource, reason, callback);
+                if (audioFile != null && audioFile.exists() && audioFile.length() > 0) {
+                    final boolean[] hasDispatched = {false};
+                    Handler timeoutHandler = new Handler(Looper.getMainLooper());
+                    Runnable timeoutRunnable = () -> {
+                        if (!hasDispatched[0]) {
+                            hasDispatched[0] = true;
+                            Log.w(TAG, "Cloudinary upload timeout (3.5s). Dispatching with local audioDataUri.");
+                            finalizeAndSendAlert(context, lat, lon, audioDataUri, triggerSource, reason, callback);
+                        }
+                    };
+                    timeoutHandler.postDelayed(timeoutRunnable, 3500);
+
+                    CloudinaryHelper.uploadAudio(audioFile.getAbsolutePath(), new CloudinaryHelper.UploadResponse() {
+                        @Override
+                        public void onSuccess(String publicUrl) {
+                            timeoutHandler.removeCallbacks(timeoutRunnable);
+                            if (!hasDispatched[0]) {
+                                hasDispatched[0] = true;
+                                Log.i(TAG, "Distress audio uploaded to Cloudinary: " + publicUrl);
+                                finalizeAndSendAlert(context, lat, lon, publicUrl, triggerSource, reason, callback);
+                            } else {
+                                updateFirebaseAudioUrl(publicUrl);
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            timeoutHandler.removeCallbacks(timeoutRunnable);
+                            if (!hasDispatched[0]) {
+                                hasDispatched[0] = true;
+                                Log.w(TAG, "Cloudinary upload error: " + error + ", fallback to Data URI");
+                                finalizeAndSendAlert(context, lat, lon, audioDataUri, triggerSource, reason, callback);
+                            }
+                        }
+                    });
+                } else {
+                    finalizeAndSendAlert(context, lat, lon, audioDataUri, triggerSource, reason, callback);
+                }
             }
 
             @Override
@@ -108,6 +159,21 @@ public class EmergencyHelper {
                 finalizeAndSendAlert(context, lat, lon, "", triggerSource, reason, callback);
             }
         });
+    }
+
+    private static void updateFirebaseAudioUrl(String publicUrl) {
+        if (lastDispatchedAlertId == null || lastDispatchedAlertId.isEmpty() || publicUrl == null || publicUrl.isEmpty()) return;
+        try {
+            DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+            db.child("sos_alerts").child(lastDispatchedAlertId).child("audioUrl").setValue(publicUrl);
+            db.child("emergency_logs").child(lastDispatchedAlertId).child("audioUrl").setValue(publicUrl);
+            if (!lastDispatchedUserId.isEmpty()) {
+                db.child("alerts").child(lastDispatchedUserId).child(lastDispatchedAlertId).child("audioUrl").setValue(publicUrl);
+            }
+            Log.d(TAG, "Updated Firebase alert " + lastDispatchedAlertId + " with Cloudinary audio URL: " + publicUrl);
+        } catch (Exception e) {
+            Log.e(TAG, "Failed updating Firebase audioUrl", e);
+        }
     }
 
     private static void finalizeAndSendAlert(
@@ -119,8 +185,17 @@ public class EmergencyHelper {
             String reason,
             EmergencyCallback callback) {
 
-        final double finalLat = (lat != 0.0) ? lat : 21.14580;
-        final double finalLon = (lon != 0.0) ? lon : 79.08820;
+        double resolvedLat = lat;
+        double resolvedLon = lon;
+        if (resolvedLat == 0.0 || resolvedLon == 0.0) {
+            Location last = MovementTrailTracker.getInstance().getLastLocation();
+            if (last != null && last.getLatitude() != 0.0 && last.getLongitude() != 0.0) {
+                resolvedLat = last.getLatitude();
+                resolvedLon = last.getLongitude();
+            }
+        }
+        final double finalLat = (resolvedLat != 0.0) ? resolvedLat : 21.14580;
+        final double finalLon = (resolvedLon != 0.0) ? resolvedLon : 79.08820;
 
         MovementTrailTracker tracker = MovementTrailTracker.getInstance();
         String direction = tracker.getCurrentHeading();
@@ -144,8 +219,12 @@ public class EmergencyHelper {
         alert.confidence = 98.4;
         alert.status = "ACTIVE";
         alert.isEmergency = true;
+        alert.mapUrl = String.format(Locale.US, "https://www.google.com/maps/search/?api=1&query=%.6f,%.6f", finalLat, finalLon);
 
-        // Dispatch through OfflineEmergencyManager (writes to Firebase RTDB if online, or queues & sends SMS if offline)
+        lastDispatchedAlertId = alert.alertId;
+        lastDispatchedUserId = alert.userId != null ? alert.userId : "";
+
+        // Dispatch through OfflineEmergencyManager (writes to Firebase RTDB if online, queues & sends SMS if offline, and broadcasts via OfflineMeshSosManager)
         OfflineEmergencyManager.dispatchAlert(context, alert, new OfflineEmergencyManager.DispatchCallback() {
             @Override
             public void onDispatched(boolean wasOnline, SOSLog log) {
@@ -261,7 +340,7 @@ public class EmergencyHelper {
         String contactsJson = prefs.getString("emergency_contacts", "[]");
 
         String mapsLink = (lat != 0 && lon != 0)
-                ? "https://maps.google.com/?q=" + lat + "," + lon
+                ? String.format(Locale.US, "https://www.google.com/maps/search/?api=1&query=%.6f,%.6f", lat, lon)
                 : "Location unavailable (GPS offline)";
 
         StringBuilder sb = new StringBuilder();
