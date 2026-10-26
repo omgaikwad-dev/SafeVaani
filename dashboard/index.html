@@ -1052,10 +1052,206 @@
       transform: translateY(-2px);
     }
 
-    /* Footer styling */
+    /* ========================================================
+       ORBII TONE-YELLOW FOOTER (Full System Styles)
+    ======================================================== */
+    footer.sf,
     .sf {
-      background: var(--dash-yellow);
-      color: var(--dash-ink);
+      background: #FDDB10 !important;
+      color: #1F2236 !important;
+      overflow: hidden;
+      margin-top: 64px;
+      border-top: 2px solid rgba(31, 34, 54, 0.08);
+      font-family: var(--font-sans, 'Poppins', sans-serif);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .sf * {
+      box-sizing: border-box;
+    }
+    .sf-in {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 38px clamp(20px, 4vw, 56px) 0;
+    }
+    .sf-row {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      gap: 28px;
+      flex-wrap: wrap;
+      padding-bottom: 28px;
+    }
+    .sf-main {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex !important;
+      flex-wrap: wrap !important;
+      align-items: center;
+      gap: 14px 36px !important;
+    }
+    .sf-main li {
+      margin: 0 !important;
+      padding: 0 !important;
+      list-style: none !important;
+      display: inline-block;
+    }
+    .sf-main a {
+      color: #1F2236 !important;
+      text-decoration: none !important;
+      font-size: 0.98rem !important;
+      font-weight: 600 !important;
+      letter-spacing: -0.01em;
+      transition: color 0.18s ease, opacity 0.18s ease;
+      opacity: 0.9;
+    }
+    .sf-main a:hover {
+      opacity: 1;
+      text-decoration: underline !important;
+      text-underline-offset: 4px;
+    }
+    .sf-play {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      background: #111520 !important;
+      color: #FFFFFF !important;
+      text-decoration: none !important;
+      padding: 10px 20px 10px 16px !important;
+      border-radius: 12px !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease !important;
+      flex-shrink: 0;
+    }
+    .sf-play:hover {
+      background: #000000 !important;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+    }
+    .sf-play svg {
+      flex-shrink: 0;
+    }
+    .sf-play span {
+      display: grid !important;
+      line-height: 1.15 !important;
+      font-weight: 700 !important;
+      font-size: 1.15rem !important;
+      color: #FFFFFF !important;
+      text-align: left;
+    }
+    .sf-play small {
+      font-size: 0.65rem !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.06em !important;
+      text-transform: uppercase !important;
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+    .sf-bar {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      gap: 20px !important;
+      flex-wrap: wrap !important;
+      padding: 24px 0 32px !important;
+      border-top: 1.5px solid rgba(31, 34, 54, 0.18) !important;
+    }
+    .sf-copy {
+      margin: 0 !important;
+      font-size: 0.95rem !important;
+      color: #1F2236 !important;
+      font-weight: 500 !important;
+      opacity: 0.92;
+    }
+    .sf-social {
+      display: flex !important;
+      align-items: center !important;
+      gap: 14px !important;
+      font-size: 0.95rem !important;
+      color: #1F2236 !important;
+      font-weight: 600 !important;
+    }
+    .sf-social span {
+      margin-right: 6px;
+      opacity: 0.92;
+    }
+    .sf-social a {
+      display: grid !important;
+      place-items: center !important;
+      width: 42px !important;
+      height: 42px !important;
+      border-radius: 50% !important;
+      background: rgba(31, 34, 54, 0.08) !important;
+      color: #1F2236 !important;
+      transition: background 0.18s ease, transform 0.18s ease !important;
+      text-decoration: none !important;
+    }
+    .sf-social a:hover {
+      background: rgba(31, 34, 54, 0.18) !important;
+      transform: translateY(-2px) scale(1.05);
+    }
+    .sf-social a svg {
+      display: block;
+    }
+    @media (max-width: 860px) {
+      .sf-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 22px;
+      }
+      .sf-main {
+        gap: 12px 24px !important;
+      }
+      .sf-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+    }
+
+    /* Dark Mode Adaptive Overrides */
+    html[data-theme="dark"] footer.sf,
+    html[data-theme="dark"] .sf {
+      background: #0B0E14 !important;
+      color: #F1F4F9 !important;
+      border-top: 1px solid #222938 !important;
+    }
+    html[data-theme="dark"] .sf-main a {
+      color: #F1F4F9 !important;
+      opacity: 0.88;
+    }
+    html[data-theme="dark"] .sf-main a:hover {
+      color: #FDDB10 !important;
+      opacity: 1;
+    }
+    html[data-theme="dark"] .sf-bar {
+      border-top: 1px solid #222938 !important;
+    }
+    html[data-theme="dark"] .sf-copy {
+      color: #9BA3B5 !important;
+    }
+    html[data-theme="dark"] .sf-social {
+      color: #F1F4F9 !important;
+    }
+    html[data-theme="dark"] .sf-social a {
+      background: #151A24 !important;
+      border: 1px solid #222938;
+      color: #F1F4F9 !important;
+    }
+    html[data-theme="dark"] .sf-social a:hover {
+      background: #1C2331 !important;
+      border-color: #FDDB10;
+    }
+    html[data-theme="dark"] .sf-social a svg rect,
+    html[data-theme="dark"] .sf-social a svg circle {
+      stroke: #F1F4F9 !important;
+    }
+    html[data-theme="dark"] .sf-social a svg circle[fill] {
+      fill: #F1F4F9 !important;
+    }
+    html[data-theme="dark"] .sf-social a svg path {
+      fill: #F1F4F9 !important;
     }
   </style>
 </head>
@@ -1637,6 +1833,7 @@
             <li><a href="/features/">Features</a></li>
             <li><a href="/voice-sos/">Voice SOS</a></li>
             <li><a href="/dashboard/">Dashboards</a></li>
+            <li><a href="/dashboard/nightshift/">Night Engine</a></li>
             <li><a href="/dashboard/parent/">Parent Portal</a></li>
             <li><a href="/dashboard/police/">Police CAD</a></li>
             <li><a href="/help/">Help Center</a></li>

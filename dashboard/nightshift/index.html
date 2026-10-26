@@ -337,14 +337,31 @@
 
     /* FOOTER */
     .dash-footer {
-      background: var(--yellow); border-top: 2px solid rgba(31,34,54,0.08);
-      margin-top: 80px; padding: 32px clamp(16px, 4vw, 36px);
-      text-align: center; font-size: 0.9rem; color: var(--text);
+      background: var(--yellow);
+      border-top: 2px solid rgba(31, 34, 54, 0.08);
+      margin-top: 80px;
+      padding: 38px clamp(20px, 4vw, 56px);
+      text-align: center;
+      font-size: 0.95rem;
+      color: var(--text);
     }
     .dash-footer-links {
-      display: flex; justify-content: center; gap: 24px; margin-bottom: 12px; flex-wrap: wrap;
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
     }
-    .dash-footer-links a { color: var(--text); text-decoration: none; font-weight: 600; }
+    .dash-footer-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    .dash-footer-links a:hover {
+      text-decoration: underline;
+      opacity: 0.8;
+    }
   </style>
 </head>
 <body>
