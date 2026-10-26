@@ -57,6 +57,13 @@ public class NearbySafePlaceAdapter extends RecyclerView.Adapter<NearbySafePlace
         holder.tvCategory.setText(place.getCategory() != null ? place.getCategory().toUpperCase() : "SAFE HAVEN");
         holder.tvPlaceStatus.setText(place.getStatus() != null ? place.getStatus() : "Verified Safe Point");
 
+        if (holder.tvDirection != null) {
+            holder.tvDirection.setText(place.getDirectionHeading());
+        }
+        if (holder.imgDirectionCompass != null) {
+            holder.imgDirectionCompass.setRotation(place.getBearingDegrees());
+        }
+
         // Styling based on category
         int catBg = R.color.light_lavender;
         int catText = R.color.deep_purple;
@@ -121,7 +128,8 @@ public class NearbySafePlaceAdapter extends RecyclerView.Adapter<NearbySafePlace
 
     static class SafePlaceViewHolder extends RecyclerView.ViewHolder {
         MaterialCardView cardRoot, cardCategoryBadge;
-        TextView tvCategory, tvDistance, tvPlaceName, tvPlaceAddress, tvPlaceStatus;
+        TextView tvCategory, tvDistance, tvDirection, tvPlaceName, tvPlaceAddress, tvPlaceStatus;
+        View imgDirectionCompass;
         MaterialButton btnNavigate, btnCall;
 
         public SafePlaceViewHolder(@NonNull View itemView) {
@@ -130,6 +138,8 @@ public class NearbySafePlaceAdapter extends RecyclerView.Adapter<NearbySafePlace
             cardCategoryBadge = itemView.findViewById(R.id.card_category_badge);
             tvCategory = itemView.findViewById(R.id.tv_category);
             tvDistance = itemView.findViewById(R.id.tv_distance);
+            tvDirection = itemView.findViewById(R.id.tv_direction);
+            imgDirectionCompass = itemView.findViewById(R.id.img_direction_compass);
             tvPlaceName = itemView.findViewById(R.id.tv_place_name);
             tvPlaceAddress = itemView.findViewById(R.id.tv_place_address);
             tvPlaceStatus = itemView.findViewById(R.id.tv_place_status);

@@ -41,6 +41,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -437,6 +438,9 @@ public class Nearby_Safe extends AppCompatActivity implements OnMapReadyCallback
             safePlacesList.add(createSafePlace("PUN023", "Noble Hospital Hadapsar", "HOSPITAL", "Hadapsar, Pune", 18.5018, 73.926, uLat, uLng, "108", "PROBABLE", "24/7 Emergency Hospital in Hadapsar"));
         }
 
+        // Sort by real-time distance (nearest safe place first)
+        Collections.sort(safePlacesList, (a, b) -> Float.compare(a.getDistanceMeters(), b.getDistanceMeters()));
+
         adapter.notifyDataSetChanged();
 
         if (tvHeaderSubtitle != null) {
@@ -452,18 +456,44 @@ public class Nearby_Safe extends AppCompatActivity implements OnMapReadyCallback
     private NearbySafePlace createSafePlace(String id, String name, String category, String address,
                                             double lat, double lng, double userLat, double userLng,
                                             String phone, String status, String notes) {
-        float[] distResults = new float[1];
+        float[] distResults = new float[2];
         Location.distanceBetween(userLat, userLng, lat, lng, distResults);
         float meters = distResults[0];
+        float bearing = distResults.length > 1 ? distResults[1] : 0f;
+        float normalizedBearing = (bearing % 360 + 360) % 360;
 
-        String formattedDist;
-        if (meters < 1000) {
-            formattedDist = Math.round(meters) + " m away";
+        String directionHeading;
+        if (normalizedBearing >= 337.5 || normalizedBearing < 22.5) {
+            directionHeading = "North ⬆";
+        } else if (normalizedBearing < 67.5) {
+            directionHeading = "North-East ↗";
+        } else if (normalizedBearing < 112.5) {
+            directionHeading = "East ➔";
+        } else if (normalizedBearing < 157.5) {
+            directionHeading = "South-East ↘";
+        } else if (normalizedBearing < 202.5) {
+            directionHeading = "South ⬇";
+        } else if (normalizedBearing < 247.5) {
+            directionHeading = "South-West ↙";
+        } else if (normalizedBearing < 292.5) {
+            directionHeading = "West ⬅";
         } else {
-            formattedDist = String.format(Locale.ENGLISH, "%.1f km away", meters / 1000f);
+            directionHeading = "North-West ↖";
         }
 
-        return new NearbySafePlace(id, name, category, address, lat, lng, meters, formattedDist, phone, status, notes);
+        int walkMins = (int) Math.max(1, Math.round(meters / 75.0));
+        String formattedDist;
+        if (meters < 1000) {
+            formattedDist = Math.round(meters) + " m (" + walkMins + " min walk)";
+        } else {
+            formattedDist = String.format(Locale.ENGLISH, "%.1f km (%d min walk)", meters / 1000f, walkMins);
+        }
+
+        NearbySafePlace place = new NearbySafePlace(id, name, category, address, lat, lng, meters, formattedDist, phone, status, notes);
+        place.setDirectionHeading(directionHeading);
+        place.setBearingDegrees(normalizedBearing);
+        place.setDirectionDetails("🧭 " + directionHeading + " • " + formattedDist);
+        return place;
     }
 
     private void plotPlacesOnMap() {

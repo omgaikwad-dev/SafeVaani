@@ -384,10 +384,10 @@ public class HomePage extends AppCompatActivity {
                     startActivity(new Intent(this, MapsActivity.class)));
         }
 
-        // Open Services — 24/7 pharmacies, hospitals, police
+        // Open Services — 24/7 pharmacies, hospitals, police with directions
         if (btnOpenServices != null) {
             btnOpenServices.setOnClickListener(v ->
-                    startActivity(new Intent(this, SafeStopsActivity.class)));
+                    startActivity(new Intent(this, Nearby_Safe.class)));
         }
 
         // Guardians — family/colleague network
@@ -523,10 +523,10 @@ public class HomePage extends AppCompatActivity {
             });
         }
 
-        // 2. Essential Services & Operating Hours
+        // 2. Essential Services & Operating Hours (Safe Stops & Havens with Directions)
         if (cardFeatServices != null) {
             cardFeatServices.setOnClickListener(v ->
-                    startActivity(new Intent(this, SafeStopsActivity.class)));
+                    startActivity(new Intent(this, Nearby_Safe.class)));
         }
 
         // 3. Safe Route Recommendation
@@ -1000,7 +1000,7 @@ public class HomePage extends AppCompatActivity {
                 return true;
             }
             if (id == R.id.nav_services) {
-                startActivity(new Intent(this, SafeStopsActivity.class));
+                startActivity(new Intent(this, Nearby_Safe.class));
                 return true;
             }
             if (id == R.id.nav_guardian) {

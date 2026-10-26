@@ -14,6 +14,9 @@ public class NearbySafePlace implements Serializable {
     private String phone;
     private String status;
     private String notes;
+    private String directionHeading; // e.g. "North-East ↗"
+    private float bearingDegrees;
+    private String directionDetails; // e.g. "🧭 NE ↗ • 320 m (4 mins)"
 
     public NearbySafePlace() {
     }
@@ -66,4 +69,17 @@ public class NearbySafePlace implements Serializable {
 
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
+
+    public String getDirectionHeading() { return directionHeading != null ? directionHeading : "Nearby ➔"; }
+    public void setDirectionHeading(String directionHeading) { this.directionHeading = directionHeading; }
+
+    public float getBearingDegrees() { return bearingDegrees; }
+    public void setBearingDegrees(float bearingDegrees) { this.bearingDegrees = bearingDegrees; }
+
+    public String getDirectionDetails() {
+        if (directionDetails != null && !directionDetails.isEmpty()) return directionDetails;
+        return (directionHeading != null ? directionHeading : "Nearby") + " • " + (distanceFormatted != null ? distanceFormatted : "");
+    }
+    public void setDirectionDetails(String directionDetails) { this.directionDetails = directionDetails; }
 }
+

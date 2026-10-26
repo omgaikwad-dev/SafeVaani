@@ -50,6 +50,38 @@
                 android:layout_height="1dp"
                 android:layout_weight="1" />
 
+            <!-- Direction Chip (Real-time cardinal heading) -->
+            <LinearLayout
+                android:id="@+id/layout_direction_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@color/status_safe_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="3dp">
+
+                <ImageView
+                    android:id="@+id/img_direction_compass"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:contentDescription="Compass Heading"
+                    android:src="@drawable/ic_navigation"
+                    app:tint="@color/status_safe" />
+
+                <TextView
+                    android:id="@+id/tv_direction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="NE ↗"
+                    android:textColor="@color/status_safe"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
             <!-- Distance Chip -->
             <LinearLayout
                 android:layout_width="wrap_content"

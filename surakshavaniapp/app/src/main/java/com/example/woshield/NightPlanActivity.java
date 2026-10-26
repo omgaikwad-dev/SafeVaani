@@ -208,7 +208,7 @@ public class NightPlanActivity extends AppCompatActivity {
                 return true;
             }
             if (id == R.id.nav_services) {
-                startActivity(new Intent(this, SafeStopsActivity.class));
+                startActivity(new Intent(this, Nearby_Safe.class));
                 return true;
             }
             if (id == R.id.nav_guardian) {
