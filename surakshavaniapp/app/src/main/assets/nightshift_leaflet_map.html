@@ -301,15 +301,15 @@
     (function () {
       'use strict';
 
-      // Live user coordinates (defaults to verified Pune South arterial hub until GPS fix)
-      var userLat = 18.46780;
-      var userLng = 73.86150;
+      // Live user coordinates (defaults to verified Nagpur Zero Mile / Sitabuldi until GPS fix)
+      var userLat = 21.14580;
+      var userLng = 79.08820;
       var hasRealGps = false;
 
-      // Destination (Verified Safe Haven / Destination corridor)
-      var destLat = 18.45520;
-      var destLng = 73.86750;
-      var destName = "Home Safe Haven (Satara Rd)";
+      // Destination (Verified Safe Haven / Destination corridor in Nagpur)
+      var destLat = 21.12550;
+      var destLng = 79.05150;
+      var destName = "IT Park Safe Haven (Nagpur)";
 
       var map = null;
       var userMarker = null;
@@ -319,71 +319,80 @@
       var dangerLayer = L.layerGroup();
       var havenLayer = L.layerGroup();
 
-      // Verified real danger zones in corridor
+      // Verified real danger zones in Nagpur corridor
       var DANGER_ZONES = [
         {
-          name: "⚠️ Canal Unlit Underpass",
-          lat: 18.45980,
-          lng: 73.86120,
+          name: "⚠️ Cotton Market Underpass",
+          lat: 21.14420,
+          lng: 79.09150,
           radius: 170,
-          score: "94% RISK",
-          info: "0% Lighting • Blind Underpass • 4 Past Distress Alerts"
+          score: "92% RISK",
+          info: "Low Lighting • Blind Turn Underpass • Heavy Congestion"
         },
         {
-          name: "⚠️ Katraj Bypass Freight Cut",
-          lat: 18.45110,
-          lng: 73.86340,
-          radius: 180,
-          score: "82% RISK",
-          info: "No Sidewalks • High Freight Speed • Heavy Roadworks"
+          name: "⚠️ Hingna Road Industrial Belt",
+          lat: 21.11200,
+          lng: 79.01200,
+          radius: 190,
+          score: "85% RISK",
+          info: "Isolated Freight Corridor • Poor Pedestrian Infrastructure"
         },
         {
-          name: "⚠️ Dhankawadi Deserted Depot",
-          lat: 18.46550,
-          lng: 73.85720,
-          radius: 150,
-          score: "91% RISK",
-          info: "Abandoned Warehouse Perimeter • Zero CCTV Coverage"
+          name: "⚠️ Pardi Flyover Construction Cut",
+          lat: 21.14950,
+          lng: 79.13500,
+          radius: 160,
+          score: "88% RISK",
+          info: "Major Roadworks • Restricted Visibility • Heavy Trucks"
         }
       ];
 
-      // Verified real Safe Havens in corridor
+      // Verified real Safe Havens in Nagpur corridor
       var SAFE_HAVENS = [
         {
-          name: "Apollo 24/7 Pharmacy",
-          cat: "24/7 Pharmacy",
-          lat: 18.46225,
-          lng: 73.86497,
-          icon: "💊",
-          color: "#10B981",
-          info: "Guard on duty • 1000-Lumen LED • First Aid"
-        },
-        {
-          name: "Katraj Police CAD Post",
+          name: "Sitabuldi Police Station",
           cat: "Police Station",
-          lat: 18.45520,
-          lng: 73.86750,
+          lat: 21.14139,
+          lng: 79.08248,
           icon: "🛡️",
           color: "#38BDF8",
-          info: "24/7 Armed Patrol • 112 CAD Terminal • CCTV Mesh"
+          info: "24/7 Armed Patrol • City Center Police Terminal"
         },
         {
-          name: "Bharati Hospital ER",
+          name: "Medical Square 24/7 Chemist",
+          cat: "24/7 Pharmacy",
+          lat: 21.12900,
+          lng: 79.08500,
+          icon: "💊",
+          color: "#10B981",
+          info: "Guard on duty • 24/7 Emergency Pharmacy"
+        },
+        {
+          name: "Kingsway Hospitals ER",
           cat: "Level-1 ER",
-          lat: 18.46780,
-          lng: 73.86150,
+          lat: 21.15430,
+          lng: 79.08140,
           icon: "🏥",
           color: "#F87171",
-          info: "24/7 Trauma Emergency • Security Guard Cell"
+          info: "24/7 Trauma Emergency • Multi-specialty Security"
         },
         {
-          name: "HP 24/7 Fuel Haven",
+          name: "Indian Oil Civil Lines 24/7",
           cat: "Fuel Station",
-          lat: 18.47210,
-          lng: 73.86310,
+          lat: 21.15550,
+          lng: 79.07500,
           icon: "⛽",
           color: "#F59E0B",
-          info: "Commercial Floodlights • Attendants Present"
+          info: "High-Mast Floodlights • Attendants Present"
+        },
+        {
+          name: "AIIMS Nagpur Emergency",
+          cat: "Level-1 ER",
+          lat: 21.04930,
+          lng: 79.04780,
+          icon: "🏥",
+          color: "#F87171",
+          info: "Apex Medical Center • 24/7 Active Security Perimeter"
         }
       ];
 

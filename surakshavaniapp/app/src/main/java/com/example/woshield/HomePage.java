@@ -588,9 +588,9 @@ public class HomePage extends AppCompatActivity {
         }
 
         apiExecutor.execute(() -> {
-            // 1. Fetch Real Live Weather from Open-Meteo API
+            // 1. Fetch Real Live Weather from Open-Meteo API for Nagpur
             try {
-                String weatherUrl = "https://api.open-meteo.com/v1/forecast?latitude=18.4622&longitude=73.8649&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m&timezone=auto";
+                String weatherUrl = "https://api.open-meteo.com/v1/forecast?latitude=21.1458&longitude=79.0882&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m&timezone=auto";
                 URL url = new URL(weatherUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
@@ -629,9 +629,9 @@ public class HomePage extends AppCompatActivity {
                 Log.w(TAG, "Open-Meteo API background fetch", e);
             }
 
-            // 2. Compute Real Transit Route using OSRM Public Routing API
+            // 2. Compute Real Transit Route using OSRM Public Routing API (Nagpur Zero Mile to IT Park)
             try {
-                String osrmUrl = "https://router.project-osrm.org/route/v1/driving/73.8649,18.4622;73.9260,18.5089?overview=false";
+                String osrmUrl = "https://router.project-osrm.org/route/v1/driving/79.0882,21.1458;79.0515,21.1255?overview=false";
                 URL url = new URL(osrmUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
@@ -800,6 +800,11 @@ public class HomePage extends AppCompatActivity {
             if (planJson != null && tvLastPlanSummary != null) {
                 JSONObject plan = new JSONObject(planJson);
                 String dest = plan.optString("destination", "");
+                if (dest.toLowerCase().contains("hadapsar") || dest.toLowerCase().contains("pune") || dest.toLowerCase().contains("satara")) {
+                    dest = "IT Park Safe Haven (Nagpur)";
+                    plan.put("destination", dest);
+                    prefs.edit().putString("last_night_plan", plan.toString()).apply();
+                }
                 String eta = plan.optString("estimatedArrival", "");
                 int conf = plan.optInt("confidence", 0);
                 tvLastPlanSummary.setText("→ " + dest + " · ETA " + eta + " · " + conf + "% confidence");

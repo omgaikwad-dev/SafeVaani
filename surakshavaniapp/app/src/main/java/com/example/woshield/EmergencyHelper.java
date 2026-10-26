@@ -119,14 +119,17 @@ public class EmergencyHelper {
             String reason,
             EmergencyCallback callback) {
 
+        final double finalLat = (lat != 0.0) ? lat : 21.14580;
+        final double finalLon = (lon != 0.0) ? lon : 79.08820;
+
         MovementTrailTracker tracker = MovementTrailTracker.getInstance();
         String direction = tracker.getCurrentHeading();
         float bearing = tracker.getCurrentBearing();
         float speed = tracker.getCurrentSpeedKmh();
-        String locName = MovementTrailTracker.resolveLocationName(context, lat, lon);
+        String locName = MovementTrailTracker.resolveLocationName(context, finalLat, finalLon);
 
         long timestamp = System.currentTimeMillis();
-        SOSLog alert = new SOSLog(String.valueOf(timestamp), reason, lat, lon, audioDataUri);
+        SOSLog alert = new SOSLog(String.valueOf(timestamp), reason, finalLat, finalLon, audioDataUri);
         alert.alertId = "ALT-" + timestamp;
         alert.id = alert.alertId;
         alert.locationName = locName;
@@ -149,7 +152,7 @@ public class EmergencyHelper {
                 isSosDispatching = false;
                 int notified = (log.contactsAlerted != null) ? log.contactsAlerted.size() : 0;
                 if (callback != null) {
-                    callback.onSuccess(lat, lon, notified);
+                    callback.onSuccess(finalLat, finalLon, notified);
                 }
             }
 
@@ -220,16 +223,18 @@ public class EmergencyHelper {
     }
 
     private static void finalizeAssistance(Context context, double lat, double lon, String reason, String routineTitle, String checkInId, AssistanceCallback callback) {
+        final double finalLat = (lat != 0.0) ? lat : 21.14580;
+        final double finalLon = (lon != 0.0) ? lon : 79.08820;
         MovementTrailTracker tracker = MovementTrailTracker.getInstance();
         long timestamp = System.currentTimeMillis();
-        SOSLog log = new SOSLog(String.valueOf(timestamp), "Assistance Requested: " + reason, lat, lon, "");
+        SOSLog log = new SOSLog(String.valueOf(timestamp), "Assistance Requested: " + reason, finalLat, finalLon, "");
         log.alertId = "AST-" + timestamp;
         log.id = log.alertId;
         log.direction = tracker.getCurrentHeading();
         log.bearing = tracker.getCurrentBearing();
         log.speedKmh = tracker.getCurrentSpeedKmh();
         log.movementTrail = tracker.getMovementTrail();
-        log.locationName = MovementTrailTracker.resolveLocationName(context, lat, lon);
+        log.locationName = MovementTrailTracker.resolveLocationName(context, finalLat, finalLon);
         log.threatLevel = "Medium";
         log.emotion = "Assistance Requested";
         log.triggerSource = "Assistance Option 2";
@@ -238,7 +243,7 @@ public class EmergencyHelper {
             @Override
             public void onDispatched(boolean wasOnline, SOSLog resultLog) {
                 int count = (resultLog.contactsAlerted != null) ? resultLog.contactsAlerted.size() : 0;
-                if (callback != null) callback.onSuccess(lat, lon, count);
+                if (callback != null) callback.onSuccess(finalLat, finalLon, count);
             }
 
             @Override

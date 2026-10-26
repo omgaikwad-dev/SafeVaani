@@ -57,9 +57,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final String EXTRA_ROUTINE = "extra_routine";
     public static final String EXTRA_SHOW_ALL_ROUTINES = "extra_show_all_routines";
 
-    // Pune Core Anchor Coordinates centered on user's prompt (18°27'44.1"N 73°51'53.9"E)
-    private static final double USER_LAT = 18.46225;
-    private static final double USER_LON = 73.864972;
+    // Nagpur Core Anchor Coordinates (Zero Mile / Sitabuldi: 21.1458°N, 79.0882°E)
+    private static final double USER_LAT = 21.14580;
+    private static final double USER_LON = 79.08820;
 
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
@@ -302,11 +302,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
 
-                // If empty (e.g. offline demo), add standard Pune safe havens
+                // If empty (e.g. offline demo), add standard Nagpur safe havens
                 if (safePlacesList.isEmpty()) {
-                    safePlacesList.add(new SafePlace("p1", uid, "Home Safe Haven", "HOME", "Bibwewadi-Dhankawadi Road, Pune", USER_LAT, USER_LON, true, "Primary Safe Haven", true));
-                    safePlacesList.add(new SafePlace("p2", uid, "Bharati Vidyapeeth Women Safety Cell", "UNIVERSITY", "Dhankawadi Campus, Pune", 18.46780, 73.86150, true, "Campus Security: 1091", true));
-                    safePlacesList.add(new SafePlace("p3", uid, "Katraj Police Helpdesk & Safety Post", "POLICE_STATION", "Katraj Transit Corridor, Pune", 18.45520, 73.86750, true, "Police Helpdesk: 100", true));
+                    safePlacesList.add(new SafePlace("p1", uid, "Home Safe Haven", "HOME", "Civil Lines, Nagpur", USER_LAT, USER_LON, true, "Primary Safe Haven", true));
+                    safePlacesList.add(new SafePlace("p2", uid, "Sitabuldi Police Station & Safety Post", "POLICE_STATION", "Sitabuldi Interchange, Nagpur", 21.14139, 79.08248, true, "Police Helpdesk: 100", true));
+                    safePlacesList.add(new SafePlace("p3", uid, "Kingsway 24/7 Multi-Speciality ER", "HOSPITAL", "Near Kasturchand Park, Nagpur", 21.1543, 79.0814, true, "Emergency: 108", true));
                 }
 
                 plotSafePlacesOnMap();
@@ -356,7 +356,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         routineMarkers.clear();
 
-        LatLng startLatLng = resolveCoordinates(routine.getStartLocation(), 18.46780, 73.86150);
+        LatLng startLatLng = resolveCoordinates(routine.getStartLocation(), 21.12550, 79.05150);
         LatLng destLatLng = resolveCoordinates(routine.getDestination(), USER_LAT, USER_LON);
 
         List<LatLng> routePoints = buildRoutePoints(routine.getTitle(), startLatLng, destLatLng);
@@ -463,7 +463,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for (int i = 0; i < allRoutinesList.size(); i++) {
             Routine r = allRoutinesList.get(i);
-            LatLng start = resolveCoordinates(r.getStartLocation(), 18.46780, 73.86150);
+            LatLng start = resolveCoordinates(r.getStartLocation(), 21.12550, 79.05150);
             LatLng dest = resolveCoordinates(r.getDestination(), USER_LAT, USER_LON);
             List<LatLng> points = buildRoutePoints(r.getTitle(), start, dest);
 
@@ -526,18 +526,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return new LatLng(USER_LAT, USER_LON);
         }
 
-        // 2. Known landmarks centered on prompt coordinates
-        if (lower.contains("home") || lower.contains("bibwewadi") || lower.contains("residency")) {
+        // 2. Known landmarks centered on Nagpur coordinates
+        if (lower.contains("home") || lower.contains("civil lines") || lower.contains("residency")) {
             return new LatLng(USER_LAT, USER_LON);
         }
-        if (lower.contains("campus") || lower.contains("bharati") || lower.contains("vidyapeeth") || lower.contains("college") || lower.contains("university")) {
-            return new LatLng(18.46780, 73.86150);
+        if (lower.contains("campus") || lower.contains("vnit") || lower.contains("college") || lower.contains("university") || lower.contains("it park")) {
+            return new LatLng(21.12550, 79.05150);
         }
-        if (lower.contains("katraj") || lower.contains("jog") || lower.contains("lake") || lower.contains("green belt")) {
-            return new LatLng(18.45520, 73.86750);
+        if (lower.contains("sitabuldi") || lower.contains("police") || lower.contains("metro") || lower.contains("station")) {
+            return new LatLng(21.14139, 79.08248);
         }
-        if (lower.contains("police") || lower.contains("metro")) {
-            return new LatLng(18.45520, 73.86750);
+        if (lower.contains("lake") || lower.contains("jog") || lower.contains("telankhedi") || lower.contains("green belt")) {
+            return new LatLng(21.15200, 79.06500);
         }
 
         // 3. Match against safe places list
@@ -550,7 +550,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // 4. Try Geocoder fallback
         try {
             Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-            List<Address> addresses = geocoder.getFromLocationName(locationName + ", Pune", 1);
+            List<Address> addresses = geocoder.getFromLocationName(locationName + ", Nagpur", 1);
             if (addresses != null && !addresses.isEmpty()) {
                 return new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
             }
@@ -564,21 +564,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         List<LatLng> points = new ArrayList<>();
         points.add(start);
 
-        String titleLower = routineTitle != null ? routineTitle.toLowerCase(Locale.ROOT) : "";
-        if (titleLower.contains("campus") || (start.latitude > 18.465 && dest.latitude < 18.465)) {
-            // Campus Gate to Home corridor
-            points.add(new LatLng(18.46640, 73.86210)); // Dhankawadi Main Rd
-            points.add(new LatLng(18.46490, 73.86320)); // Chavan Nagar Junction
-            points.add(new LatLng(18.46350, 73.86410)); // Bibwewadi Connect
-        } else if (titleLower.contains("jog") || titleLower.contains("lake") || (start.latitude > 18.460 && dest.latitude < 18.460)) {
-            // Home to Katraj Lake corridor
-            points.add(new LatLng(18.46010, 73.86550)); // Bibwewadi Link
-            points.add(new LatLng(18.45780, 73.86650)); // Katraj Lake North Entrance
-        } else {
-            double midLat = (start.latitude + dest.latitude) / 2.0;
-            double midLng = (start.longitude + dest.longitude) / 2.0;
-            points.add(new LatLng(midLat, midLng));
-        }
+        double midLat = (start.latitude + dest.latitude) / 2.0;
+        double midLng = (start.longitude + dest.longitude) / 2.0;
+        points.add(new LatLng(midLat + 0.0012, midLng + 0.0018));
 
         points.add(dest);
         return points;

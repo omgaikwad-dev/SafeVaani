@@ -451,10 +451,10 @@
         <div class="map-control-left">
           <span class="gps-status-pill" id="gps-status-indicator">
             <span class="gps-pulse green"></span>
-            Live GPS Active • Pune Corridor Calibrated
+            Live GPS Active • Nagpur Corridor Calibrated
           </span>
           <span class="live-coords-text" id="live-coordinates-display">
-            18.46780° N, 73.86150° E (Bharati Vidyapeeth Corridor Ground Truth)
+            21.14580° N, 79.08820° E (Sitabuldi - Zero Mile Ground Truth)
           </span>
         </div>
         <button id="btn-locate-me" class="btn-gps-locate" onclick="window.NightShiftMapEngine.requestRealLocation(true)">
@@ -468,10 +468,10 @@
           <span>🎯 Select Destination or Click Anywhere on Map:</span>
         </div>
         <div class="dest-chips-list">
-          <button class="dest-chip active" onclick="selectMapDest(this, 'home')">🏠 Home Haven (Satara Rd)</button>
-          <button class="dest-chip" onclick="selectMapDest(this, 'swargate')">🚏 Swargate Night Transit</button>
-          <button class="dest-chip" onclick="selectMapDest(this, 'katraj')">🛡️ Katraj Police Safety Post</button>
-          <button class="dest-chip" onclick="selectMapDest(this, 'pune_station')">🚂 Pune Railway Station</button>
+          <button class="dest-chip active" onclick="selectMapDest(this, 'home')">🏠 Home Haven (Civil Lines)</button>
+          <button class="dest-chip" onclick="selectMapDest(this, 'it_park')">💻 VNIT / IT Park Corridor</button>
+          <button class="dest-chip" onclick="selectMapDest(this, 'mihan')">🏥 AIIMS Nagpur MIHAN</button>
+          <button class="dest-chip" onclick="selectMapDest(this, 'nagpur_station')">🚂 Nagpur Central Station</button>
         </div>
       </div>
 
@@ -589,7 +589,7 @@
           </div>
           <div style="font-size: 0.85rem;" id="hudRegex">
             <strong>Target:</strong> <span id="regCategory" style="color:#CC4E08;">hospital</span><br>
-            <strong>Locality Anchor:</strong> <span id="regLocality">Hadapsar [18.5018, 73.9260]</span><br>
+            <strong>Locality Anchor:</strong> <span id="regLocality">Sitabuldi [21.1458, 79.0882]</span><br>
             <strong>ID / Coords:</strong> <span id="regId">None detected</span>
           </div>
         </div>
@@ -600,9 +600,9 @@
             STEP 2 · COSINE SIMILARITY
           </div>
           <div style="font-size: 0.85rem;" id="hudCosine">
-            <strong>TF Vector:</strong> <span id="cosTokens">[hospital, hadapsar]</span><br>
-            <strong>Max Similarity:</strong> <span id="cosScore" style="color:#3F7DDE;font-weight:700;">94.2%</span><br>
-            <strong>Top Document:</strong> <span id="cosTopDoc">Noble Hospital, Hadapsar</span>
+            <strong>TF Vector:</strong> <span id="cosTokens">[hospital, sitabuldi]</span><br>
+            <strong>Max Similarity:</strong> <span id="cosScore" style="color:#3F7DDE;font-weight:700;">96.8%</span><br>
+            <strong>Top Document:</strong> <span id="cosTopDoc">Kingsway Hospitals, Sitabuldi</span>
           </div>
         </div>
 
@@ -738,33 +738,34 @@
     // OFFLINE SEMANTIC SEARCH ENGINE (JAVASCRIPT)
     // 4-Stage Pipeline: Regex -> Cosine -> Filter+Distance -> Relevant Results
     // ==========================================
+    // OFFLINE RESILIENT SEARCH ENGINE (Nagpur Ground Truth)
+    // ==========================================
     const OFFLINE_SEED_DATA = [
-      { id: "PUN023", name: "Noble Hospital", city: "Pune", cat: "hospital", subtype: "emergency_hospital", area: "Hadapsar", status: "probable", lat: 18.5018, lng: 73.9260, note: "24/7 Emergency department & ICU in Hadapsar" },
-      { id: "PUN019", name: "Deenanath Mangeshkar Hospital", city: "Pune", cat: "hospital", subtype: "trauma_hospital", area: "Erandwane", status: "probable", lat: 18.5089, lng: 73.8336, note: "24/7 Casualty & emergency trauma care" },
-      { id: "PUN020", name: "Ruby Hall Clinic", city: "Pune", cat: "hospital", subtype: "emergency_hospital", area: "Sassoon Road", status: "probable", lat: 18.5289, lng: 73.8743, note: "Emergency department availability 24/7" },
-      { id: "PUN021", name: "Jehangir Hospital", city: "Pune", cat: "hospital", subtype: "emergency_hospital", area: "Sassoon Road", status: "probable", lat: 18.5289, lng: 73.8743, note: "24/7 Emergency casualty care" },
-      { id: "PUN024", name: "Manipal Hospital", city: "Pune", cat: "hospital", subtype: "emergency_hospital", area: "Baner", status: "probable", lat: 18.5590, lng: 73.7868, note: "Emergency department in Baner" },
-      { id: "PUN030", name: "Pharmacies near Noble Hospital", city: "Pune", cat: "pharmacy", subtype: "chemist", area: "Hadapsar", status: "probable", lat: 18.5018, lng: 73.9260, note: "24/7 All-night emergency medical chemist" },
-      { id: "PUN026", name: "KEM Hospital Pharmacy", city: "Pune", cat: "pharmacy", subtype: "chemist", area: "489 Rasta Peth", status: "probable", lat: 18.5169, lng: 73.8664, note: "24-hour service verified medical store" },
-      { id: "PUN047", name: "Police stations in Hadapsar area", city: "Pune", cat: "police", subtype: "police_station", area: "Hadapsar", status: "probable", lat: 18.5018, lng: 73.9260, note: "Hadapsar Police Station on-duty desk" },
-      { id: "PUN045", name: "Pune Police Commissionerate", city: "Pune", cat: "police", subtype: "police_hq", area: "Camp area", status: "known", lat: 18.5126, lng: 73.8792, note: "24/7 Police headquarters & women cell" },
-      { id: "PUN046", name: "Police stations in Shivajinagar area", city: "Pune", cat: "police", subtype: "police_station", area: "Shivajinagar", status: "known", lat: 18.5327, lng: 73.8496, note: "Shivajinagar police division desk" },
-      { id: "PUN003", name: "PMPML Ratrani RT-7", city: "Pune", cat: "transport", subtype: "night_bus", area: "NDA Gate to Pune Station", status: "probable", lat: 18.5074, lng: 73.8077, note: "Published late-night Ratrani express bus" },
-      { id: "PUN008", name: "Hadapsar Railway Station", city: "Pune", cat: "transport", subtype: "railway_station", area: "Hadapsar", status: "known", lat: 18.5018, lng: 73.9260, note: "Hadapsar terminal & auto stand point" },
-      { id: "PUN009", name: "Swargate Bus Station", city: "Pune", cat: "transport", subtype: "bus_terminal", area: "Swargate", status: "known", lat: 18.5018, lng: 73.8636, note: "Central transit hub & feeder connections" },
-      { id: "PUN042", name: "Fuel stations in Hadapsar", city: "Pune", cat: "fuel", subtype: "fuel_station", area: "Hadapsar", status: "probable", lat: 18.5018, lng: 73.9260, note: "Overnight open fuel pump & well-lit forecourt" },
-      { id: "NAG051", name: "Nagpur Metro Sitabuldi Interchange", city: "Nagpur", cat: "transport", subtype: "metro", area: "Sitabuldi", status: "known", lat: 21.1414, lng: 79.0825, note: "Major Nagpur night interchange" }
+      { id: "NAG066", name: "AIIMS Nagpur 24/7 ER", city: "Nagpur", cat: "hospital", subtype: "emergency_hospital", area: "MIHAN/Khapri", status: "probable", lat: 21.0493, lng: 79.0478, note: "24/7 Emergency trauma triage & high-security campus" },
+      { id: "NAG073", name: "Kingsway Hospitals 24/7 ER", city: "Nagpur", cat: "hospital", subtype: "trauma_hospital", area: "Kasturchand Park", status: "probable", lat: 21.1543, lng: 79.0814, note: "Level-1 emergency & trauma care center" },
+      { id: "NAG069", name: "Wockhardt Super Speciality Hospital", city: "Nagpur", cat: "hospital", subtype: "emergency_hospital", area: "Shankar Nagar", status: "probable", lat: 21.1362, lng: 79.0616, note: "24/7 Emergency casualty admission" },
+      { id: "NAG067", name: "Government Medical College and Hospital", city: "Nagpur", cat: "hospital", subtype: "emergency_hospital", area: "Medical Square", status: "probable", lat: 21.1290, lng: 79.0850, note: "Major public emergency hospital in Medical Square" },
+      { id: "NAG076", name: "Pharmacies near Government Medical College", city: "Nagpur", cat: "pharmacy", subtype: "chemist", area: "Medical Square", status: "probable", lat: 21.1290, lng: 79.0850, note: "24/7 All-night emergency medical chemist" },
+      { id: "NAG077", name: "Pharmacies near Wockhardt Hospital", city: "Nagpur", cat: "pharmacy", subtype: "chemist", area: "Shankar Nagar", status: "probable", lat: 21.1362, lng: 79.0616, note: "24-hour service verified medical store" },
+      { id: "NAG095", name: "Nagpur Police Commissionerate", city: "Nagpur", cat: "police", subtype: "police_hq", area: "Civil Lines", status: "known", lat: 21.1539, lng: 79.0790, note: "24/7 Police headquarters & women safety cell" },
+      { id: "NAG096", name: "Police stations near Sitabuldi", city: "Nagpur", cat: "police", subtype: "police_station", area: "Sitabuldi", status: "known", lat: 21.1414, lng: 79.0825, note: "Sitabuldi police division on-duty desk" },
+      { id: "NAG051", name: "Nagpur Metro Sitabuldi Interchange", city: "Nagpur", cat: "transport", subtype: "metro", area: "Sitabuldi", status: "known", lat: 21.1414, lng: 79.0825, note: "Major Nagpur night interchange" },
+      { id: "NAG054", name: "Nagpur Railway Station & Transit Haven", city: "Nagpur", cat: "transport", subtype: "railway_station", area: "Sitabuldi area", status: "known", lat: 21.1414, lng: 79.0825, note: "Central transit hub & continuous security presence" },
+      { id: "NAG057", name: "Ganeshpeth Bus Stand", city: "Nagpur", cat: "transport", subtype: "bus_terminal", area: "Ganeshpeth", status: "known", lat: 21.1450, lng: 79.0890, note: "Central bus terminal & night departures" },
+      { id: "NAG091", name: "Fuel stations near Nagpur Railway Station", city: "Nagpur", cat: "fuel", subtype: "fuel_station", area: "Station area", status: "probable", lat: 21.1500, lng: 79.0880, note: "Overnight open fuel pump & well-lit forecourt" },
+      { id: "NAG092", name: "Fuel stations along Wardha Road", city: "Nagpur", cat: "fuel", subtype: "fuel_station", area: "Wardha Road", status: "probable", lat: 21.0862, lng: 79.0638, note: "24/7 Well-lit commercial rest stop" }
     ];
 
     const LOCALITY_ANCHORS = {
-      "hadapsar": [18.5018, 73.9260],
-      "swargate": [18.5018, 73.8636],
-      "kothrud": [18.5074, 73.8077],
-      "shivajinagar": [18.5327, 73.8496],
-      "katraj": [18.4529, 73.8586],
-      "baner": [18.5590, 73.7868],
-      "hinjawadi": [18.5913, 73.7389],
-      "sitabuldi": [21.1414, 79.0825]
+      "sitabuldi": [21.1414, 79.0825],
+      "civil lines": [21.1539, 79.0790],
+      "dharampeth": [21.1435, 79.0620],
+      "medical square": [21.1290, 79.0850],
+      "it park": [21.1255, 79.0515],
+      "mihan": [21.0493, 79.0478],
+      "hingna": [21.1050, 78.9990],
+      "ganeshpeth": [21.1450, 79.0890],
+      "wardha road": [21.0862, 79.0638]
     };
 
     function setSearchSample(q) {
@@ -804,7 +805,7 @@
       else if (/fuel|petrol|diesel|cng/i.test(qLower)) targetCategory = "fuel";
 
       let targetLocality = null;
-      let anchorCoords = [18.5204, 73.8567]; // default Pune
+      let anchorCoords = [21.1458, 79.0882]; // default Nagpur
       for (const loc in LOCALITY_ANCHORS) {
         if (qLower.includes(loc)) {
           targetLocality = loc;
@@ -975,10 +976,10 @@
       btn.classList.add('active');
       if (window.NightShiftMapEngine) {
         const dests = {
-          "home": { name: "Home Safe Haven (Bibwewadi-Satara Rd)", lat: 18.46225, lng: 73.86497 },
-          "swargate": { name: "Swargate Night Transit Terminal", lat: 18.50180, lng: 73.86360 },
-          "katraj": { name: "Katraj Police Station & Transit Hub", lat: 18.45520, lng: 73.86750 },
-          "pune_station": { name: "Pune Railway Station 24/7 Haven", lat: 18.52890, lng: 73.87430 }
+          "home": { name: "Home Safe Haven (Civil Lines - Sadar)", lat: 21.15390, lng: 79.07900 },
+          "it_park": { name: "VNIT & IT Park Safe Corridor (Gayatri Nagar / Parsodi)", lat: 21.12550, lng: 79.05150 },
+          "mihan": { name: "MIHAN & AIIMS Nagpur Healthcare Corridor", lat: 21.04930, lng: 79.04780 },
+          "nagpur_station": { name: "Nagpur Central Railway Station 24/7 Haven", lat: 21.15240, lng: 79.08890 }
         };
         if (dests[destKey]) {
           window.NightShiftMapEngine.setDestination(dests[destKey]);

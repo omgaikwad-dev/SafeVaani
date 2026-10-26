@@ -124,8 +124,8 @@ public class NightPlanAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             // Google Maps Navigation action
             if (btnNavigate != null) {
                 btnNavigate.setOnClickListener(v -> {
-                    double targetLat = item.latitude != 0.0 ? item.latitude : 18.5204;
-                    double targetLng = item.longitude != 0.0 ? item.longitude : 73.8567;
+                    double targetLat = item.latitude != 0.0 ? item.latitude : 21.1458;
+                    double targetLng = item.longitude != 0.0 ? item.longitude : 79.0882;
                     android.net.Uri gmmIntentUri = android.net.Uri.parse("google.navigation:q=" + targetLat + "," + targetLng + "&mode=d");
                     android.content.Intent mapIntent = new android.content.Intent(android.content.Intent.ACTION_VIEW, gmmIntentUri);
                     mapIntent.setPackage("com.google.android.apps.maps");

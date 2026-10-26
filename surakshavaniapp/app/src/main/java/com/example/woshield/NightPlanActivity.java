@@ -64,14 +64,14 @@ public class NightPlanActivity extends AppCompatActivity {
     // Real-Time Location Tracking
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
-    private double currentUserLat = 18.46780; // Initial default Pune corridor
-    private double currentUserLng = 73.86150;
+    private double currentUserLat = 21.14580; // Initial default Nagpur corridor (Zero Mile / Sitabuldi)
+    private double currentUserLng = 79.08820;
     private boolean hasGpsFix = false;
 
-    // Verified Destination Safe Haven (Satara Road Corridor Hub)
-    private double destLat = 18.45520;
-    private double destLng = 73.86750;
-    private String destName = "Home Safe Haven (Satara Rd)";
+    // Verified Destination Safe Haven (Gayatri Nagar / IT Park corridor Hub in Nagpur)
+    private double destLat = 21.12550;
+    private double destLng = 79.05150;
+    private String destName = "IT Park Safe Haven (Gayatri Nagar, Nagpur)";
 
     // Data Repositories
     private NightOwlCsvRepository csvRepo;

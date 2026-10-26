@@ -415,7 +415,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-black"
-                                    android:text="💊 Apollo 24/7"
+                                    android:text="💊 Medical Sq. 24/7"
                                     android:textColor="@color/deep_purple"
                                     android:textSize="13sp" />
 
@@ -460,7 +460,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-black"
-                                    android:text="🛡️ Katraj Police CAD"
+                                    android:text="🛡️ Sitabuldi Police"
                                     android:textColor="@color/deep_purple"
                                     android:textSize="13sp" />
 
@@ -570,7 +570,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-bold"
-                            android:text="PUNE MESH • REAL-TIME"
+                            android:text="NAGPUR MESH • REAL-TIME"
                             android:textColor="@color/safe_green"
                             android:textSize="10sp" />
                     </LinearLayout>
@@ -733,7 +733,7 @@
                         android:layout_marginTop="8dp"
                         android:fontFamily="sans-serif"
                         android:lineSpacingExtra="3dp"
-                        android:text="1. Stay on well-lit Satara Road arterial.\n2. Do NOT take the canal underpass shortcut (unlit, 0% CCTV).\n3. Apollo 24/7 Pharmacy is at 1.2 km mark with security guard.\n4. Katraj Police CAD post is at 2.1 km mark for immediate refuge."
+                        android:text="1. Stay on well-lit North Ambazari / Central arterial in Nagpur.\n2. Do NOT take the Cotton Market underpass shortcut (unlit, 0% CCTV).\n3. Medical Square 24/7 Chemist is at 1.1 km mark with security guard.\n4. Sitabuldi Police CAD post is at 1.8 km mark for immediate refuge."
                         android:textColor="@color/midnight_slate"
                         android:textSize="12sp" />
 

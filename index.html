@@ -609,10 +609,10 @@
             <span>🎯 Select Destination or Click Anywhere on Map:</span>
           </div>
           <div class="dest-chips-list">
-            <button class="dest-chip active" onclick="selectMapDest(this, 'home')">🏠 Home Haven (Satara Rd)</button>
-            <button class="dest-chip" onclick="selectMapDest(this, 'swargate')">🚏 Swargate Night Transit</button>
-            <button class="dest-chip" onclick="selectMapDest(this, 'katraj')">🛡️ Katraj Police Safety Post</button>
-            <button class="dest-chip" onclick="selectMapDest(this, 'pune_station')">🚂 Pune Railway Station</button>
+            <button class="dest-chip active" onclick="selectMapDest(this, 'home')">🏠 Home Haven (Civil Lines)</button>
+            <button class="dest-chip" onclick="selectMapDest(this, 'it_park')">💻 VNIT &amp; IT Park Corridor</button>
+            <button class="dest-chip" onclick="selectMapDest(this, 'mihan')">🏥 MIHAN &amp; AIIMS Corridor</button>
+            <button class="dest-chip" onclick="selectMapDest(this, 'nagpur_station')">🚂 Nagpur Central Station</button>
           </div>
         </div>
 
@@ -817,10 +817,10 @@
       btn.classList.add('active');
       if (window.NightShiftMapEngine) {
         const dests = {
-          "home": { name: "Home Safe Haven (Bibwewadi-Satara Rd)", lat: 18.46225, lng: 73.86497 },
-          "swargate": { name: "Swargate Night Transit Terminal", lat: 18.50180, lng: 73.86360 },
-          "katraj": { name: "Katraj Police Station & Transit Hub", lat: 18.45520, lng: 73.86750 },
-          "pune_station": { name: "Pune Railway Station 24/7 Haven", lat: 18.52890, lng: 73.87430 }
+          "home": { name: "Home Safe Haven (Civil Lines)", lat: 21.15390, lng: 79.07900 },
+          "it_park": { name: "VNIT & IT Park Safe Corridor", lat: 21.12550, lng: 79.05150 },
+          "mihan": { name: "MIHAN & AIIMS Nagpur Healthcare Corridor", lat: 21.04930, lng: 79.04780 },
+          "nagpur_station": { name: "Nagpur Central Railway Station 24/7 Haven", lat: 21.15240, lng: 79.08890 }
         };
         if (dests[destKey]) {
           window.NightShiftMapEngine.setDestination(dests[destKey]);

@@ -46,11 +46,11 @@ public class OfflineNightMapView extends View {
     private static final int COLOR_USER_BEACON = Color.parseColor("#00E5FF");
     private static final int COLOR_DEST_BEACON = Color.parseColor("#FFD600");
 
-    // Coordinates and Points
-    private double userLat = 18.5204;
-    private double userLng = 73.8567;
-    private double destLat = 18.5018;
-    private double destLng = 73.9260;
+    // Coordinates and Points (Defaults to Nagpur Zero Mile corridor)
+    private double userLat = 21.1458;
+    private double userLng = 79.0882;
+    private double destLat = 21.1255;
+    private double destLng = 79.0515;
 
     private final List<NightOwlRecord> allPois = new ArrayList<>();
     private final List<NightOwlRecord> routeWaypoints = new ArrayList<>();
@@ -64,11 +64,11 @@ public class OfflineNightMapView extends View {
     private float lastTouchY;
     private boolean isDragging = false;
 
-    // Bounding Box
-    private double minLat = 18.45;
-    private double maxLat = 18.60;
-    private double minLng = 73.75;
-    private double maxLng = 73.95;
+    // Bounding Box (Nagpur Metropolitan & IT Corridor)
+    private double minLat = 21.00;
+    private double maxLat = 21.25;
+    private double minLng = 79.00;
+    private double maxLng = 79.18;
 
     // Gesture Detectors
     private ScaleGestureDetector scaleDetector;

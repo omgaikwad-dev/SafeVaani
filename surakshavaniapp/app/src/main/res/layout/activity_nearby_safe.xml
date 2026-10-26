@@ -118,7 +118,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:fontFamily="sans-serif"
-                    android:hint="e.g. Find a hospital near Hadapsar"
+                    android:hint="e.g. Find a hospital near Sitabuldi"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"

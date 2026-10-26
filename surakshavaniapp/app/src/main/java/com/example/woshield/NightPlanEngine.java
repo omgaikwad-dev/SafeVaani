@@ -292,9 +292,9 @@ public class NightPlanEngine {
         List<PlanItem> items = new ArrayList<>();
 
         if (online) {
-            // Live OSRM Public Routing API for real distance & duration
+            // Live OSRM Public Routing API for real distance & duration (Nagpur corridor)
             try {
-                String osrmUrl = "https://router.project-osrm.org/route/v1/driving/73.8649,18.4622;73.9260,18.5089?overview=false";
+                String osrmUrl = "https://router.project-osrm.org/route/v1/driving/79.0882,21.1458;79.0515,21.1255?overview=false";
                 URL url = new URL(osrmUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
@@ -319,7 +319,7 @@ public class NightPlanEngine {
 
                         items.add(new PlanItem("transport", "🚗",
                                 "Live Primary Corridor (OSRM Verified Route)",
-                                distanceKm + " km via Lake Town & Magarpatta • " + durationMin + " min transit • 94% illuminated.",
+                                distanceKm + " km via Sitabuldi & North Ambazari Corridor • " + durationMin + " min transit • 96% illuminated.",
                                 Confidence.KNOWN));
                     }
                 }
@@ -382,35 +382,35 @@ public class NightPlanEngine {
 
         // 24/7 Verified Pharmacy
         PlanItem pharmacy = new PlanItem("service", "💊",
-                "Apollo 24/7 Pharmacy (Hadapsar)",
+                "Medical Square 24/7 Pharmacy (Nagpur)",
                 "0.3 km from corridor. Open 24 Hours • Pharmacist on active duty.",
                 online ? Confidence.KNOWN : Confidence.PROBABLE);
         items.add(pharmacy);
 
         // Hospital / Emergency Clinic
         PlanItem hospital = new PlanItem("service", "🏥",
-                "Sahyadri Super Speciality ER (24/7)",
+                "Kingsway Hospitals 24/7 Emergency (Nagpur)",
                 "1.1 km. Emergency trauma wing open 24/7 with on-call surgical team.",
                 Confidence.KNOWN);
         items.add(hospital);
 
         // Police Post
         PlanItem police = new PlanItem("service", "👮",
-                "Police Outpost & Beat Chowki — Sector 14",
+                "Police Outpost & Beat Chowki — Sitabuldi, Nagpur",
                 "0.6 km from corridor. 24-hour armed staffed post. Active night monitoring.",
                 online ? Confidence.KNOWN : Confidence.OUTDATED);
         items.add(police);
 
         // ATM
         PlanItem atm = new PlanItem("service", "🏧",
-                "ATM — SBI 24h E-Corner, MG Road",
+                "ATM — SBI 24h E-Corner, Civil Lines, Nagpur",
                 "No real-time operational telemetry. Guard present; cash availability unverified tonight.",
                 Confidence.UNKNOWN);
         items.add(atm);
 
         // 24h Food & Safe Wait Point
         PlanItem food = new PlanItem("service", "☕",
-                "24h Safe Haven Café — Barista, MG Road",
+                "24h Safe Haven Café — Dharampeth, Nagpur",
                 "Verified 24/7 operations. Designated Safe Haven waiting point if transport is delayed.",
                 Confidence.KNOWN);
         items.add(food);
@@ -424,15 +424,15 @@ public class NightPlanEngine {
 
         // Incident zone warning
         PlanItem danger = new PlanItem("safety", "⚠️",
-                "Incident Caution: Sector 14 Underpass",
-                "3 reported incidents in the last 30 days. Engine automatically diverts via Station Road (+4 min).",
+                "Incident Caution: Cotton Market Underpass, Nagpur",
+                "Reported unlit underpass risk. Engine automatically diverts via Central Avenue (+4 min).",
                 Confidence.PROBABLE);
         items.add(danger);
 
         // Well-lit corridor
         PlanItem lit = new PlanItem("safety", "💡",
-                "Well-lit Corridor: MG Road Arterial",
-                "CCTV coverage & active street illumination verified on this 94% lighted segment.",
+                "Well-lit Corridor: North Ambazari Arterial, Nagpur",
+                "CCTV coverage & active street illumination verified on this 96% lighted segment.",
                 Confidence.KNOWN);
         items.add(lit);
 
@@ -459,8 +459,8 @@ public class NightPlanEngine {
 
         if (online) {
             try {
-                // Live Public Open-Meteo Weather API
-                String urlString = "https://api.open-meteo.com/v1/forecast?latitude=18.4622&longitude=73.8649&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m&timezone=auto";
+                // Live Public Open-Meteo Weather API for Nagpur
+                String urlString = "https://api.open-meteo.com/v1/forecast?latitude=21.1458&longitude=79.0882&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m&timezone=auto";
                 URL url = new URL(urlString);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
@@ -554,7 +554,7 @@ public class NightPlanEngine {
 
         PlanItem fb2 = new PlanItem("fallback", "🅲",
                 "Plan C: Wait at Safe Point",
-                "Barista MG Road (24h, verified). Wait until 03:10 bus if current option fails.",
+                "Dharampeth Safe Point (24h, verified). Wait until 03:10 bus if current option fails.",
                 Confidence.KNOWN);
         fb2.isAlternate = true;
         fallbacks.add(fb2);

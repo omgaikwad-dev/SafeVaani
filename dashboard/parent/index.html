@@ -2598,9 +2598,9 @@
                   <!-- Location Coordinates -->
                   <div class="node-coords-row">
                     <div>
-                      <strong>Location:</strong> <span id="panel-coords" style="color:var(--dash-blue);font-family:var(--dash-mono);">18.520430&deg; N, 73.856744&deg; E</span>
+                      <strong>Location:</strong> <span id="panel-coords" style="color:var(--dash-blue);font-family:var(--dash-mono);">21.145800&deg; N, 79.088200&deg; E</span>
                     </div>
-                    <a href="https://www.google.com/maps?q=18.520430,73.856744" target="_blank" rel="noopener" id="panel-gmaps-link" style="color:var(--dash-blue);text-decoration:none;font-weight:700;">
+                    <a href="https://www.google.com/maps?q=21.145800,79.088200" target="_blank" rel="noopener" id="panel-gmaps-link" style="color:var(--dash-blue);text-decoration:none;font-weight:700;">
                       Open Maps &rarr;
                     </a>
                   </div>
@@ -3434,21 +3434,21 @@
             "emotion": "Routine Safe Check-in",
             "formattedTime": "Oct 23, 2026 | 08:00 am",
             "id": "-P5histAarav1",
-            "latitude": 18.52043,
-            "longitude": 73.85674,
+            "latitude": 21.1458,
+            "longitude": 79.0882,
             "reason": "Arrived at school safe zone",
             "status": "Safe Check-in Completed",
             "timestamp": 1792722905375
           }
         },
         "id": "child_aarav_sharma",
-        "lastLatitude": 18.52043,
-        "lastLongitude": 73.85674,
+        "lastLatitude": 21.1458,
+        "lastLongitude": 79.0882,
         "lastUpdateTimestamp": 1792725575375,
         "name": "Aarav Sharma",
         "phone": "9820011223",
         "role": "member",
-        "safeZone": "Delhi Public School Pune & Home Zone",
+        "safeZone": "Delhi Public School MIHAN & Civil Lines Safe Zone, Nagpur",
         "uniqueId": "AARAV99"
       },
       {
@@ -3516,7 +3516,7 @@
       try {
         // Initialize Leaflet Map focused tightly on child's school, transit corridor, and home
         safetyMap = L.map("parent-safety-map", {
-          center: [18.520430, 73.856744],
+          center: [21.145800, 79.088200],
           zoom: 14,
           zoomControl: true
         });
@@ -3592,8 +3592,8 @@
       if (!geofencesLayer) return;
       geofencesLayer.clearLayers();
 
-      // 1. School Geofence Circle (400m radius)
-      const schoolCircle = L.circle([18.520430, 73.856744], {
+      // 1. School Geofence Circle (400m radius in Nagpur)
+      const schoolCircle = L.circle([21.145800, 79.088200], {
         radius: 400,
         color: "#2F9E5B",
         fillColor: "#2F9E5B",
@@ -3601,11 +3601,11 @@
         weight: 2,
         dashArray: "6, 6"
       });
-      schoolCircle.bindTooltip("🏫 DPS School Geofence (400m Safe Radius)", { permanent: false, direction: "top" });
+      schoolCircle.bindTooltip("🏫 DPS School Geofence (400m Safe Radius, Nagpur)", { permanent: false, direction: "top" });
       geofencesLayer.addLayer(schoolCircle);
 
-      // 2. Home Geofence Circle (300m radius)
-      const homeCircle = L.circle([18.532000, 73.842000], {
+      // 2. Home Geofence Circle (300m radius in Civil Lines, Nagpur)
+      const homeCircle = L.circle([21.153900, 79.079000], {
         radius: 300,
         color: "#3A6FF8",
         fillColor: "#3A6FF8",
@@ -3613,22 +3613,22 @@
         weight: 2,
         dashArray: "6, 6"
       });
-      homeCircle.bindTooltip("🏡 Home Safe Zone (300m Safe Radius)", { permanent: false, direction: "top" });
+      homeCircle.bindTooltip("🏡 Home Safe Zone - Civil Lines (300m Safe Radius)", { permanent: false, direction: "top" });
       geofencesLayer.addLayer(homeCircle);
 
-      // 3. Approved Transit Corridor Polyline (Dashed line from School to Home)
+      // 3. Approved Transit Corridor Polyline (Dashed line from School to Home in Nagpur)
       const transitPath = L.polyline([
-        [18.520430, 73.856744],
-        [18.524500, 73.852000],
-        [18.527800, 73.846500],
-        [18.532000, 73.842000]
+        [21.145800, 79.088200],
+        [21.148500, 79.084500],
+        [21.151000, 79.081500],
+        [21.153900, 79.079000]
       ], {
         color: "#E29400",
         weight: 4,
         opacity: 0.85,
         dashArray: "8, 8"
       });
-      transitPath.bindTooltip("🚌 Approved Transit Corridor (DPS &harr; Home)", { permanent: false, direction: "center" });
+      transitPath.bindTooltip("🚌 Approved Transit Corridor (DPS &harr; Civil Lines)", { permanent: false, direction: "center" });
       geofencesLayer.addLayer(transitPath);
     }
 
@@ -4056,7 +4056,7 @@
         setTimeout(() => {
           const panelCoords = document.getElementById("panel-coords");
           if (panelCoords) {
-            panelCoords.textContent = "18.520432° N, 73.856740° E (Refreshed now • ±2.1m accuracy)";
+            panelCoords.textContent = "21.145800° N, 79.088200° E (Refreshed now • ±2.1m accuracy)";
           }
           btnPanelPing.disabled = false;
           btnPanelPing.innerHTML = `<span>✓ GPS Synced</span>`;

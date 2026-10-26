@@ -52,9 +52,9 @@ public class Nearby_Safe extends AppCompatActivity implements OnMapReadyCallback
     private static final String TAG = "Nearby_Safe";
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
 
-    // Fallback baseline coordinates (Pune anchor) if GPS is cold or unavailable
-    private static final double DEFAULT_LAT = 18.46225;
-    private static final double DEFAULT_LON = 73.864972;
+    // Fallback baseline coordinates (Nagpur anchor) if GPS is cold or unavailable
+    private static final double DEFAULT_LAT = 21.14580;
+    private static final double DEFAULT_LON = 79.08820;
 
     private GoogleMap googleMap;
     private FusedLocationProviderClient fusedLocationClient;
@@ -430,12 +430,12 @@ public class Nearby_Safe extends AppCompatActivity implements OnMapReadyCallback
                 ));
             }
         } else {
-            // Fallback seed
-            safePlacesList.add(createSafePlace("PUN045", "Pune Police Commissionerate", "POLICE", "Camp area, Pune", uLat + 0.0024, uLng + 0.0019, uLat, uLng, "100", "KNOWN", "24/7 Police Headquarters"));
-            safePlacesList.add(createSafePlace("PUN020", "Ruby Hall Clinic 24/7", "HOSPITAL", "Sassoon Road, Pune", uLat - 0.0036, uLng + 0.0028, uLat, uLng, "108", "PROBABLE", "Emergency & Trauma Admission"));
-            safePlacesList.add(createSafePlace("PUN009", "Swargate Transit Hub", "TRANSIT", "Swargate, Pune", uLat + 0.0051, uLng - 0.0038, uLat, uLng, "182", "KNOWN", "All-night bus & metro terminus"));
-            safePlacesList.add(createSafePlace("PUN026", "KEM Hospital 24H Pharmacy", "SAFE HAVEN", "Rasta Peth, Pune", uLat - 0.0065, uLng - 0.0052, uLat, uLng, "020-24201122", "PROBABLE", "24/7 Open Medical Chemist"));
-            safePlacesList.add(createSafePlace("PUN023", "Noble Hospital Hadapsar", "HOSPITAL", "Hadapsar, Pune", 18.5018, 73.926, uLat, uLng, "108", "PROBABLE", "24/7 Emergency Hospital in Hadapsar"));
+            // Fallback seed (Nagpur Ground-Truth Havens)
+            safePlacesList.add(createSafePlace("NAG095", "Nagpur Police Commissionerate", "POLICE", "Sitabuldi, Nagpur", 21.1458, 79.0882, uLat, uLng, "100", "KNOWN", "24/7 Police Headquarters"));
+            safePlacesList.add(createSafePlace("NAG073", "Kingsway Hospitals 24/7", "HOSPITAL", "Near Kasturchand Park, Nagpur", 21.1543, 79.0814, uLat, uLng, "0712-6622222", "PROBABLE", "24/7 Multi-Speciality Trauma Care"));
+            safePlacesList.add(createSafePlace("NAG054", "Sitabuldi Metro Transit Hub", "TRANSIT", "Sitabuldi Interchange, Nagpur", 21.1458, 79.0882, uLat, uLng, "0712-2555555", "KNOWN", "Central Nagpur Metro Transit Junction"));
+            safePlacesList.add(createSafePlace("NAG076", "Medical Square 24H Chemist", "SAFE HAVEN", "Medical Square, Nagpur", 21.1290, 79.0850, uLat, uLng, "0712-2744444", "PROBABLE", "24/7 Emergency Pharmacy & Chemist"));
+            safePlacesList.add(createSafePlace("NAG067", "AIIMS Nagpur Emergency & Trauma", "HOSPITAL", "MIHAN, Nagpur", 21.0493, 79.0478, uLat, uLng, "108", "PROBABLE", "Apex Trauma Center & 24/7 Emergency"));
         }
 
         // Sort by real-time distance (nearest safe place first)

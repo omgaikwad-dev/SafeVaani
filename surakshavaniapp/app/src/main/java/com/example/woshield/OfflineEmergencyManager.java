@@ -198,7 +198,7 @@ public class OfflineEmergencyManager {
         map.put("userEmail", log.userEmail != null ? log.userEmail : "");
         map.put("latitude", log.latitude);
         map.put("longitude", log.longitude);
-        map.put("locationName", log.locationName != null ? log.locationName : "Pune, Maharashtra");
+        map.put("locationName", log.locationName != null ? log.locationName : "Nagpur, Maharashtra");
         map.put("direction", log.direction != null ? log.direction : "North ⬆");
         map.put("bearing", log.bearing);
         map.put("speedKmh", log.speedKmh);

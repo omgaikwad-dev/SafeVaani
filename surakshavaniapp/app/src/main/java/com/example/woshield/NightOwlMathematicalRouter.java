@@ -332,19 +332,16 @@ public class NightOwlMathematicalRouter {
             }
         }
 
-        // Known city landmark hubs in Pune & Nagpur
-        if (query.contains("hadapsar")) return new double[]{18.5018, 73.9260};
-        if (query.contains("swargate")) return new double[]{18.5018, 73.8636};
-        if (query.contains("kothrud")) return new double[]{18.5074, 73.8077};
-        if (query.contains("chakan")) return new double[]{18.7600, 73.8500};
-        if (query.contains("pune station") || query.contains("railway")) return new double[]{18.5289, 73.8743};
-        if (query.contains("shivajinagar")) return new double[]{18.5327, 73.8496};
-        if (query.contains("katraj")) return new double[]{18.4529, 73.8586};
-        if (query.contains("wakad") || query.contains("hinjawadi") || query.contains("hinjewadi")) return new double[]{18.5990, 73.7625};
+        // Known city landmark hubs in Nagpur
+        if (query.contains("nagpur station") || query.contains("railway") || query.contains("station")) return new double[]{21.1524, 79.0889};
         if (query.contains("sitabuldi")) return new double[]{21.14139, 79.08248};
         if (query.contains("mihan")) return new double[]{21.0493, 79.0478};
         if (query.contains("hingna")) return new double[]{21.1050, 78.9990};
-        if (query.contains("nagpur station")) return new double[]{21.1500, 79.0880};
+        if (query.contains("dharampeth")) return new double[]{21.1435, 79.0620};
+        if (query.contains("ganeshpeth")) return new double[]{21.1450, 79.0890};
+        if (query.contains("it park") || query.contains("gayatri nagar")) return new double[]{21.1255, 79.0515};
+        if (query.contains("medical square")) return new double[]{21.1290, 79.0850};
+        if (query.contains("civil lines")) return new double[]{21.1539, 79.0790};
 
         // Fallback: estimate 3.8 km along northeast vector from user position
         return new double[]{userLat + 0.025, userLng + 0.028};
