@@ -850,60 +850,50 @@ public class HomePage extends AppCompatActivity {
     private void setupSOSButton() {
         if (btnEmergency == null) return;
 
-        btnEmergency.setOnTouchListener((v, event) -> {
-            switch (event.getAction()) {
-                case android.view.MotionEvent.ACTION_DOWN:
-                    isHolding = true;
-                    holdTriggered = false;
-                    startPulseAnimation();
-                    if (tvSosStatus != null) tvSosStatus.setText("Hold for evidence SOS…");
-                    handler.postDelayed(() -> {
-                        if (isHolding && !holdTriggered) {
-                            holdTriggered = true;
-                            startSOSWithEvidence();
-                        }
-                    }, HOLD_THRESHOLD);
-                    return true;
+        btnEmergency.setOnClickListener(v -> {
+            android.util.Log.d(TAG, "Emergency SOS card clicked!");
+            triggerQuickSOS();
+        });
 
-                case android.view.MotionEvent.ACTION_UP:
-                case android.view.MotionEvent.ACTION_CANCEL:
-                    isHolding = false;
-                    stopPulseAnimation();
-                    handler.removeCallbacksAndMessages(null);
-                    if (!holdTriggered && !isSosProcessing) {
-                        triggerQuickSOS();
-                    }
-                    return true;
-            }
-            return false;
+        btnEmergency.setOnLongClickListener(v -> {
+            android.util.Log.d(TAG, "Emergency SOS card long pressed!");
+            startSOSWithEvidence();
+            return true;
         });
     }
 
     private void triggerQuickSOS() {
         if (isSosProcessing) return;
         isSosProcessing = true;
-        if (tvSosStatus != null) tvSosStatus.setText("🚨 Sending SOS…");
+        if (tvSosStatus != null) tvSosStatus.setText("🚨 Capturing Evidence & SOS…");
         if (progressSos != null) progressSos.setVisibility(View.VISIBLE);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-                    .addOnSuccessListener(location -> {
-                        EmergencyHelper.triggerQuickSos(this, location);
-                        if (tvSosStatus != null) tvSosStatus.setText("SOS sent ✓");
-                        if (progressSos != null) progressSos.setVisibility(View.GONE);
-                        isSosProcessing = false;
-                    })
-                    .addOnFailureListener(e -> {
-                        EmergencyHelper.triggerQuickSos(this, null);
-                        if (progressSos != null) progressSos.setVisibility(View.GONE);
-                        isSosProcessing = false;
-                    });
-        } else {
-            EmergencyHelper.triggerQuickSos(this, null);
-            if (progressSos != null) progressSos.setVisibility(View.GONE);
-            isSosProcessing = false;
-        }
+        EmergencyHelper.dispatchFullEmergency(
+                this,
+                "Manual SOS Button",
+                "Instant SOS Triggered from Dashboard • Ambient Voice Evidence Captured",
+                null,
+                new EmergencyHelper.EmergencyCallback() {
+                    @Override
+                    public void onSuccess(double lat, double lon, int contactsNotified) {
+                        runOnUiThread(() -> {
+                            if (tvSosStatus != null) tvSosStatus.setText("SOS Dispatched ✓ (" + contactsNotified + " notified)");
+                            if (progressSos != null) progressSos.setVisibility(View.GONE);
+                            isSosProcessing = false;
+                            Toast.makeText(HomePage.this, "🚨 Distress logs & voice evidence sent to Police CAD and Family Circle", Toast.LENGTH_LONG).show();
+                        });
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        runOnUiThread(() -> {
+                            if (tvSosStatus != null) tvSosStatus.setText("SOS Completed");
+                            if (progressSos != null) progressSos.setVisibility(View.GONE);
+                            isSosProcessing = false;
+                        });
+                    }
+                }
+        );
     }
 
     private void startSOSWithEvidence() {

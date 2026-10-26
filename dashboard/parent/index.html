@@ -3404,6 +3404,7 @@
     let safetyMap = null;
     let markersLayer = null;
     let geofencesLayer = null;
+    let parentActiveMovementPolyline = null;
     let activeNodeAudio = null;
     let activeNodeWaveform = null;
 
@@ -3730,7 +3731,10 @@
         panelThreatSub.textContent = user.dangerZoneActive ? "Alert sent to parents" : "No boundary alerts • Normal activity";
       }
       if (panelCoords) {
-        panelCoords.textContent = `${user.lastLatitude.toFixed(6)}° N, ${user.lastLongitude.toFixed(6)}° E`;
+        let coordText = `${user.lastLatitude.toFixed(6)}° N, ${user.lastLongitude.toFixed(6)}° E`;
+        if (user.direction) coordText += ` • 🧭 ${user.direction}`;
+        if (user.speedKmh > 0) coordText += ` (${user.speedKmh.toFixed(1)} km/h)`;
+        panelCoords.textContent = coordText;
       }
       if (panelGmaps) {
         panelGmaps.href = `https://www.google.com/maps?q=${user.lastLatitude},${user.lastLongitude}`;
@@ -3746,11 +3750,12 @@
         `).join("");
       }
 
-      // Audio handling
+      // Audio handling (Distress Voice / Ambient Recording)
       if (panelAudioBox) {
-        if (latestHist && latestHist.audioUrl) {
+        const audioSrc = (latestHist && latestHist.audioUrl) || user.audioUrl || "";
+        if (audioSrc) {
           panelAudioBox.style.display = "block";
-          if (btnPlayAudio) btnPlayAudio.setAttribute("data-src", latestHist.audioUrl);
+          if (btnPlayAudio) btnPlayAudio.setAttribute("data-src", audioSrc);
         } else {
           panelAudioBox.style.display = "none";
         }
@@ -3765,9 +3770,36 @@
         }
       }
 
-      // Pan map smoothly to the selected child
-      if (safetyMap && user.lastLatitude && user.lastLongitude) {
-        safetyMap.panTo([user.lastLatitude, user.lastLongitude], { animate: true, duration: 0.8 });
+      // Render movement trail polyline on safety map if breadcrumbs exist
+      if (safetyMap) {
+        if (parentActiveMovementPolyline) {
+          safetyMap.removeLayer(parentActiveMovementPolyline);
+          parentActiveMovementPolyline = null;
+        }
+
+        const trail = (Array.isArray(user.movementTrail) && user.movementTrail.length > 0) 
+          ? user.movementTrail 
+          : (latestHist && Array.isArray(latestHist.movementTrail) ? latestHist.movementTrail : null);
+
+        if (trail && trail.length > 1) {
+          const latLngs = trail.map(pt => [pt.latitude, pt.longitude]);
+          parentActiveMovementPolyline = L.polyline(latLngs, {
+            color: '#DC2626',
+            weight: 4,
+            dashArray: '5, 8',
+            opacity: 0.9
+          }).addTo(safetyMap);
+
+          try {
+            safetyMap.fitBounds(parentActiveMovementPolyline.getBounds().pad(0.2));
+          } catch(e) {
+            if (user.lastLatitude && user.lastLongitude) {
+              safetyMap.panTo([user.lastLatitude, user.lastLongitude], { animate: true, duration: 0.8 });
+            }
+          }
+        } else if (user.lastLatitude && user.lastLongitude) {
+          safetyMap.panTo([user.lastLatitude, user.lastLongitude], { animate: true, duration: 0.8 });
+        }
       }
     }
 
@@ -3948,16 +3980,57 @@
         if (liveAlerts && typeof liveAlerts === 'object' && Object.keys(liveAlerts).length > 0) {
           const alertsList = Object.entries(liveAlerts).map(([k, v]) => ({ id: k, ...v }));
           alertsList.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-          const latestAlert = alertsList[0];
-          if (latestAlert) {
-            // Update Sham Dhangar live waypoint if present
-            const shamNode = childWaypointsData.find(n => n.id === "vUyAvPgDTYNzzqt01kNHol5316E3");
-            if (shamNode) {
-              if (latestAlert.latitude) shamNode.lastLatitude = Number(latestAlert.latitude);
-              if (latestAlert.longitude) shamNode.lastLongitude = Number(latestAlert.longitude);
-              shamNode.dangerZoneActive = Boolean(latestAlert.isEmergency);
-              shamNode.history = { [latestAlert.id || "live"]: latestAlert };
+
+          alertsList.forEach(alert => {
+            const uId = alert.userId || alert.id;
+            const uPhone = alert.userPhone ? String(alert.userPhone).replace(/\D/g, '') : '';
+            let targetNode = childWaypointsData.find(n => 
+              (n.id && n.id === uId) || 
+              (n.phone && uPhone && n.phone.replace(/\D/g, '').endsWith(uPhone.slice(-10))) ||
+              (n.name && alert.userName && n.name.toLowerCase() === alert.userName.toLowerCase())
+            );
+
+            if (!targetNode && alert.latitude && alert.longitude) {
+              targetNode = {
+                id: uId || ("user_" + Math.random().toString(36).substring(2, 8)),
+                name: alert.userName || "Family Member",
+                displayName: alert.userName || "Family Member",
+                phone: alert.userPhone || "",
+                email: alert.userEmail || "",
+                batteryLevel: 95,
+                dangerZoneActive: Boolean(alert.isEmergency),
+                safeZone: alert.locationName || "Monitored Zone",
+                lastLatitude: Number(alert.latitude),
+                lastLongitude: Number(alert.longitude),
+                direction: alert.direction || "",
+                speedKmh: Number(alert.speedKmh) || 0,
+                movementTrail: Array.isArray(alert.movementTrail) ? alert.movementTrail : [],
+                audioUrl: alert.audioUrl || "",
+                history: {},
+                contacts: Array.isArray(alert.contactsAlerted) ? alert.contactsAlerted.reduce((acc, c, idx) => {
+                  acc["c" + idx] = c;
+                  return acc;
+                }, {}) : {}
+              };
+              childWaypointsData.push(targetNode);
             }
+
+            if (targetNode) {
+              if (alert.latitude) targetNode.lastLatitude = Number(alert.latitude);
+              if (alert.longitude) targetNode.lastLongitude = Number(alert.longitude);
+              if (alert.locationName) targetNode.safeZone = alert.locationName;
+              if (alert.direction) targetNode.direction = alert.direction;
+              if (alert.speedKmh !== undefined) targetNode.speedKmh = Number(alert.speedKmh);
+              if (Array.isArray(alert.movementTrail) && alert.movementTrail.length > 0) targetNode.movementTrail = alert.movementTrail;
+              if (alert.audioUrl) targetNode.audioUrl = alert.audioUrl;
+              targetNode.dangerZoneActive = Boolean(alert.isEmergency);
+              if (!targetNode.history) targetNode.history = {};
+              targetNode.history[alert.id || "alert_" + alert.timestamp] = alert;
+            }
+          });
+
+          if (typeof renderChildWaypointsMarkers === 'function') {
+            renderChildWaypointsMarkers();
           }
         }
       } catch(err) {

@@ -2496,6 +2496,11 @@
                 phone: c.phone || "",
                 relationship: c.relationship || ""
               })) : [],
+              direction: val.direction || "",
+              bearing: typeof val.bearing === "number" ? val.bearing : (Number(val.bearing) || 0),
+              speedKmh: typeof val.speedKmh === "number" ? val.speedKmh : (Number(val.speedKmh) || 0),
+              movementTrail: Array.isArray(val.movementTrail) ? val.movementTrail : [],
+              syncedFromOffline: Boolean(val.syncedFromOffline),
               emotion: val.emotion || "",
               etaMinutes: typeof val.etaMinutes === "number" ? val.etaMinutes : (Number(val.etaMinutes) || 0),
               formattedTime: val.formattedTime || "",
@@ -2723,15 +2728,27 @@
                 </div>
               </div>
 
-              <!-- 2. Location -->
+              <!-- 2. Location & Movement -->
               <div class="quad-box">
                 <div>
                   <div class="quad-title">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                    <span>Location</span>
+                    <span>Location &amp; Movement</span>
                   </div>
                   <div class="loc-coords" style="font-weight:700;color:var(--dash-ink);">${ev.locationName}</div>
                   <div class="quad-sub-text" style="font-family:var(--dash-mono);">${ev.latitude.toFixed(6)}° N, ${ev.longitude.toFixed(6)}° E</div>
+                  ${ev.direction ? `
+                    <div style="display:flex;align-items:center;gap:5px;margin-top:6px;flex-wrap:wrap;">
+                      <span style="display:inline-flex;align-items:center;gap:3px;background:#EFF6FF;color:#1E40AF;border:1px solid #BFDBFE;padding:2px 7px;border-radius:6px;font-size:0.75rem;font-weight:700;">
+                        🧭 ${ev.direction}
+                      </span>
+                      <span style="display:inline-flex;align-items:center;gap:3px;background:#F8FAFC;color:#334155;border:1px solid #E2E8F0;padding:2px 6px;border-radius:6px;font-size:0.75rem;font-weight:600;">
+                        ⚡ ${ev.speedKmh > 0 ? ev.speedKmh.toFixed(1) + ' km/h' : 'Stationary'}
+                      </span>
+                      ${ev.movementTrail && ev.movementTrail.length > 0 ? `<span style="font-size:0.72rem;background:#F1F5F9;color:#475569;border:1px solid #CBD5E1;padding:2px 6px;border-radius:4px;font-weight:600;">📍 ${ev.movementTrail.length} Breadcrumbs</span>` : ''}
+                      ${ev.syncedFromOffline ? `<span style="font-size:0.72rem;background:#FEF3C7;color:#92400E;border:1px solid #FDE68A;padding:2px 6px;border-radius:4px;font-weight:700;">⚡ Offline Synced</span>` : ''}
+                    </div>
+                  ` : (ev.syncedFromOffline ? `<div style="margin-top:4px;"><span style="font-size:0.72rem;background:#FEF3C7;color:#92400E;border:1px solid #FDE68A;padding:2px 6px;border-radius:4px;font-weight:700;">⚡ Offline Synced</span></div>` : '')}
                 </div>
                 <div class="loc-actions">
                   <button type="button" class="btn-loc-radar" data-lat="${ev.latitude}" data-lng="${ev.longitude}" data-location="${ev.locationName}" data-id="${ev.id}" style="display:inline-flex;align-items:center;gap:6px;">
@@ -2948,6 +2965,7 @@
     // ========================================================
     let policeTacticalMap = null;
     let policeMarkersLayer = null;
+    let policeActiveMovementPolyline = null;
     let activePoliceAudio = null;
     let activePoliceWaveform = null;
 
@@ -3099,7 +3117,13 @@
       if (pSector) pSector.innerHTML = `${ev.locationName}`;
       if (pThreat) pThreat.textContent = `${ev.emotion} [${ev.threatLevel} Threat • ${ev.confidence}% Confidence]`;
       if (pThreatSub) pThreatSub.textContent = `${ev.triggerSource} • ${ev.reason}`;
-      if (pCoords) pCoords.textContent = `${ev.latitude.toFixed(6)}° N, ${ev.longitude.toFixed(6)}° E`;
+      if (pCoords) {
+        let coordText = `${ev.latitude.toFixed(6)}° N, ${ev.longitude.toFixed(6)}° E`;
+        if (ev.direction) coordText += ` • 🧭 ${ev.direction}`;
+        if (ev.speedKmh > 0) coordText += ` (${ev.speedKmh.toFixed(1)} km/h)`;
+        if (ev.syncedFromOffline) coordText += ` [Offline Synced]`;
+        pCoords.textContent = coordText;
+      }
       if (pGmaps) pGmaps.href = ev.mapUrl || `https://www.google.com/maps?q=${ev.latitude},${ev.longitude}`;
 
       if (pContacts) {
@@ -3133,8 +3157,32 @@
         `;
       }
 
-      if (policeTacticalMap && ev.latitude && ev.longitude) {
-        policeTacticalMap.panTo([ev.latitude, ev.longitude], { animate: true, duration: 0.8 });
+      // Render movement trail polyline on tactical map if breadcrumbs exist
+      if (policeTacticalMap) {
+        if (policeActiveMovementPolyline) {
+          policeTacticalMap.removeLayer(policeActiveMovementPolyline);
+          policeActiveMovementPolyline = null;
+        }
+
+        if (Array.isArray(ev.movementTrail) && ev.movementTrail.length > 1) {
+          const latLngs = ev.movementTrail.map(pt => [pt.latitude, pt.longitude]);
+          policeActiveMovementPolyline = L.polyline(latLngs, {
+            color: '#E11D48',
+            weight: 4,
+            dashArray: '6, 8',
+            opacity: 0.9
+          }).addTo(policeTacticalMap);
+
+          try {
+            policeTacticalMap.fitBounds(policeActiveMovementPolyline.getBounds().pad(0.2));
+          } catch(e) {
+            if (ev.latitude && ev.longitude) {
+              policeTacticalMap.panTo([ev.latitude, ev.longitude], { animate: true, duration: 0.8 });
+            }
+          }
+        } else if (ev.latitude && ev.longitude) {
+          policeTacticalMap.panTo([ev.latitude, ev.longitude], { animate: true, duration: 0.8 });
+        }
       }
     }
 

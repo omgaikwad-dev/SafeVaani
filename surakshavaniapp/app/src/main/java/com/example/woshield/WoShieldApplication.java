@@ -17,6 +17,13 @@ public class WoShieldApplication extends Application implements OnMapsSdkInitial
                 MapsInitializer.initialize(getApplicationContext(), null, null);
             } catch (Exception ignored) {}
         }
+
+        try {
+            OfflineEmergencyManager.registerNetworkCallback(this);
+            OfflineEmergencyManager.flushPendingQueue(this);
+        } catch (Exception e) {
+            android.util.Log.w("WoShieldApplication", "Failed initializing emergency auto-sync listener", e);
+        }
     }
 
     @Override

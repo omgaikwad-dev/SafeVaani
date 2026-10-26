@@ -117,7 +117,10 @@ public class SurakshaService extends Service {
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
             Location userLoc = locationResult.getLastLocation();
-            if (userLoc != null) checkIfInRedZone(userLoc);
+            if (userLoc != null) {
+                MovementTrailTracker.getInstance().recordLocation(userLoc);
+                checkIfInRedZone(userLoc);
+            }
         }
     };
 
@@ -172,94 +175,32 @@ public class SurakshaService extends Service {
     }
 
     private void processThreatDetected(String category, String keyword) {
-        if (isRecording) return; 
-
-        Log.d(TAG, "Analysis Triggered: " + category + ". Keyword: " + keyword);
-        
+        if (isRecording) return;
+        isRecording = true;
+        Log.i(TAG, "Voice Threat Detected: " + category + " [" + keyword + "]. Triggering full emergency pipeline.");
         stopListening();
-        start10SecondRecording(category, keyword);
-    }
 
-    private void start10SecondRecording(String category, String keyword) {
-        audioFilePath = getExternalCacheDir().getAbsolutePath() + "/threat_audio_" + System.currentTimeMillis() + ".m4a";
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-        mediaRecorder.setOutputFile(audioFilePath);
+        EmergencyHelper.dispatchFullEmergency(
+                this,
+                "Voice SOS (Distress Voice Detected)",
+                "Acoustic Threat: " + category + " [" + keyword + "] • On-Device Voice Distress Recognized",
+                null,
+                new EmergencyHelper.EmergencyCallback() {
+                    @Override
+                    public void onSuccess(double lat, double lon, int contactsNotified) {
+                        Log.d(TAG, "Voice SOS dispatched successfully (" + contactsNotified + " SMS sent). Location: " + lat + ", " + lon);
+                        isRecording = false;
+                        startListening();
+                    }
 
-        try {
-            mediaRecorder.prepare();
-            mediaRecorder.start();
-            isRecording = true;
-            Log.d(TAG, "Protocol: Capturing 10s audio evidence...");
-
-            mainHandler.postDelayed(() -> stopRecordingAndProcess(category, keyword), 10000);
-
-        } catch (IOException e) {
-            Log.e(TAG, "Recorder failed during protocol", e);
-            isRecording = false;
-            triggerEmergencyResponse(category, keyword, null);
-            startListening();
-        }
-    }
-
-    private void stopRecordingAndProcess(String category, String keyword) {
-        if (isRecording && mediaRecorder != null) {
-            try {
-                mediaRecorder.stop();
-                mediaRecorder.release();
-                mediaRecorder = null;
-                isRecording = false;
-                Log.d(TAG, "Protocol: Evidence captured. Processing alerts...");
-
-                uploadAndTrigger(category, keyword);
-
-            } catch (Exception e) {
-                Log.e(TAG, "Error stopping protocol recorder", e);
-                triggerEmergencyResponse(category, keyword, null);
-            } finally {
-                startListening();
-            }
-        }
-    }
-
-    private void uploadAndTrigger(String category, String keyword) {
-        CloudinaryHelper.uploadAudio(audioFilePath, new CloudinaryHelper.UploadResponse() {
-            @Override
-            public void onSuccess(String url) {
-                triggerEmergencyResponse(category, keyword, url);
-                deleteTempFile();
-            }
-
-            @Override
-            public void onError(String error) {
-                triggerEmergencyResponse(category, keyword, null);
-                deleteTempFile();
-            }
-        });
-    }
-
-    private void deleteTempFile() {
-        if (audioFilePath != null) {
-            File file = new File(audioFilePath);
-            if (file.exists()) file.delete();
-        }
-    }
-
-    private void triggerEmergencyResponse(String reason, String keyword, String audioUrl) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-                String locUrl = (location != null) ? "https://maps.google.com/?q=" + location.getLatitude() + "," + location.getLongitude() : "Location Unknown";
-                
-                String message = "🚨 EMPOWHER ALERT! 🚨\nReason: " + reason + "\nDetails: " + keyword + "\nLocation: " + locUrl;
-                if (audioUrl != null) {
-                    message += "\nEvidence: " + audioUrl;
+                    @Override
+                    public void onError(String error) {
+                        Log.w(TAG, "Voice SOS dispatch error: " + error);
+                        isRecording = false;
+                        startListening();
+                    }
                 }
-                
-                sendAlertsToContacts(message);
-            });
-        }
+        );
     }
 
     private void sendAlertsToContacts(String message) {
